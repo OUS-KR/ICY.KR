@@ -1,0 +1,1124 @@
+<!doctype html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>ICY — icy.kr</title>
+  <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+KR:wght@300;400;500;700&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet" />
+
+  <style type="text/tailwindcss">
+    @theme {
+      --color-ice-50:  #f0f8ff;
+      --color-ice-100: #e0f2fe;
+      --color-ice-200: #bae6fd;
+      --color-ice-300: #7dd3fc;
+      --color-ice-400: #38bdf8;
+      --color-ice-500: #0ea5e9;
+      --color-ice-600: #0284c7;
+      --color-ice-700: #0369a1;
+      --color-ice-800: #075985;
+      --color-ice-900: #0c4a6e;
+      --color-ice-950: #082f49;
+      --color-frost-50:  #f8fafc;
+      --color-frost-100: #f1f5f9;
+      --color-frost-200: #e2e8f0;
+      --color-frost-300: #cbd5e1;
+      --color-frost-400: #94a3b8;
+      --color-frost-500: #64748b;
+      --color-frost-600: #475569;
+      --color-frost-700: #334155;
+      --color-frost-800: #1e293b;
+      --color-frost-900: #0f172a;
+      --color-frost-950: #080e1a;
+      --font-sans: 'Inter', system-ui, sans-serif;
+      --font-serif: 'Noto Serif KR', Georgia, serif;
+    }
+  </style>
+
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; }
+
+    body {
+      font-family: 'Inter', system-ui, sans-serif;
+      background-color: #080e1a;
+      color: #e2e8f0;
+      min-height: 100vh;
+      overflow-x: hidden;
+      position: relative;
+    }
+
+    /* ── Aurora background ── */
+    body::after {
+      content: '';
+      position: fixed;
+      inset: 0;
+      pointer-events: none;
+      z-index: 0;
+      background:
+        radial-gradient(ellipse 80% 50% at 20% 10%, rgba(14,165,233,.07) 0%, transparent 60%),
+        radial-gradient(ellipse 60% 40% at 80% 80%, rgba(99,179,237,.05) 0%, transparent 55%),
+        radial-gradient(ellipse 50% 35% at 50% 50%, rgba(186,230,253,.03) 0%, transparent 60%);
+    }
+
+    /* ── Ice crystal grain ── */
+    body::before {
+      content: '';
+      position: fixed;
+      inset: 0;
+      pointer-events: none;
+      z-index: 0;
+      background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.025'/%3E%3C/svg%3E");
+      background-size: 180px 180px;
+    }
+
+    /* ── Shimmer (cold blue-white) ── */
+    @keyframes shimmer-ice {
+      0%   { background-position: -700px 0; }
+      100% { background-position:  700px 0; }
+    }
+    .shimmer-text {
+      background: linear-gradient(90deg,
+        #94a3b8 0%,
+        #f0f8ff 35%,
+        #bae6fd 55%,
+        #7dd3fc 75%,
+        #94a3b8 100%
+      );
+      background-size: 1400px auto;
+      background-clip: text;
+      -webkit-background-clip: text;
+      color: transparent;
+      animation: shimmer-ice 6s ease-in-out infinite;
+    }
+
+    /* ── Frost crystal particles ── */
+    @keyframes crystal-float {
+      0%   { transform: translateY(0) rotate(0deg) scale(1);   opacity: 0; }
+      10%  { opacity: .6; }
+      85%  { opacity: .25; }
+      100% { transform: translateY(-140px) rotate(180deg) scale(.4); opacity: 0; }
+    }
+    @keyframes snowfall {
+      0%   { transform: translateY(-20px) translateX(0) rotate(0deg);   opacity: 0; }
+      12%  { opacity: .55; }
+      88%  { opacity: .2; }
+      100% { transform: translateY(110px) translateX(15px) rotate(90deg); opacity: 0; }
+    }
+
+    /* ── Breath / pulse ── */
+    @keyframes breath {
+      0%, 100% { transform: scale(1);   opacity: .4; }
+      50%       { transform: scale(1.08); opacity: .7; }
+    }
+
+    /* ── Reveal ── */
+    @keyframes reveal-up {
+      from { opacity: 0; transform: translateY(20px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+    .reveal { opacity: 0; }
+    .reveal.in { animation: reveal-up .55s ease forwards; }
+
+    /* ── Card ── */
+    .ice-card {
+      background: linear-gradient(135deg,
+        rgba(30,41,59,.65),
+        rgba(8,14,26,.88)
+      );
+      border: 1px solid rgba(186,230,253,.1);
+      backdrop-filter: blur(14px);
+      transition: transform .3s ease, border-color .3s ease, box-shadow .3s ease;
+    }
+    .ice-card:hover {
+      transform: translateY(-3px);
+      border-color: rgba(186,230,253,.22);
+      box-shadow: 0 16px 48px rgba(0,0,0,.5), 0 0 0 1px rgba(186,230,253,.06);
+    }
+
+    /* ── Link button ── */
+    .link-btn {
+      display: flex;
+      align-items: center;
+      gap: .75rem;
+      width: 100%;
+      padding: .875rem 1.25rem;
+      border-radius: .75rem;
+      font-size: .9375rem;
+      font-weight: 500;
+      text-decoration: none;
+      color: #e2e8f0;
+      background: linear-gradient(135deg, rgba(30,41,59,.65), rgba(8,14,26,.9));
+      border: 1px solid rgba(186,230,253,.1);
+      transition: all .25s ease;
+      position: relative;
+      overflow: hidden;
+    }
+    .link-btn:hover {
+      color: #f0f8ff;
+      border-color: rgba(186,230,253,.28);
+      transform: translateY(-2px);
+      box-shadow: 0 8px 28px rgba(0,0,0,.45), 0 0 16px rgba(14,165,233,.08);
+    }
+    .link-btn.frost-btn {
+      border-color: rgba(14,165,233,.25);
+      background: linear-gradient(135deg, rgba(7,89,133,.2), rgba(8,14,26,.9));
+    }
+    .link-btn.frost-btn:hover {
+      border-color: rgba(14,165,233,.5);
+      box-shadow: 0 8px 28px rgba(0,0,0,.45), 0 0 20px rgba(14,165,233,.15);
+    }
+
+    /* ── Icon badge ── */
+    .icon-badge {
+      width: 2rem; height: 2rem;
+      border-radius: .5rem;
+      display: flex; align-items: center; justify-content: center;
+      flex-shrink: 0;
+    }
+
+    /* ── Carousel ── */
+    .carousel-track {
+      display: flex;
+      transition: transform .42s cubic-bezier(.25,.46,.45,.94);
+    }
+    .carousel-slide { min-width: 100%; }
+
+    /* ── YouTube ── */
+    .yt-wrap {
+      position: relative;
+      padding-bottom: 56.25%;
+      height: 0; overflow: hidden;
+    }
+    .yt-wrap iframe {
+      position: absolute; inset: 0;
+      width: 100%; height: 100%;
+      border: none;
+    }
+
+    /* ── Vinyl spin ── */
+    @keyframes spin-slow { to { transform: rotate(360deg); } }
+    .vinyl-spin { animation: spin-slow 5s linear infinite; }
+
+    /* ── Tag ── */
+    .tag {
+      display: inline-flex; align-items: center;
+      padding: .2rem .65rem;
+      border-radius: 9999px;
+      font-size: .7rem;
+      font-weight: 500;
+      letter-spacing: .05em;
+      text-transform: uppercase;
+      background: rgba(186,230,253,.06);
+      border: 1px solid rgba(186,230,253,.13);
+      color: #94a3b8;
+    }
+
+    /* ── Divider ── */
+    .ice-divider {
+      height: 1px;
+      background: linear-gradient(90deg,
+        transparent,
+        rgba(186,230,253,.16),
+        transparent
+      );
+      border: none;
+    }
+
+    /* ── Frost line glow ── */
+    .frost-glow {
+      position: relative;
+    }
+    .frost-glow::after {
+      content: '';
+      position: absolute;
+      bottom: 0; left: 10%; right: 10%;
+      height: 1px;
+      background: linear-gradient(90deg, transparent, rgba(14,165,233,.4), transparent);
+      filter: blur(1px);
+    }
+
+    /* ── Accordion ── */
+    details > summary { list-style: none; cursor: pointer; user-select: none; }
+    details > summary::-webkit-details-marker { display: none; }
+    details[open] .chev { transform: rotate(180deg); }
+    .chev { transition: transform .22s ease; display: inline-block; }
+
+    /* ── Scrollbar ── */
+    ::-webkit-scrollbar { width: 5px; }
+    ::-webkit-scrollbar-track { background: #080e1a; }
+    ::-webkit-scrollbar-thumb { background: #1e293b; border-radius: 3px; }
+
+    /* ── Frost crystal SVG animation ── */
+    @keyframes frost-draw {
+      from { stroke-dashoffset: 200; opacity: 0; }
+      to   { stroke-dashoffset: 0;   opacity: .6; }
+    }
+    .frost-svg line, .frost-svg circle {
+      stroke-dasharray: 200;
+      animation: frost-draw 2s ease forwards;
+    }
+
+    /* ── Number counter ── */
+    @keyframes count-in {
+      from { opacity: 0; transform: translateY(6px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+
+    /* ── Temp bar ── */
+    @keyframes temp-fill {
+      from { width: 0%; }
+      to   { width: var(--fill); }
+    }
+    .temp-bar {
+      height: 3px;
+      background: linear-gradient(90deg, #0ea5e9, #bae6fd);
+      border-radius: 9999px;
+      animation: temp-fill 1.8s ease forwards;
+      animation-play-state: paused;
+    }
+    .temp-bar.run { animation-play-state: running; }
+
+    /* ── Progress bar ── */
+    .progress-bar { width: 28%; }
+    @keyframes progress-move {
+      0%   { width: 28%; }
+      100% { width: 75%; }
+    }
+    .progress-bar.playing { animation: progress-move 300s linear forwards; }
+  </style>
+</head>
+
+<body>
+
+  <!-- ░░ PARTICLE LAYER ░░ -->
+  <div id="ptcl" style="position:fixed;inset:0;z-index:0;pointer-events:none;overflow:hidden;"></div>
+
+  <!-- ░░ FROST CRYSTAL CORNER DECO ░░ -->
+  <div style="position:fixed;top:-40px;right:-40px;width:200px;height:200px;opacity:.07;pointer-events:none;z-index:0;">
+    <svg viewBox="0 0 200 200" fill="none" stroke="#bae6fd" stroke-width="1">
+      <line x1="100" y1="0"   x2="100" y2="200"/>
+      <line x1="0"   y1="100" x2="200" y2="100"/>
+      <line x1="15"  y1="15"  x2="185" y2="185"/>
+      <line x1="185" y1="15"  x2="15"  y2="185"/>
+      <circle cx="100" cy="100" r="60"/>
+      <circle cx="100" cy="100" r="30"/>
+      <circle cx="100" cy="100" r="8"/>
+      <polygon points="100,40 114,72 148,72 122,92 132,126 100,106 68,126 78,92 52,72 86,72" stroke-width=".8"/>
+    </svg>
+  </div>
+  <div style="position:fixed;bottom:-40px;left:-40px;width:160px;height:160px;opacity:.05;pointer-events:none;z-index:0;transform:rotate(30deg);">
+    <svg viewBox="0 0 200 200" fill="none" stroke="#7dd3fc" stroke-width="1">
+      <line x1="100" y1="0"   x2="100" y2="200"/>
+      <line x1="0"   y1="100" x2="200" y2="100"/>
+      <line x1="15"  y1="15"  x2="185" y2="185"/>
+      <line x1="185" y1="15"  x2="15"  y2="185"/>
+      <circle cx="100" cy="100" r="55"/>
+      <circle cx="100" cy="100" r="25"/>
+    </svg>
+  </div>
+
+  <!-- ░░ MAIN ░░ -->
+  <main style="position:relative;z-index:1;max-width:480px;margin:0 auto;padding:3rem 1rem 6rem;">
+
+    <!-- ═══════════ HERO ═══════════ -->
+    <header class="reveal" style="text-align:center;margin-bottom:2.5rem;">
+
+      <!-- avatar glow ring + avatar -->
+      <div style="position:relative;display:inline-block;margin-bottom:1.4rem;">
+        <!-- breath glow -->
+        <div style="position:absolute;inset:-12px;border-radius:50%;background:radial-gradient(circle,rgba(14,165,233,.18),transparent 70%);animation:breath 4s ease-in-out infinite;pointer-events:none;"></div>
+        <!-- avatar -->
+        <div style="width:96px;height:96px;border-radius:50%;overflow:hidden;border:1.5px solid rgba(186,230,253,.25);margin:0 auto;position:relative;background:linear-gradient(135deg,#1e293b,#080e1a);">
+          <img src="https://api.dicebear.com/9.x/shapes/svg?seed=icy&backgroundColor=0f172a&color=38bdf8,0ea5e9&shape0=ellipse&shape1=polygon"
+               alt="ICY"
+               style="width:100%;height:100%;object-fit:cover;"
+               onerror="this.style.display='none'" />
+        </div>
+        <!-- status dot — cold blue -->
+        <span style="position:absolute;bottom:4px;right:4px;width:14px;height:14px;background:#38bdf8;border-radius:50%;border:2.5px solid #080e1a;display:block;box-shadow:0 0 6px rgba(56,189,248,.6);"></span>
+      </div>
+
+      <!-- name -->
+      <h1 class="shimmer-text" style="font-family:'Noto Serif KR',serif;font-size:2.2rem;font-weight:700;letter-spacing:.14em;margin-bottom:.3rem;">ICY</h1>
+      <p style="color:#475569;font-size:.75rem;letter-spacing:.28em;text-transform:uppercase;margin-bottom:1rem;">icy.kr</p>
+
+      <!-- bio -->
+      <p style="color:#94a3b8;font-size:.875rem;line-height:1.8;max-width:300px;margin:0 auto 1rem;">
+        Still. Clear. Absolute.<br/>
+        <span style="color:#64748b;">얼어붙은 순간 속에 담긴 영원.</span>
+      </p>
+
+      <!-- tags -->
+      <div style="display:flex;flex-wrap:wrap;justify-content:center;gap:.45rem;margin-bottom:1.4rem;">
+        <span class="tag">🧊 얼음</span>
+        <span class="tag">❄️ 서리</span>
+        <span class="tag">🌊 북극</span>
+      </div>
+
+      <!-- stats: 북극 느낌으로 온도/데이터 -->
+      <div style="display:flex;justify-content:center;align-items:center;gap:2rem;">
+        <div style="text-align:center;">
+          <p style="color:#e0f2fe;font-weight:600;font-size:1.1rem;">−89°</p>
+          <p style="color:#475569;font-size:.68rem;letter-spacing:.1em;text-transform:uppercase;">Record Low</p>
+        </div>
+        <div style="width:1px;height:28px;background:#1e293b;"></div>
+        <div style="text-align:center;">
+          <p style="color:#e0f2fe;font-weight:600;font-size:1.1rem;">0°</p>
+          <p style="color:#475569;font-size:.68rem;letter-spacing:.1em;text-transform:uppercase;">Threshold</p>
+        </div>
+        <div style="width:1px;height:28px;background:#1e293b;"></div>
+        <div style="text-align:center;">
+          <p style="color:#e0f2fe;font-weight:600;font-size:1.1rem;">∞</p>
+          <p style="color:#475569;font-size:.68rem;letter-spacing:.1em;text-transform:uppercase;">Preserved</p>
+        </div>
+      </div>
+    </header>
+
+    <hr class="ice-divider" style="margin-bottom:2rem;" />
+
+    <!-- ═══════════ ANNOUNCEMENT ═══════════ -->
+    <div class="reveal ice-card" style="border-radius:.875rem;padding:1rem 1.125rem;margin-bottom:1.75rem;border-left:2.5px solid rgba(14,165,233,.5);display:flex;gap:.75rem;align-items:flex-start;">
+      <span style="font-size:1.25rem;flex-shrink:0;margin-top:1px;">🧊</span>
+      <div>
+        <p style="color:#e0f2fe;font-size:.875rem;font-weight:600;margin-bottom:.2rem;">New Drop: Frozen Archive Vol.2</p>
+        <p style="color:#64748b;font-size:.78rem;line-height:1.6;">완벽히 보존된 새 작업물이 공개되었습니다. 얼음 속에 담긴 순간을 확인해보세요.</p>
+        <a href="#" style="color:#38bdf8;font-size:.78rem;font-weight:500;text-decoration:none;display:inline-block;margin-top:.35rem;transition:color .2s;"
+           onmouseover="this.style.color='#7dd3fc'" onmouseout="this.style.color='#38bdf8'">자세히 보기 →</a>
+      </div>
+    </div>
+
+    <!-- ═══════════ SOCIAL LINKS ═══════════ -->
+    <section class="reveal" style="margin-bottom:2rem;">
+      <p style="color:#475569;font-size:.7rem;letter-spacing:.18em;text-transform:uppercase;margin-bottom:.75rem;font-weight:500;">소셜 채널</p>
+
+      <!-- Instagram -->
+      <a href="#" class="link-btn" style="margin-bottom:.625rem;">
+        <span class="icon-badge" style="background:linear-gradient(135deg,#833ab4,#fd1d1d,#fcb045);">
+          <svg width="16" height="16" fill="white" viewBox="0 0 24 24"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/></svg>
+        </span>
+        <span style="flex:1;">Instagram</span>
+        <span style="color:#475569;font-size:.78rem;">@icy.kr</span>
+        <svg width="14" height="14" fill="none" stroke="#334155" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M9 5l7 7-7 7"/></svg>
+      </a>
+
+      <!-- YouTube -->
+      <a href="#" class="link-btn frost-btn" style="margin-bottom:.625rem;">
+        <span class="icon-badge" style="background:#dc2626;">
+          <svg width="16" height="16" fill="white" viewBox="0 0 24 24"><path d="M23.498 6.186a3.016 3.016 0 00-2.122-2.136C19.505 3.545 12 3.545 12 3.545s-7.505 0-9.377.505A3.017 3.017 0 00.502 6.186C0 8.07 0 12 0 12s0 3.93.502 5.814a3.016 3.016 0 002.122 2.136c1.871.505 9.376.505 9.376.505s7.505 0 9.377-.505a3.015 3.015 0 002.122-2.136C24 15.93 24 12 24 12s0-3.93-.502-5.814zM9.545 15.568V8.432L15.818 12l-6.273 3.568z"/></svg>
+        </span>
+        <span style="flex:1;">YouTube</span>
+        <span style="color:#475569;font-size:.78rem;">ICY Channel</span>
+        <svg width="14" height="14" fill="none" stroke="#334155" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M9 5l7 7-7 7"/></svg>
+      </a>
+
+      <!-- X -->
+      <a href="#" class="link-btn" style="margin-bottom:.625rem;">
+        <span class="icon-badge" style="background:#080e1a;border:1px solid #1e293b;">
+          <svg width="14" height="14" fill="#cbd5e1" viewBox="0 0 24 24"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-4.714-6.231-5.401 6.231H2.747l7.73-8.835L1.254 2.25H8.08l4.253 5.622zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg>
+        </span>
+        <span style="flex:1;">X (Twitter)</span>
+        <span style="color:#475569;font-size:.78rem;">@icy_kr</span>
+        <svg width="14" height="14" fill="none" stroke="#334155" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M9 5l7 7-7 7"/></svg>
+      </a>
+
+      <!-- GitHub -->
+      <a href="#" class="link-btn" style="margin-bottom:.625rem;">
+        <span class="icon-badge" style="background:#080e1a;border:1px solid #1e293b;">
+          <svg width="16" height="16" fill="#cbd5e1" viewBox="0 0 24 24"><path d="M12 .297c-6.63 0-12 5.373-12 12 0 5.303 3.438 9.8 8.205 11.385.6.113.82-.258.82-.577 0-.285-.01-1.04-.015-2.04-3.338.724-4.042-1.61-4.042-1.61C4.422 18.07 3.633 17.7 3.633 17.7c-1.087-.744.084-.729.084-.729 1.205.084 1.838 1.236 1.838 1.236 1.07 1.835 2.809 1.305 3.495.998.108-.776.417-1.305.76-1.605-2.665-.3-5.466-1.332-5.466-5.93 0-1.31.465-2.38 1.235-3.22-.135-.303-.54-1.523.105-3.176 0 0 1.005-.322 3.3 1.23.96-.267 1.98-.399 3-.405 1.02.006 2.04.138 3 .405 2.28-1.552 3.285-1.23 3.285-1.23.645 1.653.24 2.873.12 3.176.765.84 1.23 1.91 1.23 3.22 0 4.61-2.805 5.625-5.475 5.92.42.36.81 1.096.81 2.22 0 1.606-.015 2.896-.015 3.286 0 .315.21.69.825.57C20.565 22.092 24 17.592 24 12.297c0-6.627-5.373-12-12-12"/></svg>
+        </span>
+        <span style="flex:1;">GitHub</span>
+        <span style="color:#475569;font-size:.78rem;">icy-kr</span>
+        <svg width="14" height="14" fill="none" stroke="#334155" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M9 5l7 7-7 7"/></svg>
+      </a>
+
+      <!-- Email -->
+      <a href="mailto:hello@icy.kr" class="link-btn">
+        <span class="icon-badge" style="background:#1e293b;">
+          <svg width="16" height="16" fill="none" stroke="#94a3b8" stroke-width="1.8" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"/></svg>
+        </span>
+        <span style="flex:1;">이메일</span>
+        <span style="color:#475569;font-size:.78rem;">hello@icy.kr</span>
+        <svg width="14" height="14" fill="none" stroke="#334155" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M9 5l7 7-7 7"/></svg>
+      </a>
+    </section>
+
+    <hr class="ice-divider" style="margin-bottom:2rem;" />
+
+    <!-- ═══════════ TEMPERATURE DATA VISUAL ═══════════ -->
+    <!-- ICY 전용 요소: 온도 데이터 시각화 -->
+    <section class="reveal" style="margin-bottom:2rem;">
+      <p style="color:#475569;font-size:.7rem;letter-spacing:.18em;text-transform:uppercase;margin-bottom:.75rem;font-weight:500;">온도 아카이브</p>
+      <div class="ice-card" style="border-radius:.875rem;padding:1.25rem;">
+        <p style="color:#94a3b8;font-size:.78rem;margin-bottom:1rem;line-height:1.6;">얼음이 기록한 지구의 온도. 각 층위는 하나의 시간이다.</p>
+        <div style="display:flex;flex-direction:column;gap:.9rem;" id="temp-bars">
+
+          <div>
+            <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:.35rem;">
+              <span style="color:#cbd5e1;font-size:.78rem;">북극 (Arctic)</span>
+              <span style="color:#38bdf8;font-size:.75rem;font-weight:600;">−40°C</span>
+            </div>
+            <div style="background:#0f172a;border-radius:9999px;height:3px;overflow:hidden;">
+              <div class="temp-bar run" style="--fill:92%;"></div>
+            </div>
+          </div>
+
+          <div>
+            <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:.35rem;">
+              <span style="color:#cbd5e1;font-size:.78rem;">빙하 (Glacier)</span>
+              <span style="color:#7dd3fc;font-size:.75rem;font-weight:600;">−20°C</span>
+            </div>
+            <div style="background:#0f172a;border-radius:9999px;height:3px;overflow:hidden;">
+              <div class="temp-bar run" style="--fill:68%;animation-delay:.2s;background:linear-gradient(90deg,#0ea5e9,#7dd3fc);"></div>
+            </div>
+          </div>
+
+          <div>
+            <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:.35rem;">
+              <span style="color:#cbd5e1;font-size:.78rem;">서리 (Frost)</span>
+              <span style="color:#bae6fd;font-size:.75rem;font-weight:600;">−5°C</span>
+            </div>
+            <div style="background:#0f172a;border-radius:9999px;height:3px;overflow:hidden;">
+              <div class="temp-bar run" style="--fill:44%;animation-delay:.4s;background:linear-gradient(90deg,#0ea5e9,#bae6fd);"></div>
+            </div>
+          </div>
+
+          <div>
+            <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:.35rem;">
+              <span style="color:#cbd5e1;font-size:.78rem;">경계 (Threshold)</span>
+              <span style="color:#e0f2fe;font-size:.75rem;font-weight:600;">0°C</span>
+            </div>
+            <div style="background:#0f172a;border-radius:9999px;height:3px;overflow:hidden;">
+              <div class="temp-bar run" style="--fill:18%;animation-delay:.6s;background:linear-gradient(90deg,#0ea5e9,#e0f2fe);"></div>
+            </div>
+          </div>
+
+        </div>
+        <p style="color:#334155;font-size:.7rem;margin-top:1rem;text-align:center;letter-spacing:.05em;">고대 영어 <span style="color:#475569;">īsig</span> — 얼음으로 덮인, 차갑게 빛나는</p>
+      </div>
+    </section>
+
+    <!-- ═══════════ FEATURED VIDEO ═══════════ -->
+    <section class="reveal" style="margin-bottom:2rem;">
+      <p style="color:#475569;font-size:.7rem;letter-spacing:.18em;text-transform:uppercase;margin-bottom:.75rem;font-weight:500;">추천 영상</p>
+      <div class="ice-card" style="border-radius:.875rem;overflow:hidden;">
+        <div class="yt-wrap">
+          <iframe src="https://www.youtube.com/embed/dQw4w9WgXcQ?rel=0&modestbranding=1"
+                  title="ICY Featured Video"
+                  allow="accelerometer;autoplay;clipboard-write;encrypted-media;gyroscope;picture-in-picture"
+                  allowfullscreen></iframe>
+        </div>
+        <div style="padding:1rem;">
+          <h3 style="color:#e0f2fe;font-size:.875rem;font-weight:600;margin-bottom:.35rem;">Still. Clear. Absolute. — ICY Documentary</h3>
+          <p style="color:#64748b;font-size:.78rem;line-height:1.65;margin-bottom:.6rem;">완전한 정지의 상태, 투명하고 단단한 결정체 속에 보존된 시간의 기록.</p>
+          <div style="display:flex;align-items:center;gap:.75rem;">
+            <span style="color:#475569;font-size:.72rem;display:flex;align-items:center;gap:.25rem;">
+              <svg width="12" height="12" fill="#475569" viewBox="0 0 20 20"><path d="M10 12a2 2 0 100-4 2 2 0 000 4z"/><path fill-rule="evenodd" d="M.458 10C1.732 5.943 5.522 3 10 3s8.268 2.943 9.542 7c-1.274 4.057-5.064 7-9.542 7S1.732 14.057.458 10zM14 10a4 4 0 11-8 0 4 4 0 018 0z" clip-rule="evenodd"/></svg>
+              18.2K
+            </span>
+            <span style="color:#475569;font-size:.72rem;display:flex;align-items:center;gap:.25rem;">
+              <svg width="12" height="12" fill="#475569" viewBox="0 0 20 20"><path d="M2 10.5a1.5 1.5 0 113 0v6a1.5 1.5 0 01-3 0v-6zM6 10.333v5.43a2 2 0 001.106 1.79l.05.025A4 4 0 008.943 18h5.416a2 2 0 001.962-1.608l1.2-6A2 2 0 0015.56 8H12V4a2 2 0 00-2-2 1 1 0 00-1 1v.667a4 4 0 01-.8 2.4L6.8 7.933a4 4 0 00-.8 2.4z"/></svg>
+              1.4K
+            </span>
+            <span class="tag" style="margin-left:auto;">다큐멘터리</span>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ═══════════ VIDEO PLAYLIST ═══════════ -->
+    <section class="reveal" style="margin-bottom:2rem;">
+      <p style="color:#475569;font-size:.7rem;letter-spacing:.18em;text-transform:uppercase;margin-bottom:.75rem;font-weight:500;">영상 플레이리스트</p>
+
+      <a href="#" class="ice-card" style="text-decoration:none;display:flex;gap:.75rem;align-items:center;padding:.75rem;border-radius:.75rem;margin-bottom:.625rem;">
+        <div style="width:80px;height:52px;border-radius:.5rem;overflow:hidden;flex-shrink:0;background:#0f172a;position:relative;">
+          <img src="https://img.youtube.com/vi/dQw4w9WgXcQ/mqdefault.jpg" alt="" style="width:100%;height:100%;object-fit:cover;opacity:.6;" onerror="this.style.display='none'" />
+          <div style="position:absolute;inset:0;display:flex;align-items:center;justify-content:center;">
+            <div style="width:26px;height:26px;border-radius:50%;background:rgba(0,0,0,.6);display:flex;align-items:center;justify-content:center;">
+              <svg width="10" height="10" fill="white" viewBox="0 0 20 20" style="margin-left:2px;"><path d="M6.3 2.841A1.5 1.5 0 004 4.11V15.89a1.5 1.5 0 002.3 1.269l9.344-5.89a1.5 1.5 0 000-2.538L6.3 2.84z"/></svg>
+            </div>
+          </div>
+        </div>
+        <div style="flex:1;min-width:0;">
+          <p style="color:#e2e8f0;font-size:.85rem;font-weight:500;margin-bottom:.25rem;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;">얼음의 언어 — Ice Speaks</p>
+          <p style="color:#475569;font-size:.72rem;">11:24 · 4.6K 조회</p>
+        </div>
+      </a>
+
+      <a href="#" class="ice-card" style="text-decoration:none;display:flex;gap:.75rem;align-items:center;padding:.75rem;border-radius:.75rem;margin-bottom:.625rem;">
+        <div style="width:80px;height:52px;border-radius:.5rem;overflow:hidden;flex-shrink:0;position:relative;">
+          <div style="width:100%;height:100%;background:linear-gradient(135deg,#1e293b,#0f172a);display:flex;align-items:center;justify-content:center;font-size:1.5rem;">❄️</div>
+          <div style="position:absolute;inset:0;display:flex;align-items:center;justify-content:center;">
+            <div style="width:26px;height:26px;border-radius:50%;background:rgba(0,0,0,.55);display:flex;align-items:center;justify-content:center;">
+              <svg width="10" height="10" fill="white" viewBox="0 0 20 20" style="margin-left:2px;"><path d="M6.3 2.841A1.5 1.5 0 004 4.11V15.89a1.5 1.5 0 002.3 1.269l9.344-5.89a1.5 1.5 0 000-2.538L6.3 2.84z"/></svg>
+            </div>
+          </div>
+        </div>
+        <div style="flex:1;min-width:0;">
+          <p style="color:#e2e8f0;font-size:.85rem;font-weight:500;margin-bottom:.25rem;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;">서리의 기하학 — Frost Geometry</p>
+          <p style="color:#475569;font-size:.72rem;">17:33 · 9.1K 조회</p>
+        </div>
+      </a>
+
+      <a href="#" class="ice-card" style="text-decoration:none;display:flex;gap:.75rem;align-items:center;padding:.75rem;border-radius:.75rem;">
+        <div style="width:80px;height:52px;border-radius:.5rem;overflow:hidden;flex-shrink:0;position:relative;">
+          <div style="width:100%;height:100%;background:radial-gradient(ellipse at center,rgba(14,165,233,.2),#080e1a);display:flex;align-items:center;justify-content:center;font-size:1.5rem;">🌊</div>
+          <div style="position:absolute;inset:0;display:flex;align-items:center;justify-content:center;">
+            <div style="width:26px;height:26px;border-radius:50%;background:rgba(0,0,0,.55);display:flex;align-items:center;justify-content:center;">
+              <svg width="10" height="10" fill="white" viewBox="0 0 20 20" style="margin-left:2px;"><path d="M6.3 2.841A1.5 1.5 0 004 4.11V15.89a1.5 1.5 0 002.3 1.269l9.344-5.89a1.5 1.5 0 000-2.538L6.3 2.84z"/></svg>
+            </div>
+          </div>
+        </div>
+        <div style="flex:1;min-width:0;">
+          <p style="color:#e2e8f0;font-size:.85rem;font-weight:500;margin-bottom:.25rem;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;">북극의 침묵 — Arctic Silence</p>
+          <p style="color:#475569;font-size:.72rem;">28:07 · 6.3K 조회</p>
+        </div>
+      </a>
+    </section>
+
+    <hr class="ice-divider" style="margin-bottom:2rem;" />
+
+    <!-- ═══════════ IMAGE CAROUSEL ═══════════ -->
+    <section class="reveal" style="margin-bottom:2rem;">
+      <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:.75rem;">
+        <p style="color:#475569;font-size:.7rem;letter-spacing:.18em;text-transform:uppercase;font-weight:500;margin:0;">갤러리</p>
+        <div id="dots" style="display:flex;gap:.375rem;align-items:center;"></div>
+      </div>
+
+      <div id="car-wrap" style="position:relative;border-radius:.875rem;overflow:hidden;">
+        <div id="car-track" class="carousel-track">
+
+          <!-- slide 1 -->
+          <div class="carousel-slide">
+            <div style="aspect-ratio:4/3;background:linear-gradient(160deg,#1e293b 0%,#0f172a 50%,#080e1a 100%);display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:2rem;position:relative;overflow:hidden;">
+              <!-- crystal deco -->
+              <div style="position:absolute;inset:0;opacity:.06;">
+                <svg width="100%" height="100%" viewBox="0 0 400 300" fill="none" stroke="#bae6fd" stroke-width=".8">
+                  <line x1="200" y1="0" x2="200" y2="300"/>
+                  <line x1="0" y1="150" x2="400" y2="150"/>
+                  <line x1="50" y1="0" x2="350" y2="300"/>
+                  <line x1="350" y1="0" x2="50" y2="300"/>
+                  <circle cx="200" cy="150" r="80"/>
+                  <circle cx="200" cy="150" r="40"/>
+                </svg>
+              </div>
+              <span style="font-size:3.5rem;margin-bottom:1rem;">🧊</span>
+              <p style="font-family:'Noto Serif KR',serif;color:#e0f2fe;font-size:1.1rem;font-weight:500;margin-bottom:.35rem;">절대적 순수함</p>
+              <p style="color:#64748b;font-size:.8rem;">완전한 정지의 상태</p>
+              <div style="position:absolute;bottom:.75rem;left:1rem;right:1rem;display:flex;justify-content:space-between;align-items:flex-end;">
+                <span class="tag">얼음</span>
+                <span style="color:#475569;font-size:.72rem;">1 / 5</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- slide 2 -->
+          <div class="carousel-slide">
+            <div style="aspect-ratio:4/3;background:radial-gradient(ellipse at 30% 70%,rgba(14,165,233,.15) 0%,#080e1a 65%);display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:2rem;position:relative;">
+              <span style="font-size:3.5rem;margin-bottom:1rem;">❄️</span>
+              <p style="font-family:'Noto Serif KR',serif;color:#e0f2fe;font-size:1.1rem;font-weight:500;margin-bottom:.35rem;">서리의 기하학</p>
+              <p style="color:#64748b;font-size:.8rem;">자연이 스스로 그린 대칭</p>
+              <div style="position:absolute;bottom:.75rem;left:1rem;right:1rem;display:flex;justify-content:space-between;">
+                <span class="tag">서리</span>
+                <span style="color:#475569;font-size:.72rem;">2 / 5</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- slide 3 -->
+          <div class="carousel-slide">
+            <div style="aspect-ratio:4/3;background:linear-gradient(180deg,#0c4a6e 0%,#082f49 50%,#080e1a 100%);display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:2rem;position:relative;overflow:hidden;">
+              <div style="position:absolute;inset:0;opacity:.08;">
+                <svg width="100%" height="100%" viewBox="0 0 400 300"><circle cx="200" cy="150" r="120" fill="none" stroke="#bae6fd" stroke-width=".6"/><circle cx="200" cy="150" r="80" fill="none" stroke="#7dd3fc" stroke-width=".4"/><circle cx="200" cy="150" r="40" fill="none" stroke="#38bdf8" stroke-width=".3"/></svg>
+              </div>
+              <span style="font-size:3.5rem;margin-bottom:1rem;">🌊</span>
+              <p style="font-family:'Noto Serif KR',serif;color:#e0f2fe;font-size:1.1rem;font-weight:500;margin-bottom:.35rem;">원초적 장엄함</p>
+              <p style="color:#64748b;font-size:.8rem;">아무도 밟지 않은 흰 대지</p>
+              <div style="position:absolute;bottom:.75rem;left:1rem;right:1rem;display:flex;justify-content:space-between;">
+                <span class="tag">북극</span>
+                <span style="color:#475569;font-size:.72rem;">3 / 5</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- slide 4 -->
+          <div class="carousel-slide">
+            <div style="aspect-ratio:4/3;background:#050c16;overflow:hidden;position:relative;">
+              <img src="https://images.unsplash.com/photo-1486325212027-8081e485255e?w=600&q=80" alt="Ice"
+                   style="width:100%;height:100%;object-fit:cover;opacity:.5;" onerror="this.style.display='none'" />
+              <div style="position:absolute;inset:0;background:linear-gradient(to top,rgba(8,14,26,.85) 0%,transparent 55%);"></div>
+              <div style="position:absolute;bottom:.75rem;left:1rem;right:1rem;display:flex;justify-content:space-between;align-items:flex-end;">
+                <div>
+                  <p style="color:#e0f2fe;font-size:.85rem;font-weight:500;margin:0;">투명한 결정체</p>
+                  <p style="color:#94a3b8;font-size:.72rem;margin:0;">소음도 흔들림도 없는</p>
+                </div>
+                <span style="color:#475569;font-size:.72rem;">4 / 5</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- slide 5 -->
+          <div class="carousel-slide">
+            <div style="aspect-ratio:4/3;background:#050c16;overflow:hidden;position:relative;">
+              <img src="https://images.unsplash.com/photo-1519681393784-d120267933ba?w=600&q=80" alt="Arctic"
+                   style="width:100%;height:100%;object-fit:cover;opacity:.45;" onerror="this.style.display='none'" />
+              <div style="position:absolute;inset:0;background:linear-gradient(to top,rgba(8,14,26,.85) 0%,transparent 55%);"></div>
+              <div style="position:absolute;bottom:.75rem;left:1rem;right:1rem;display:flex;justify-content:space-between;align-items:flex-end;">
+                <div>
+                  <p style="color:#e0f2fe;font-size:.85rem;font-weight:500;margin:0;">광활한 침묵</p>
+                  <p style="color:#94a3b8;font-size:.72rem;margin:0;">īsig — 차갑게 빛나는</p>
+                </div>
+                <span style="color:#475569;font-size:.72rem;">5 / 5</span>
+              </div>
+            </div>
+          </div>
+
+        </div><!-- /track -->
+
+        <!-- prev / next -->
+        <button onclick="carGo(carIdx-1)"
+          style="position:absolute;left:.5rem;top:50%;transform:translateY(-50%);width:32px;height:32px;border-radius:50%;background:rgba(8,14,26,.65);border:1px solid rgba(186,230,253,.15);display:flex;align-items:center;justify-content:center;color:#94a3b8;cursor:pointer;z-index:5;transition:all .2s;"
+          onmouseover="this.style.background='rgba(8,14,26,.9)';this.style.color='#e0f2fe'"
+          onmouseout="this.style.background='rgba(8,14,26,.65)';this.style.color='#94a3b8'">
+          <svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M15 19l-7-7 7-7"/></svg>
+        </button>
+        <button onclick="carGo(carIdx+1)"
+          style="position:absolute;right:.5rem;top:50%;transform:translateY(-50%);width:32px;height:32px;border-radius:50%;background:rgba(8,14,26,.65);border:1px solid rgba(186,230,253,.15);display:flex;align-items:center;justify-content:center;color:#94a3b8;cursor:pointer;z-index:5;transition:all .2s;"
+          onmouseover="this.style.background='rgba(8,14,26,.9)';this.style.color='#e0f2fe'"
+          onmouseout="this.style.background='rgba(8,14,26,.65)';this.style.color='#94a3b8'">
+          <svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M9 5l7 7-7 7"/></svg>
+        </button>
+      </div>
+      <p style="color:#334155;font-size:.7rem;text-align:center;margin-top:.5rem;">← 스와이프하여 탐색 →</p>
+    </section>
+
+    <hr class="ice-divider" style="margin-bottom:2rem;" />
+
+    <!-- ═══════════ SINGLE FEATURE IMAGE ═══════════ -->
+    <section class="reveal" style="margin-bottom:2rem;">
+      <p style="color:#475569;font-size:.7rem;letter-spacing:.18em;text-transform:uppercase;margin-bottom:.75rem;font-weight:500;">대표 작업</p>
+      <div class="ice-card" style="border-radius:.875rem;overflow:hidden;cursor:pointer;"
+           onmouseover="this.querySelector('.fi-img').style.opacity='.6';this.querySelector('.fi-img').style.transform='scale(1.04)';this.querySelector('.fi-cta').style.opacity='1'"
+           onmouseout="this.querySelector('.fi-img').style.opacity='.4';this.querySelector('.fi-img').style.transform='scale(1)';this.querySelector('.fi-cta').style.opacity='0'">
+        <div style="position:relative;aspect-ratio:16/9;overflow:hidden;background:#050c16;">
+          <img class="fi-img" src="https://images.unsplash.com/photo-1486325212027-8081e485255e?w=800&q=80" alt="ICY Featured"
+               style="width:100%;height:100%;object-fit:cover;opacity:.4;transition:all .5s ease;" onerror="this.style.display='none'" />
+          <!-- ice blue tint overlay -->
+          <div style="position:absolute;inset:0;background:linear-gradient(135deg,rgba(14,165,233,.08),transparent 60%);"></div>
+          <div style="position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;">
+            <p class="shimmer-text" style="font-family:'Noto Serif KR',serif;font-size:2.5rem;font-weight:700;letter-spacing:.22em;margin:0;">ICY</p>
+            <p style="color:#64748b;font-size:.7rem;letter-spacing:.3em;text-transform:uppercase;margin-top:.3rem;">Still. Clear. Absolute.</p>
+          </div>
+          <div class="fi-cta" style="position:absolute;inset:0;display:flex;align-items:flex-end;padding:1rem;opacity:0;transition:opacity .3s;background:linear-gradient(to top,rgba(8,14,26,.7),transparent);">
+            <div style="display:flex;justify-content:space-between;align-items:center;width:100%;">
+              <span style="color:#e0f2fe;font-size:.85rem;font-weight:500;">대표 포트폴리오 보기</span>
+              <span style="width:32px;height:32px;border-radius:50%;background:rgba(14,165,233,.2);display:flex;align-items:center;justify-content:center;border:1px solid rgba(14,165,233,.3);">
+                <svg width="14" height="14" fill="none" stroke="#7dd3fc" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M14 5l7 7m0 0l-7 7m7-7H3"/></svg>
+              </span>
+            </div>
+          </div>
+        </div>
+        <div style="padding:1rem;">
+          <div style="display:flex;justify-content:space-between;align-items:flex-start;gap:.75rem;">
+            <div>
+              <h3 style="color:#e0f2fe;font-size:.875rem;font-weight:600;margin-bottom:.3rem;">Frozen Archive Series, 2024–25</h3>
+              <p style="color:#64748b;font-size:.78rem;line-height:1.6;">얼음과 서리 사이, 보존된 순간을 포착한 시각 작업 시리즈.</p>
+            </div>
+            <span class="tag" style="flex-shrink:0;">포트폴리오</span>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ═══════════ AMBIENT / MUSIC PLAYER ═══════════ -->
+    <section class="reveal" style="margin-bottom:2rem;">
+      <p style="color:#475569;font-size:.7rem;letter-spacing:.18em;text-transform:uppercase;margin-bottom:.75rem;font-weight:500;">앰비언트 트랙</p>
+      <div class="ice-card" style="border-radius:.875rem;padding:1rem;">
+        <div style="display:flex;align-items:center;gap:1rem;">
+          <!-- vinyl: ice crystal style -->
+          <div id="vinyl" style="width:56px;height:56px;border-radius:50%;flex-shrink:0;background:conic-gradient(from 0deg,#080e1a,#1e293b,#0f172a,#0c4a6e,#080e1a);border:3px solid #1e293b;position:relative;box-shadow:0 0 12px rgba(14,165,233,.12);">
+            <div style="position:absolute;inset:0;display:flex;align-items:center;justify-content:center;">
+              <div style="width:16px;height:16px;border-radius:50%;background:#080e1a;border:2px solid #334155;"></div>
+            </div>
+          </div>
+          <div style="flex:1;min-width:0;">
+            <p style="color:#e0f2fe;font-size:.875rem;font-weight:500;margin-bottom:.2rem;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;">Glacial Drift</p>
+            <p style="color:#475569;font-size:.72rem;margin-bottom:.5rem;">ICY Ambient Vol.1 · 8:22</p>
+            <div style="height:3px;background:#0f172a;border-radius:9999px;overflow:hidden;">
+              <div id="pbar" class="progress-bar" style="height:100%;background:linear-gradient(90deg,#0ea5e9,#7dd3fc);border-radius:9999px;transition:width .3s;"></div>
+            </div>
+            <div style="display:flex;justify-content:space-between;margin-top:.3rem;">
+              <span style="color:#334155;font-size:.65rem;">2:20</span>
+              <span style="color:#334155;font-size:.65rem;">8:22</span>
+            </div>
+          </div>
+          <button id="playbtn" onclick="togglePlay()"
+            style="width:40px;height:40px;border-radius:50%;flex-shrink:0;background:linear-gradient(135deg,rgba(7,89,133,.4),rgba(8,14,26,.9));border:1px solid rgba(14,165,233,.3);display:flex;align-items:center;justify-content:center;cursor:pointer;transition:all .25s;box-shadow:0 0 10px rgba(14,165,233,.1);">
+            <svg id="picon" width="14" height="14" fill="#38bdf8" viewBox="0 0 20 20" style="margin-left:2px;">
+              <path d="M6.3 2.841A1.5 1.5 0 004 4.11V15.89a1.5 1.5 0 002.3 1.269l9.344-5.89a1.5 1.5 0 000-2.538L6.3 2.84z"/>
+            </svg>
+          </button>
+        </div>
+        <div style="border-top:1px solid #1e293b;margin-top:1rem;padding-top:1rem;display:flex;flex-direction:column;gap:.6rem;">
+          <div style="display:flex;align-items:center;gap:.75rem;cursor:pointer;">
+            <span style="color:#0ea5e9;font-size:.7rem;width:1rem;text-align:center;">▶</span>
+            <span style="color:#e2e8f0;font-size:.78rem;flex:1;">Glacial Drift</span>
+            <span style="color:#334155;font-size:.72rem;">8:22</span>
+          </div>
+          <div style="display:flex;align-items:center;gap:.75rem;cursor:pointer;"
+               onmouseover="this.querySelector('span:nth-child(2)').style.color='#e2e8f0'"
+               onmouseout="this.querySelector('span:nth-child(2)').style.color='#64748b'">
+            <span style="color:#334155;font-size:.7rem;width:1rem;text-align:center;">02</span>
+            <span style="color:#64748b;font-size:.78rem;flex:1;transition:color .2s;">Frost at 3AM</span>
+            <span style="color:#334155;font-size:.72rem;">5:47</span>
+          </div>
+          <div style="display:flex;align-items:center;gap:.75rem;cursor:pointer;"
+               onmouseover="this.querySelector('span:nth-child(2)').style.color='#e2e8f0'"
+               onmouseout="this.querySelector('span:nth-child(2)').style.color='#64748b'">
+            <span style="color:#334155;font-size:.7rem;width:1rem;text-align:center;">03</span>
+            <span style="color:#64748b;font-size:.78rem;flex:1;transition:color .2s;">Arctic White Noise</span>
+            <span style="color:#334155;font-size:.72rem;">12:09</span>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <hr class="ice-divider" style="margin-bottom:2rem;" />
+
+    <!-- ═══════════ PROJECT CARDS ═══════════ -->
+    <section class="reveal" style="margin-bottom:2rem;">
+      <p style="color:#475569;font-size:.7rem;letter-spacing:.18em;text-transform:uppercase;margin-bottom:.75rem;font-weight:500;">진행 중인 프로젝트</p>
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:.75rem;">
+
+        <a href="#" class="ice-card" style="border-radius:.875rem;padding:1rem;text-decoration:none;display:block;">
+          <div style="width:40px;height:40px;border-radius:.5rem;background:rgba(14,165,233,.1);border:1px solid rgba(14,165,233,.2);display:flex;align-items:center;justify-content:center;font-size:1.25rem;margin-bottom:.75rem;">🧊</div>
+          <p style="color:#e0f2fe;font-size:.85rem;font-weight:600;margin-bottom:.3rem;">Crystal Lab</p>
+          <p style="color:#64748b;font-size:.75rem;line-height:1.5;margin-bottom:.75rem;">얼음 결정 구조 데이터 시각화</p>
+          <span style="color:#64748b;font-size:.75rem;display:flex;align-items:center;gap:.25rem;">탐색 <svg width="12" height="12" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M9 5l7 7-7 7"/></svg></span>
+        </a>
+
+        <a href="#" class="ice-card" style="border-radius:.875rem;padding:1rem;text-decoration:none;display:block;">
+          <div style="width:40px;height:40px;border-radius:.5rem;background:rgba(186,230,253,.07);border:1px solid rgba(186,230,253,.14);display:flex;align-items:center;justify-content:center;font-size:1.25rem;margin-bottom:.75rem;">❄️</div>
+          <p style="color:#e0f2fe;font-size:.85rem;font-weight:600;margin-bottom:.3rem;">Frost Type</p>
+          <p style="color:#64748b;font-size:.75rem;line-height:1.5;margin-bottom:.75rem;">서리 결정 기반 타이포그래피</p>
+          <span style="color:#64748b;font-size:.75rem;display:flex;align-items:center;gap:.25rem;">탐색 <svg width="12" height="12" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M9 5l7 7-7 7"/></svg></span>
+        </a>
+
+        <a href="#" class="ice-card" style="border-radius:.875rem;padding:1rem;text-decoration:none;display:block;">
+          <div style="width:40px;height:40px;border-radius:.5rem;background:rgba(7,89,133,.15);border:1px solid rgba(7,89,133,.25);display:flex;align-items:center;justify-content:center;font-size:1.25rem;margin-bottom:.75rem;">🌊</div>
+          <p style="color:#e0f2fe;font-size:.85rem;font-weight:600;margin-bottom:.3rem;">Arctic Sound</p>
+          <p style="color:#64748b;font-size:.75rem;line-height:1.5;margin-bottom:.75rem;">북극 환경음 앰비언트 아카이브</p>
+          <span style="color:#64748b;font-size:.75rem;display:flex;align-items:center;gap:.25rem;">탐색 <svg width="12" height="12" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M9 5l7 7-7 7"/></svg></span>
+        </a>
+
+        <a href="#" class="ice-card" style="border-radius:.875rem;padding:1rem;text-decoration:none;display:block;">
+          <div style="width:40px;height:40px;border-radius:.5rem;background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.07);display:flex;align-items:center;justify-content:center;font-size:1.25rem;margin-bottom:.75rem;">✦</div>
+          <p style="color:#e0f2fe;font-size:.85rem;font-weight:600;margin-bottom:.3rem;">Open Source</p>
+          <p style="color:#64748b;font-size:.75rem;line-height:1.5;margin-bottom:.75rem;">얼음 속에 보존된 코드 툴킷</p>
+          <span style="color:#64748b;font-size:.75rem;display:flex;align-items:center;gap:.25rem;">탐색 <svg width="12" height="12" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M9 5l7 7-7 7"/></svg></span>
+        </a>
+
+      </div>
+    </section>
+
+    <hr class="ice-divider" style="margin-bottom:2rem;" />
+
+    <!-- ═══════════ BLOG POSTS ═══════════ -->
+    <section class="reveal" style="margin-bottom:2rem;">
+      <p style="color:#475569;font-size:.7rem;letter-spacing:.18em;text-transform:uppercase;margin-bottom:.75rem;font-weight:500;">최근 글</p>
+
+      <a href="#" class="ice-card" style="border-radius:.875rem;padding:1rem;text-decoration:none;display:flex;align-items:flex-start;gap:1rem;margin-bottom:.625rem;">
+        <div style="flex:1;">
+          <div style="display:flex;align-items:center;gap:.5rem;margin-bottom:.4rem;">
+            <span class="tag">에세이</span>
+            <span style="color:#334155;font-size:.68rem;">2025.01.18</span>
+          </div>
+          <p style="color:#e0f2fe;font-size:.875rem;font-weight:600;margin-bottom:.3rem;line-height:1.45;">차갑다는 것은 거리를 두는 게 아니다</p>
+          <p style="color:#64748b;font-size:.76rem;line-height:1.6;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden;">그것은 완전히 투명해지는 것이다. 얼음의 냉정함이 품은 가장 뜨거운 명료함에 대하여.</p>
+        </div>
+        <svg width="16" height="16" fill="none" stroke="#334155" stroke-width="2" viewBox="0 0 24 24" style="flex-shrink:0;margin-top:2px;"><path stroke-linecap="round" stroke-linejoin="round" d="M14 5l7 7m0 0l-7 7m7-7H3"/></svg>
+      </a>
+
+      <a href="#" class="ice-card" style="border-radius:.875rem;padding:1rem;text-decoration:none;display:flex;align-items:flex-start;gap:1rem;margin-bottom:.625rem;">
+        <div style="flex:1;">
+          <div style="display:flex;align-items:center;gap:.5rem;margin-bottom:.4rem;">
+            <span class="tag">결정학</span>
+            <span style="color:#334155;font-size:.68rem;">2025.01.07</span>
+          </div>
+          <p style="color:#e0f2fe;font-size:.875rem;font-weight:600;margin-bottom:.3rem;line-height:1.45;">서리가 그리는 기하학 — Frost Geometry</p>
+          <p style="color:#64748b;font-size:.76rem;line-height:1.6;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden;">유리창 위의 서리는 자연이 스스로 그린 기하학이다. 규칙 없이도 완벽한 대칭을 만드는 원리를 탐구합니다.</p>
+        </div>
+        <svg width="16" height="16" fill="none" stroke="#334155" stroke-width="2" viewBox="0 0 24 24" style="flex-shrink:0;margin-top:2px;"><path stroke-linecap="round" stroke-linejoin="round" d="M14 5l7 7m0 0l-7 7m7-7H3"/></svg>
+      </a>
+
+      <a href="#" class="ice-card" style="border-radius:.875rem;padding:1rem;text-decoration:none;display:flex;align-items:flex-start;gap:1rem;margin-bottom:.875rem;">
+        <div style="flex:1;">
+          <div style="display:flex;align-items:center;gap:.5rem;margin-bottom:.4rem;">
+            <span class="tag">북극</span>
+            <span style="color:#334155;font-size:.68rem;">2024.12.31</span>
+          </div>
+          <p style="color:#e0f2fe;font-size:.875rem;font-weight:600;margin-bottom:.3rem;line-height:1.45;">아무도 밟지 않은 흰 대지에 대하여</p>
+          <p style="color:#64748b;font-size:.76rem;line-height:1.6;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden;">인간의 언어가 닿지 않는 곳. 광활한 침묵 속에서 만나는 원초적 장엄함을 기록합니다.</p>
+        </div>
+        <svg width="16" height="16" fill="none" stroke="#334155" stroke-width="2" viewBox="0 0 24 24" style="flex-shrink:0;margin-top:2px;"><path stroke-linecap="round" stroke-linejoin="round" d="M14 5l7 7m0 0l-7 7m7-7H3"/></svg>
+      </a>
+
+      <a href="#" class="link-btn" style="justify-content:center;color:#94a3b8;">
+        모든 글 보기
+        <svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M9 5l7 7-7 7"/></svg>
+      </a>
+    </section>
+
+    <hr class="ice-divider" style="margin-bottom:2rem;" />
+
+    <!-- ═══════════ FAQ ACCORDION ═══════════ -->
+    <section class="reveal" style="margin-bottom:2rem;">
+      <p style="color:#475569;font-size:.7rem;letter-spacing:.18em;text-transform:uppercase;margin-bottom:.75rem;font-weight:500;">자주 묻는 질문</p>
+
+      <details class="ice-card" style="border-radius:.875rem;overflow:hidden;margin-bottom:.625rem;">
+        <summary style="display:flex;align-items:center;justify-content:space-between;padding:1rem;">
+          <span style="color:#e2e8f0;font-size:.875rem;font-weight:500;">ICY는 어떤 의미인가요?</span>
+          <span class="chev" style="color:#64748b;flex-shrink:0;">
+            <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7"/></svg>
+          </span>
+        </summary>
+        <div style="padding:0 1rem 1rem;">
+          <div class="ice-divider" style="margin-bottom:.75rem;"></div>
+          <p style="color:#64748b;font-size:.8rem;line-height:1.75;">ICY는 세 가지 의미를 담고 있습니다. 절대적 순수함인 <strong style="color:#cbd5e1;">얼음(Ice)</strong>, 경계면에서 피어나는 차가운 예술인 <strong style="color:#cbd5e1;">서리(Frost)</strong>, 그리고 광활한 침묵의 <strong style="color:#cbd5e1;">북극(Arctic)</strong>. 고대 영어 <em style="color:#94a3b8;">īsig</em>에서 왔습니다.</p>
+        </div>
+      </details>
+
+      <details class="ice-card" style="border-radius:.875rem;overflow:hidden;margin-bottom:.625rem;">
+        <summary style="display:flex;align-items:center;justify-content:space-between;padding:1rem;">
+          <span style="color:#e2e8f0;font-size:.875rem;font-weight:500;">협업이나 의뢰는 어떻게 하나요?</span>
+          <span class="chev" style="color:#64748b;flex-shrink:0;">
+            <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7"/></svg>
+          </span>
+        </summary>
+        <div style="padding:0 1rem 1rem;">
+          <div class="ice-divider" style="margin-bottom:.75rem;"></div>
+          <p style="color:#64748b;font-size:.8rem;line-height:1.75;">hello@icy.kr 로 메일을 보내주시거나 아래 문의 폼을 이용해주세요. 차갑지만 빠르게, 1–2 영업일 내에 답변드립니다.</p>
+        </div>
+      </details>
+
+      <details class="ice-card" style="border-radius:.875rem;overflow:hidden;">
+        <summary style="display:flex;align-items:center;justify-content:space-between;padding:1rem;">
+          <span style="color:#e2e8f0;font-size:.875rem;font-weight:500;">icy.kr 도메인을 선택한 이유는?</span>
+          <span class="chev" style="color:#64748b;flex-shrink:0;">
+            <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7"/></svg>
+          </span>
+        </summary>
+        <div style="padding:0 1rem 1rem;">
+          <div class="ice-divider" style="margin-bottom:.75rem;"></div>
+          <p style="color:#64748b;font-size:.8rem;line-height:1.75;">차갑다는 것은 거리를 두는 게 아닙니다. 그것은 완전히 투명해지는 것입니다. <strong style="color:#cbd5e1;">icy.kr</strong>은 그 투명함의 가장 순수한 형태를 담기 위해 선택했습니다.</p>
+        </div>
+      </details>
+    </section>
+
+    <hr class="ice-divider" style="margin-bottom:2rem;" />
+
+    <!-- ═══════════ NEWSLETTER ═══════════ -->
+    <section class="reveal" style="margin-bottom:1.75rem;">
+      <p style="color:#475569;font-size:.7rem;letter-spacing:.18em;text-transform:uppercase;margin-bottom:.75rem;font-weight:500;">뉴스레터 구독</p>
+      <div class="ice-card" style="border-radius:.875rem;padding:1.25rem;">
+        <div style="display:flex;align-items:flex-start;gap:.75rem;margin-bottom:1rem;">
+          <span style="font-size:1.5rem;">📨</span>
+          <div>
+            <p style="color:#e0f2fe;font-size:.875rem;font-weight:600;margin-bottom:.2rem;">얼어붙은 순간의 소식을 받아보세요</p>
+            <p style="color:#64748b;font-size:.78rem;line-height:1.6;">새로운 작업, 에세이, 프로젝트 업데이트를 가장 먼저 받아볼 수 있습니다.</p>
+          </div>
+        </div>
+        <form onsubmit="doSubscribe(event)" style="display:flex;gap:.5rem;">
+          <input type="email" placeholder="your@email.com"
+            style="flex:1;background:#0f172a;border:1px solid #1e293b;border-radius:.5rem;padding:.65rem .9rem;color:#e2e8f0;font-size:.85rem;outline:none;transition:border-color .2s;"
+            onfocus="this.style.borderColor='#334155'" onblur="this.style.borderColor='#1e293b'" />
+          <button type="submit"
+            style="padding:.65rem 1.1rem;border-radius:.5rem;background:linear-gradient(135deg,#0284c7,#0ea5e9);color:#fff;font-size:.85rem;font-weight:600;border:none;cursor:pointer;white-space:nowrap;transition:filter .2s;"
+            onmouseover="this.style.filter='brightness(1.15)'" onmouseout="this.style.filter='brightness(1)'">구독</button>
+        </form>
+        <p id="sub-ok" style="color:#7dd3fc;font-size:.78rem;margin-top:.5rem;display:none;">✓ 구독 완료! 얼어붙은 순간의 소식을 기대해주세요.</p>
+      </div>
+    </section>
+
+    <!-- ═══════════ CONTACT FORM ═══════════ -->
+    <section class="reveal" style="margin-bottom:3rem;">
+      <p style="color:#475569;font-size:.7rem;letter-spacing:.18em;text-transform:uppercase;margin-bottom:.75rem;font-weight:500;">문의하기</p>
+      <div class="ice-card" style="border-radius:.875rem;padding:1.25rem;">
+        <form onsubmit="doContact(event)" style="display:flex;flex-direction:column;gap:.75rem;">
+          <input type="text" placeholder="이름"
+            style="background:#0f172a;border:1px solid #1e293b;border-radius:.5rem;padding:.65rem .9rem;color:#e2e8f0;font-size:.85rem;outline:none;transition:border-color .2s;"
+            onfocus="this.style.borderColor='#334155'" onblur="this.style.borderColor='#1e293b'" />
+          <input type="email" placeholder="이메일"
+            style="background:#0f172a;border:1px solid #1e293b;border-radius:.5rem;padding:.65rem .9rem;color:#e2e8f0;font-size:.85rem;outline:none;transition:border-color .2s;"
+            onfocus="this.style.borderColor='#334155'" onblur="this.style.borderColor='#1e293b'" />
+          <select style="background:#0f172a;border:1px solid #1e293b;border-radius:.5rem;padding:.65rem .9rem;color:#64748b;font-size:.85rem;outline:none;transition:border-color .2s;appearance:none;"
+            onfocus="this.style.borderColor='#334155'" onblur="this.style.borderColor='#1e293b'">
+            <option value="" disabled selected>문의 유형 선택</option>
+            <option style="background:#0f172a;color:#e2e8f0;">협업 제안</option>
+            <option style="background:#0f172a;color:#e2e8f0;">프로젝트 의뢰</option>
+            <option style="background:#0f172a;color:#e2e8f0;">인터뷰 요청</option>
+            <option style="background:#0f172a;color:#e2e8f0;">기타 문의</option>
+          </select>
+          <textarea rows="4" placeholder="메시지를 입력해주세요..."
+            style="background:#0f172a;border:1px solid #1e293b;border-radius:.5rem;padding:.65rem .9rem;color:#e2e8f0;font-size:.85rem;outline:none;resize:none;transition:border-color .2s;font-family:inherit;"
+            onfocus="this.style.borderColor='#334155'" onblur="this.style.borderColor='#1e293b'"></textarea>
+          <button type="submit"
+            style="width:100%;padding:.75rem;border-radius:.5rem;background:linear-gradient(135deg,#1e293b,#0f172a);color:#e0f2fe;font-size:.875rem;font-weight:600;border:1px solid rgba(186,230,253,.1);cursor:pointer;transition:filter .2s,transform .2s;"
+            onmouseover="this.style.filter='brightness(1.25)';this.style.transform='translateY(-1px)'"
+            onmouseout="this.style.filter='brightness(1)';this.style.transform='translateY(0)'">
+            보내기 🧊
+          </button>
+        </form>
+        <p id="con-ok" style="color:#7dd3fc;font-size:.78rem;margin-top:.5rem;text-align:center;display:none;">✓ 메시지가 전송되었습니다. 곧 연락드리겠습니다.</p>
+      </div>
+    </section>
+
+    <!-- ═══════════ FOOTER ═══════════ -->
+    <footer class="reveal" style="text-align:center;">
+      <hr class="ice-divider" style="margin-bottom:1.5rem;" />
+      <div style="display:flex;justify-content:center;gap:.5rem;flex-wrap:wrap;margin-bottom:1rem;">
+        <span class="tag">🧊 얼음</span>
+        <span style="color:#1e293b;display:flex;align-items:center;font-size:.8rem;">·</span>
+        <span class="tag">❄️ 서리</span>
+        <span style="color:#1e293b;display:flex;align-items:center;font-size:.8rem;">·</span>
+        <span class="tag">🌊 북극</span>
+      </div>
+      <p style="font-family:'Noto Serif KR',serif;color:#475569;font-size:.875rem;font-style:italic;margin-bottom:.25rem;">Still. Clear. Absolute.</p>
+      <p style="color:#1e293b;font-size:.75rem;margin-bottom:1rem;">— 얼어붙은 순간 속에 담긴 영원 —</p>
+      <a href="https://icy.kr"
+         style="color:#64748b;font-size:.75rem;letter-spacing:.2em;text-transform:uppercase;text-decoration:none;transition:color .2s;"
+         onmouseover="this.style.color='#94a3b8'" onmouseout="this.style.color='#64748b'">icy.kr</a>
+      <p style="color:#1e293b;font-size:.7rem;margin-top:.75rem;">고대 영어 <span style="color:#334155;">īsig</span> · Made with Tailwind CSS 4</p>
+    </footer>
+
+  </main>
+
+  <!-- ░░ JS ░░ -->
+  <script>
+    // ── Particles ──────────────────────────────────
+    (function() {
+      const c = document.getElementById('ptcl');
+
+      // ice crystal flakes (rising)
+      for (let i = 0; i < 12; i++) {
+        const e = document.createElement('div');
+        const s = Math.random() * 5 + 2;
+        e.style.cssText = `
+          position:absolute;
+          width:${s}px; height:${s}px;
+          border-radius:${Math.random() > .5 ? '50%' : '1px'};
+          background:rgba(186,230,253,${Math.random()*.4+.1});
+          left:${Math.random()*100}%;
+          bottom:${Math.random()*20}%;
+          animation:crystal-float ${Math.random()*5+4}s linear ${Math.random()*7}s infinite;
+          pointer-events:none;
+          box-shadow:0 0 ${s*2}px rgba(14,165,233,.3);
+        `;
+        c.appendChild(e);
+      }
+
+      // snowfall particles
+      for (let i = 0; i < 20; i++) {
+        const e = document.createElement('div');
+        const s = Math.random() * 3 + 1;
+        e.style.cssText = `
+          position:absolute;
+          width:${s}px; height:${s}px;
+          border-radius:50%;
+          background:rgba(224,242,254,${Math.random()*.35+.05});
+          left:${Math.random()*100}%;
+          top:${Math.random()*15}%;
+          animation:snowfall ${Math.random()*7+6}s linear ${Math.random()*9}s infinite;
+          pointer-events:none;
+        `;
+        c.appendChild(e);
+      }
+    })();
+
+    // ── Scroll reveal ──────────────────────────────
+    const io = new IntersectionObserver((entries) => {
+      entries.forEach((entry, i) => {
+        if (entry.isIntersecting) {
+          entry.target.style.animationDelay = (i * 0.07) + 's';
+          entry.target.classList.add('in');
+          io.unobserve(entry.target);
+        }
+      });
+    }, { threshold: 0.08 });
+    document.querySelectorAll('.reveal').forEach(el => io.observe(el));
+
+    // ── Carousel ───────────────────────────────────
+    let carIdx = 0;
+    const carTotal = 5;
+    const carTrack = document.getElementById('car-track');
+    const dotsEl   = document.getElementById('dots');
+
+    for (let i = 0; i < carTotal; i++) {
+      const d = document.createElement('button');
+      d.style.cssText = `height:6px;border-radius:9999px;border:none;cursor:pointer;transition:all .25s;padding:0;background:${i===0?'#94a3b8':'#1e293b'};width:${i===0?'16px':'6px'};`;
+      d.onclick = () => carGo(i);
+      dotsEl.appendChild(d);
+    }
+
+    function carGo(n) {
+      carIdx = ((n % carTotal) + carTotal) % carTotal;
+      carTrack.style.transform = `translateX(-${carIdx * 100}%)`;
+      Array.from(dotsEl.children).forEach((d, i) => {
+        d.style.background = i === carIdx ? '#94a3b8' : '#1e293b';
+        d.style.width = i === carIdx ? '16px' : '6px';
+      });
+    }
+
+    let carTimer = setInterval(() => carGo(carIdx + 1), 4500);
+    document.getElementById('car-wrap').addEventListener('mouseenter', () => clearInterval(carTimer));
+    document.getElementById('car-wrap').addEventListener('mouseleave', () => { carTimer = setInterval(() => carGo(carIdx + 1), 4500); });
+
+    let tx = 0;
+    document.getElementById('car-wrap').addEventListener('touchstart', e => { tx = e.touches[0].clientX; }, {passive:true});
+    document.getElementById('car-wrap').addEventListener('touchend', e => {
+      const d = tx - e.changedTouches[0].clientX;
+      if (Math.abs(d) > 38) carGo(carIdx + (d > 0 ? 1 : -1));
+    }, {passive:true});
+
+    document.addEventListener('keydown', e => {
+      if (e.key === 'ArrowLeft')  carGo(carIdx - 1);
+      if (e.key === 'ArrowRight') carGo(carIdx + 1);
+    });
+
+    // ── Music player ───────────────────────────────
+    let playing = false;
+    const vinyl = document.getElementById('vinyl');
+    const picon = document.getElementById('picon');
+    const pbar  = document.getElementById('pbar');
+
+    function togglePlay() {
+      playing = !playing;
+      if (playing) {
+        vinyl.classList.add('vinyl-spin');
+        pbar.classList.add('playing');
+        picon.innerHTML = `<path d="M5.5 3.5A1.5 1.5 0 017 5v10a1.5 1.5 0 01-3 0V5a1.5 1.5 0 011.5-1.5zM12.5 3.5A1.5 1.5 0 0114 5v10a1.5 1.5 0 01-3 0V5a1.5 1.5 0 011.5-1.5z"/>`;
+      } else {
+        vinyl.classList.remove('vinyl-spin');
+        pbar.classList.remove('playing');
+        picon.innerHTML = `<path d="M6.3 2.841A1.5 1.5 0 004 4.11V15.89a1.5 1.5 0 002.3 1.269l9.344-5.89a1.5 1.5 0 000-2.538L6.3 2.84z"/>`;
+      }
+    }
+
+    // ── Forms ──────────────────────────────────────
+    function doSubscribe(e) {
+      e.preventDefault();
+      document.getElementById('sub-ok').style.display = 'block';
+      e.target.reset();
+    }
+    function doContact(e) {
+      e.preventDefault();
+      document.getElementById('con-ok').style.display = 'block';
+      e.target.reset();
+    }
+  </script>
+
+</body>
+</html>
