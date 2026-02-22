@@ -1,0 +1,891 @@
+<!doctype html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>icy.kr</title>
+  <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&display=swap" rel="stylesheet" />
+
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    /* ── 배경 ── */
+    body {
+      font-family: 'Inter', sans-serif;
+      min-height: 100svh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      overflow: hidden;
+      background: #03060d;
+    }
+
+    /* 배경 오브 — 얼음·빙하 톤 */
+    .bg-orb {
+      position: fixed;
+      border-radius: 50%;
+      filter: blur(90px);
+      pointer-events: none;
+      z-index: 0;
+    }
+    .bg-orb-1 {
+      width: 700px; height: 500px;
+      top: -220px; left: -200px;
+      background: radial-gradient(ellipse, rgba(100,200,255,0.14) 0%, transparent 70%);
+    }
+    .bg-orb-2 {
+      width: 550px; height: 550px;
+      bottom: -200px; right: -150px;
+      background: radial-gradient(ellipse, rgba(160,230,255,0.10) 0%, transparent 70%);
+    }
+    .bg-orb-3 {
+      width: 400px; height: 300px;
+      top: 50%; left: 50%;
+      transform: translate(-50%, -50%);
+      background: radial-gradient(ellipse, rgba(200,240,255,0.06) 0%, transparent 70%);
+    }
+    /* 빙하 저 깊은 곳의 푸른 빛 */
+    .bg-orb-4 {
+      width: 300px; height: 300px;
+      top: 30%; right: 15%;
+      background: radial-gradient(ellipse, rgba(60,140,220,0.08) 0%, transparent 70%);
+    }
+
+    /* 배경 극미세 눈결정 패턴 */
+    body::before {
+      content: '';
+      position: fixed;
+      inset: 0;
+      background-image:
+        radial-gradient(1px 1px at 10%  15%, rgba(200,240,255,0.25) 0%, transparent 100%),
+        radial-gradient(1px 1px at 25%  70%, rgba(200,240,255,0.20) 0%, transparent 100%),
+        radial-gradient(1px 1px at 40%  30%, rgba(200,240,255,0.18) 0%, transparent 100%),
+        radial-gradient(1px 1px at 55%  85%, rgba(200,240,255,0.22) 0%, transparent 100%),
+        radial-gradient(1px 1px at 70%  20%, rgba(200,240,255,0.20) 0%, transparent 100%),
+        radial-gradient(1px 1px at 82%  55%, rgba(200,240,255,0.15) 0%, transparent 100%),
+        radial-gradient(1px 1px at 90%  10%, rgba(200,240,255,0.20) 0%, transparent 100%),
+        radial-gradient(1px 1px at 15%  90%, rgba(200,240,255,0.18) 0%, transparent 100%),
+        radial-gradient(1px 1px at 60%  50%, rgba(200,240,255,0.12) 0%, transparent 100%),
+        radial-gradient(1px 1px at 35%  45%, rgba(200,240,255,0.15) 0%, transparent 100%);
+      pointer-events: none;
+      z-index: 0;
+    }
+
+    /* ── Scene ── */
+    .scene {
+      perspective: 900px;
+      position: relative;
+      z-index: 1;
+    }
+
+    /* ── 카드 래퍼 ── */
+    .card-wrap {
+      width: 380px;
+      height: 240px;
+      position: relative;
+      transform-style: preserve-3d;
+      border-radius: 16px;
+      cursor: pointer;
+      animation: card-enter 1.2s cubic-bezier(0.22, 1, 0.36, 1) both;
+    }
+
+    @keyframes card-enter {
+      from {
+        opacity: 0;
+        transform: rotateX(28deg) rotateY(18deg) scale(0.86) translateY(36px);
+        filter: blur(4px);
+      }
+      to {
+        opacity: 1;
+        transform: rotateX(0deg) rotateY(0deg) scale(1) translateY(0);
+        filter: blur(0);
+      }
+    }
+
+    @keyframes float-idle {
+      0%,100% { transform: rotateX(2deg)  rotateY(-3deg) translateY(0px);  }
+      33%      { transform: rotateX(-3deg) rotateY(3deg)  translateY(-7px); }
+      66%      { transform: rotateX(3deg)  rotateY(-1deg) translateY(-4px); }
+    }
+
+    .card-wrap.is-idle {
+      animation:
+        card-enter 1.2s cubic-bezier(0.22, 1, 0.36, 1) both,
+        float-idle 8s ease-in-out 1.2s infinite;
+    }
+
+    /* ── 카드 본체 ── */
+    .card {
+      position: relative;
+      width: 100%;
+      height: 100%;
+      border-radius: 16px;
+      overflow: hidden;
+
+      /*
+        icy 반투명 플라스틱:
+        ash보다 훨씬 투명하고, 청량한 블루-화이트 틴트
+      */
+      background:
+        linear-gradient(
+          128deg,
+          rgba(220, 245, 255, 0.16) 0%,
+          rgba(180, 225, 255, 0.08) 35%,
+          rgba(200, 235, 255, 0.13) 70%,
+          rgba(160, 215, 255, 0.10) 100%
+        );
+      backdrop-filter: blur(24px) saturate(180%) brightness(1.05);
+      -webkit-backdrop-filter: blur(24px) saturate(180%) brightness(1.05);
+
+      border: 1px solid rgba(200, 235, 255, 0.28);
+      box-shadow:
+        0 32px 70px rgba(0, 10, 30, 0.65),
+        0 8px  20px rgba(0, 10, 30, 0.45),
+        /* 상단 하이라이트 — 얼음 엣지 */
+        inset 0  1px 0 rgba(220, 245, 255, 0.50),
+        inset 0  2px 6px rgba(180, 230, 255, 0.12),
+        /* 하단 그림자 */
+        inset 0 -1px 0 rgba(100, 180, 230, 0.10),
+        /* 푸른 내부 글로우 */
+        inset 0  0  40px rgba(100, 200, 255, 0.06);
+    }
+
+    /* ── 홀로그래픽 레인보우 레이어 ── */
+    /*
+      icy는 ash보다 차갑고 크리스탈라인한 스펙트럼:
+      cyan → blue → violet → white 위주
+    */
+    .card-holo {
+      position: absolute;
+      inset: 0;
+      border-radius: inherit;
+      z-index: 10;
+      pointer-events: none;
+      opacity: 0;
+      transition: opacity 0.3s ease;
+
+      background:
+        repeating-linear-gradient(
+          calc(var(--r, 115deg)),
+          hsla(195, 100%, 75%, 0.13) 0%,
+          hsla(210, 100%, 72%, 0.10) 8%,
+          hsla(230, 100%, 75%, 0.13) 16%,
+          hsla(250, 100%, 72%, 0.10) 24%,
+          hsla(270, 100%, 75%, 0.12) 32%,
+          hsla(200, 100%, 85%, 0.14) 40%,
+          hsla(185, 100%, 80%, 0.11) 48%,
+          hsla(220, 100%, 78%, 0.13) 56%,
+          hsla(195, 100%, 75%, 0.10) 64%
+        ),
+        radial-gradient(
+          ellipse 60% 60% at var(--mx, 50%) var(--my, 50%),
+          rgba(200, 240, 255, 0.14) 0%,
+          transparent 65%
+        );
+
+      mix-blend-mode: screen;
+    }
+
+    .card-wrap:hover .card-holo { opacity: 1; }
+
+    /* ── 서리/결빙 텍스처 레이어 ── */
+    /*
+      미세한 크리스탈 패턴 — 얼음 표면의 프로스트
+    */
+    .card-frost {
+      position: absolute;
+      inset: 0;
+      border-radius: inherit;
+      z-index: 8;
+      pointer-events: none;
+
+      background-image:
+        /* 45° 미세 크리스탈 라인 */
+        repeating-linear-gradient(
+          48deg,
+          rgba(200,235,255,0.00) 0px,
+          rgba(200,235,255,0.00) 4px,
+          rgba(200,235,255,0.018) 4px,
+          rgba(200,235,255,0.018) 5px
+        ),
+        repeating-linear-gradient(
+          -42deg,
+          rgba(200,235,255,0.00) 0px,
+          rgba(200,235,255,0.00) 6px,
+          rgba(200,235,255,0.012) 6px,
+          rgba(200,235,255,0.012) 7px
+        ),
+        /* 수평 헤이즈 */
+        repeating-linear-gradient(
+          180deg,
+          rgba(200,235,255,0.00) 0px,
+          rgba(200,235,255,0.00) 10px,
+          rgba(200,235,255,0.008) 10px,
+          rgba(200,235,255,0.008) 11px
+        );
+      opacity: 0.8;
+    }
+
+    /* ── 엣지 하이라이트 ── */
+    .card-edge {
+      position: absolute;
+      inset: 0;
+      border-radius: inherit;
+      z-index: 9;
+      pointer-events: none;
+
+      background:
+        linear-gradient(180deg, rgba(220,245,255,0.38) 0px, rgba(220,245,255,0.00) 3px),
+        linear-gradient(90deg,  rgba(200,235,255,0.22) 0px, rgba(200,235,255,0.00) 2px),
+        linear-gradient(270deg, rgba(180,220,255,0.14) 0px, rgba(180,220,255,0.00) 2px),
+        linear-gradient(0deg,   rgba(160,210,255,0.08) 0px, rgba(160,210,255,0.00) 2px);
+    }
+
+    /* ── 스포트라이트 ── */
+    .card-spot {
+      position: absolute;
+      inset: 0;
+      border-radius: inherit;
+      z-index: 11;
+      pointer-events: none;
+      opacity: 0;
+      transition: opacity 0.2s ease;
+      background: radial-gradient(
+        ellipse 42% 42% at var(--mx, 50%) var(--my, 50%),
+        rgba(220, 245, 255, 0.10) 0%,
+        transparent 70%
+      );
+    }
+
+    .card-wrap:hover .card-spot { opacity: 1; }
+
+    /* ── Shimmer — 얼음 빛 가로지름 ── */
+    /*
+      ash는 warm shimmer, icy는 cool·crisp shimmer
+    */
+    .card-shimmer {
+      position: absolute;
+      inset: 0;
+      border-radius: inherit;
+      z-index: 12;
+      pointer-events: none;
+      overflow: hidden;
+    }
+
+    .card-shimmer::before {
+      content: '';
+      position: absolute;
+      top: -100%; left: -70%;
+      width: 45%; height: 300%;
+      background: linear-gradient(
+        108deg,
+        transparent            38%,
+        rgba(200,240,255,0.07) 48%,
+        rgba(220,248,255,0.14) 50%,
+        rgba(200,240,255,0.07) 52%,
+        transparent            62%
+      );
+      transform: skewX(-8deg);
+      animation: icy-sweep 6s ease-in-out 1.4s infinite;
+    }
+
+    .card-shimmer::after {
+      content: '';
+      position: absolute;
+      top: -100%; left: -70%;
+      width: 22%; height: 300%;
+      background: linear-gradient(
+        108deg,
+        transparent            40%,
+        rgba(180,230,255,0.05) 49%,
+        rgba(210,245,255,0.09) 50%,
+        rgba(180,230,255,0.05) 51%,
+        transparent            60%
+      );
+      transform: skewX(-8deg);
+      animation: icy-sweep 6s ease-in-out 1.7s infinite;
+    }
+
+    @keyframes icy-sweep {
+      0%   { left: -70%; opacity: 0;   }
+      8%   {              opacity: 1;  }
+      48%  { left: 130%; opacity: 1;   }
+      49%  {              opacity: 0;  }
+      100% { left: 130%; opacity: 0;   }
+    }
+
+    .card-wrap:hover .card-shimmer::before,
+    .card-wrap:hover .card-shimmer::after {
+      animation-play-state: paused;
+    }
+
+    /* ── 내부 얼음 결정 장식 (SVG) ── */
+    .card-crystal-bg {
+      position: absolute;
+      inset: 0;
+      border-radius: inherit;
+      z-index: 6;
+      pointer-events: none;
+      overflow: hidden;
+      opacity: 0.35;
+    }
+
+    /* ── 카드 컨텐츠 ── */
+    .card-content {
+      position: relative;
+      z-index: 15;
+      width: 100%;
+      height: 100%;
+      display: grid;
+      grid-template-columns: 1fr auto;
+      grid-template-rows: 1fr auto;
+      padding: 24px 26px;
+    }
+
+    /* 좌상단 — 이름 */
+    .card-name {
+      grid-column: 1;
+      grid-row: 1;
+      align-self: start;
+    }
+
+    .name-main {
+      font-size: 54px;
+      font-weight: 100;
+      letter-spacing: 0.24em;
+      color: rgba(230, 248, 255, 0.95);
+      line-height: 1;
+      text-transform: lowercase;
+      text-shadow:
+        0  1px 0   rgba(255,255,255,0.5),
+        0 -1px 0   rgba(0,20,50,0.25),
+        0  0  20px rgba(140,220,255,0.30),
+        0  0  40px rgba(100,200,255,0.15);
+      filter: drop-shadow(0 0 22px rgba(120,210,255,0.22));
+    }
+
+    .name-dot {
+      color: rgba(140, 220, 255, 0.90);
+      font-weight: 200;
+    }
+
+    .name-sub {
+      margin-top: 5px;
+      font-size: 9.5px;
+      font-weight: 400;
+      letter-spacing: 0.30em;
+      text-transform: uppercase;
+      color: rgba(180, 230, 255, 0.38);
+    }
+
+    /* 우상단 — 다이아몬드 배지 */
+    .card-badge {
+      grid-column: 2;
+      grid-row: 1;
+      align-self: start;
+      justify-self: end;
+    }
+
+    .badge-ring {
+      width: 44px;
+      height: 44px;
+      border-radius: 50%;
+      border: 1px solid rgba(180, 230, 255, 0.25);
+      background:
+        radial-gradient(circle at 38% 32%,
+          rgba(220,248,255,0.18) 0%,
+          rgba(140,210,255,0.06) 60%,
+          rgba(80,160,220,0.04) 100%
+        );
+      backdrop-filter: blur(8px);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      box-shadow:
+        inset 0 1px 0 rgba(220,248,255,0.35),
+        0 4px 14px rgba(0,10,40,0.35),
+        0 0 10px rgba(100,200,255,0.12);
+    }
+
+    .badge-diamond {
+      width: 18px;
+      height: 18px;
+      position: relative;
+    }
+
+    /* CSS only 다이아몬드 */
+    .badge-diamond svg {
+      width: 100%;
+      height: 100%;
+      filter: drop-shadow(0 0 4px rgba(180,230,255,0.7));
+    }
+
+    /* 하단 좌측 — 의미 */
+    .card-meta {
+      grid-column: 1;
+      grid-row: 2;
+      align-self: end;
+    }
+
+    .meta-row {
+      display: flex;
+      align-items: center;
+      gap: 7px;
+      margin-bottom: 3px;
+    }
+
+    .meta-row:last-child { margin-bottom: 0; }
+
+    .meta-dot {
+      width: 3px;
+      height: 3px;
+      border-radius: 50%;
+      background: rgba(140, 220, 255, 0.55);
+      flex-shrink: 0;
+    }
+
+    .meta-text {
+      font-size: 9px;
+      font-weight: 400;
+      letter-spacing: 0.16em;
+      text-transform: uppercase;
+      color: rgba(180, 230, 255, 0.35);
+      white-space: nowrap;
+    }
+
+    .meta-text em {
+      font-style: normal;
+      color: rgba(210, 242, 255, 0.58);
+    }
+
+    /* 하단 우측 — 도메인 */
+    .card-domain {
+      grid-column: 2;
+      grid-row: 2;
+      align-self: end;
+      justify-self: end;
+      text-align: right;
+    }
+
+    .domain-url {
+      font-size: 11px;
+      font-weight: 500;
+      letter-spacing: 0.14em;
+      color: rgba(190, 235, 255, 0.50);
+      text-transform: lowercase;
+    }
+
+    .domain-tld {
+      color: rgba(140, 220, 255, 0.72);
+    }
+
+    /* ── 중앙 수직 미세선 ── */
+    .card-vline {
+      position: absolute;
+      top: 18%;
+      bottom: 18%;
+      left: 50%;
+      width: 1px;
+      z-index: 14;
+      background: linear-gradient(
+        to bottom,
+        transparent,
+        rgba(180,230,255,0.12) 30%,
+        rgba(180,230,255,0.12) 70%,
+        transparent
+      );
+      pointer-events: none;
+      opacity: 0;
+      transition: opacity 0.4s ease;
+    }
+
+    .card-wrap:hover .card-vline { opacity: 1; }
+
+    /* ── hover 오버레이 — icy 세 의미 ── */
+    .card-meanings {
+      position: absolute;
+      inset: 0;
+      z-index: 13;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      pointer-events: none;
+      opacity: 0;
+      transition: opacity 0.45s ease;
+    }
+
+    .card-wrap:hover .card-meanings { opacity: 1; }
+
+    .meanings-row {
+      display: flex;
+      gap: 18px;
+      align-items: center;
+    }
+
+    .meaning-item {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 5px;
+    }
+
+    .meaning-glyph {
+      font-size: 16px;
+      line-height: 1;
+      filter: drop-shadow(0 0 8px rgba(180,230,255,0.65));
+      opacity: 0.85;
+    }
+
+    .meaning-label {
+      font-size: 7px;
+      font-weight: 500;
+      letter-spacing: 0.20em;
+      text-transform: uppercase;
+      color: rgba(180, 228, 255, 0.42);
+      white-space: nowrap;
+    }
+
+    .meaning-sep {
+      width: 1px;
+      height: 26px;
+      background: linear-gradient(
+        to bottom,
+        transparent,
+        rgba(180,228,255,0.18),
+        transparent
+      );
+    }
+
+    /* ── 우상단 서리 장식 코너 ── */
+    .frost-corner {
+      position: absolute;
+      top: 0; right: 0;
+      width: 90px; height: 90px;
+      z-index: 7;
+      pointer-events: none;
+      overflow: hidden;
+      border-radius: 0 16px 0 0;
+      opacity: 0.45;
+    }
+
+    /* ── 좌하단 서리 코너 ── */
+    .frost-corner-bl {
+      position: absolute;
+      bottom: 0; left: 0;
+      width: 70px; height: 70px;
+      z-index: 7;
+      pointer-events: none;
+      overflow: hidden;
+      border-radius: 0 0 0 16px;
+      opacity: 0.30;
+    }
+
+    /* ── 수평 구분선 (중앙 아래쪽) ── */
+    .card-hline {
+      position: absolute;
+      left: 26px; right: 26px;
+      bottom: 54px;
+      height: 1px;
+      z-index: 14;
+      background: linear-gradient(
+        to right,
+        transparent,
+        rgba(180,230,255,0.15) 20%,
+        rgba(180,230,255,0.15) 80%,
+        transparent
+      );
+      pointer-events: none;
+    }
+  </style>
+</head>
+
+<body>
+
+  <!-- 배경 오브 -->
+  <div class="bg-orb bg-orb-1"></div>
+  <div class="bg-orb bg-orb-2"></div>
+  <div class="bg-orb bg-orb-3"></div>
+  <div class="bg-orb bg-orb-4"></div>
+
+  <div class="scene">
+    <div class="card-wrap is-idle" id="cardWrap">
+
+      <!-- 광학 레이어 -->
+      <div class="card-holo"    id="cardHolo"></div>
+      <div class="card-spot"    id="cardSpot"></div>
+      <div class="card-shimmer"></div>
+      <div class="card-frost"></div>
+      <div class="card-edge"></div>
+
+      <!-- 카드 본체 -->
+      <div class="card" id="cardFace">
+
+        <!-- 서리 코너 장식 (SVG) -->
+        <div class="frost-corner">
+          <svg viewBox="0 0 90 90" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <!-- 오른쪽 위 결정 -->
+            <line x1="90" y1="0"  x2="45" y2="45" stroke="rgba(200,240,255,0.5)" stroke-width="0.5"/>
+            <line x1="90" y1="20" x2="55" y2="45" stroke="rgba(200,240,255,0.4)" stroke-width="0.4"/>
+            <line x1="90" y1="40" x2="65" y2="55" stroke="rgba(200,240,255,0.3)" stroke-width="0.4"/>
+            <line x1="70" y1="0"  x2="45" y2="35" stroke="rgba(200,240,255,0.35)" stroke-width="0.4"/>
+            <line x1="50" y1="0"  x2="40" y2="20" stroke="rgba(200,240,255,0.3)" stroke-width="0.3"/>
+
+            <!-- 결정 교차 -->
+            <line x1="75" y1="5"  x2="65" y2="15" stroke="rgba(200,240,255,0.45)" stroke-width="0.5"/>
+            <line x1="72" y1="12" x2="62" y2="8"  stroke="rgba(200,240,255,0.40)" stroke-width="0.4"/>
+            <line x1="85" y1="18" x2="72" y2="24" stroke="rgba(200,240,255,0.35)" stroke-width="0.4"/>
+            <line x1="80" y1="28" x2="68" y2="22" stroke="rgba(200,240,255,0.30)" stroke-width="0.3"/>
+
+            <!-- 코너 글로우 닷 -->
+            <circle cx="82" cy="8"  r="1.2" fill="rgba(200,240,255,0.6)"/>
+            <circle cx="70" cy="4"  r="0.8" fill="rgba(200,240,255,0.5)"/>
+            <circle cx="88" cy="22" r="0.7" fill="rgba(200,240,255,0.4)"/>
+          </svg>
+        </div>
+
+        <div class="frost-corner-bl">
+          <svg viewBox="0 0 70 70" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <line x1="0"  y1="70" x2="35" y2="35" stroke="rgba(200,240,255,0.4)" stroke-width="0.5"/>
+            <line x1="0"  y1="50" x2="25" y2="38" stroke="rgba(200,240,255,0.3)" stroke-width="0.4"/>
+            <line x1="20" y1="70" x2="35" y2="50" stroke="rgba(200,240,255,0.3)" stroke-width="0.3"/>
+            <circle cx="6"  cy="64" r="1.0" fill="rgba(200,240,255,0.5)"/>
+            <circle cx="14" cy="68" r="0.7" fill="rgba(200,240,255,0.4)"/>
+          </svg>
+        </div>
+
+        <!-- 크리스탈 배경 SVG — 내부 빙하 결정 -->
+        <div class="card-crystal-bg">
+          <svg width="380" height="240" viewBox="0 0 380 240" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <!-- 큰 눈결정 — 중앙 우측 -->
+            <g transform="translate(300, 120)" opacity="0.6">
+              <line x1="-22" y1="0"   x2="22" y2="0"   stroke="rgba(180,230,255,0.4)" stroke-width="0.6"/>
+              <line x1="0"   y1="-22" x2="0"  y2="22"  stroke="rgba(180,230,255,0.4)" stroke-width="0.6"/>
+              <line x1="-16" y1="-16" x2="16" y2="16"  stroke="rgba(180,230,255,0.3)" stroke-width="0.5"/>
+              <line x1="16"  y1="-16" x2="-16" y2="16" stroke="rgba(180,230,255,0.3)" stroke-width="0.5"/>
+              <!-- 가지 -->
+              <line x1="-22" y1="0" x2="-16" y2="-6"  stroke="rgba(180,230,255,0.3)" stroke-width="0.4"/>
+              <line x1="-22" y1="0" x2="-16" y2="6"   stroke="rgba(180,230,255,0.3)" stroke-width="0.4"/>
+              <line x1="22"  y1="0" x2="16"  y2="-6"  stroke="rgba(180,230,255,0.3)" stroke-width="0.4"/>
+              <line x1="22"  y1="0" x2="16"  y2="6"   stroke="rgba(180,230,255,0.3)" stroke-width="0.4"/>
+              <line x1="0" y1="-22" x2="-6"  y2="-16" stroke="rgba(180,230,255,0.3)" stroke-width="0.4"/>
+              <line x1="0" y1="-22" x2="6"   y2="-16" stroke="rgba(180,230,255,0.3)" stroke-width="0.4"/>
+              <line x1="0" y1="22"  x2="-6"  y2="16"  stroke="rgba(180,230,255,0.3)" stroke-width="0.4"/>
+              <line x1="0" y1="22"  x2="6"   y2="16"  stroke="rgba(180,230,255,0.3)" stroke-width="0.4"/>
+              <circle cx="0" cy="0" r="2.5" fill="rgba(200,240,255,0.5)"/>
+            </g>
+
+            <!-- 작은 눈결정 — 좌측 중앙 -->
+            <g transform="translate(60, 80)" opacity="0.45">
+              <line x1="-12" y1="0"   x2="12" y2="0"   stroke="rgba(180,230,255,0.5)" stroke-width="0.5"/>
+              <line x1="0"   y1="-12" x2="0"  y2="12"  stroke="rgba(180,230,255,0.5)" stroke-width="0.5"/>
+              <line x1="-8"  y1="-8"  x2="8"  y2="8"   stroke="rgba(180,230,255,0.35)" stroke-width="0.4"/>
+              <line x1="8"   y1="-8"  x2="-8" y2="8"   stroke="rgba(180,230,255,0.35)" stroke-width="0.4"/>
+              <circle cx="0" cy="0" r="1.5" fill="rgba(200,240,255,0.55)"/>
+            </g>
+
+            <!-- 아주 작은 결정 흩뿌림 -->
+            <g opacity="0.35">
+              <!-- 결정 1 -->
+              <g transform="translate(180, 40)">
+                <line x1="-8" y1="0" x2="8" y2="0" stroke="rgba(180,230,255,0.5)" stroke-width="0.4"/>
+                <line x1="0" y1="-8" x2="0" y2="8" stroke="rgba(180,230,255,0.5)" stroke-width="0.4"/>
+                <line x1="-5" y1="-5" x2="5" y2="5" stroke="rgba(180,230,255,0.35)" stroke-width="0.3"/>
+                <line x1="5" y1="-5" x2="-5" y2="5" stroke="rgba(180,230,255,0.35)" stroke-width="0.3"/>
+                <circle cx="0" cy="0" r="1" fill="rgba(200,240,255,0.6)"/>
+              </g>
+              <!-- 결정 2 -->
+              <g transform="translate(340, 55)">
+                <line x1="-6" y1="0" x2="6" y2="0" stroke="rgba(180,230,255,0.45)" stroke-width="0.4"/>
+                <line x1="0" y1="-6" x2="0" y2="6" stroke="rgba(180,230,255,0.45)" stroke-width="0.4"/>
+                <line x1="-4" y1="-4" x2="4" y2="4" stroke="rgba(180,230,255,0.3)" stroke-width="0.3"/>
+                <line x1="4" y1="-4" x2="-4" y2="4" stroke="rgba(180,230,255,0.3)" stroke-width="0.3"/>
+                <circle cx="0" cy="0" r="0.8" fill="rgba(200,240,255,0.55)"/>
+              </g>
+              <!-- 결정 3 -->
+              <g transform="translate(130, 200)">
+                <line x1="-7" y1="0" x2="7" y2="0" stroke="rgba(180,230,255,0.4)" stroke-width="0.4"/>
+                <line x1="0" y1="-7" x2="0" y2="7" stroke="rgba(180,230,255,0.4)" stroke-width="0.4"/>
+                <line x1="-5" y1="-5" x2="5" y2="5" stroke="rgba(180,230,255,0.28)" stroke-width="0.3"/>
+                <line x1="5" y1="-5" x2="-5" y2="5" stroke="rgba(180,230,255,0.28)" stroke-width="0.3"/>
+                <circle cx="0" cy="0" r="1" fill="rgba(200,240,255,0.5)"/>
+              </g>
+              <!-- 결정 4 -->
+              <g transform="translate(355, 190)">
+                <line x1="-5" y1="0" x2="5" y2="0" stroke="rgba(180,230,255,0.4)" stroke-width="0.35"/>
+                <line x1="0" y1="-5" x2="0" y2="5" stroke="rgba(180,230,255,0.4)" stroke-width="0.35"/>
+                <circle cx="0" cy="0" r="0.7" fill="rgba(200,240,255,0.5)"/>
+              </g>
+            </g>
+
+            <!-- 빙하 균열선 (미세) -->
+            <path d="M0 80 Q60 85 90 75 Q140 60 160 90 Q180 110 240 100" stroke="rgba(160,220,255,0.10)" stroke-width="0.5" fill="none"/>
+            <path d="M200 0 Q210 40 230 60 Q250 80 260 130 Q270 160 300 180" stroke="rgba(160,220,255,0.08)" stroke-width="0.4" fill="none"/>
+          </svg>
+        </div>
+
+        <!-- hover 의미 오버레이 -->
+        <div class="card-meanings">
+          <div class="meanings-row">
+            <div class="meaning-item">
+              <span class="meaning-glyph">❄️</span>
+              <span class="meaning-label">Frozen</span>
+            </div>
+            <div class="meaning-sep"></div>
+            <div class="meaning-item">
+              <span class="meaning-glyph">💎</span>
+              <span class="meaning-label">Diamond</span>
+            </div>
+            <div class="meaning-sep"></div>
+            <div class="meaning-item">
+              <span class="meaning-glyph">🧊</span>
+              <span class="meaning-label">Steely</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- 수직 미세선 -->
+        <div class="card-vline"></div>
+
+        <!-- 수평 구분선 -->
+        <div class="card-hline"></div>
+
+        <!-- 카드 컨텐츠 -->
+        <div class="card-content">
+
+          <!-- 좌상단: 이름 -->
+          <div class="card-name">
+            <div class="name-main">
+              icy<span class="name-dot">.</span>kr
+            </div>
+            <div class="name-sub">clear · cold · crystalline</div>
+          </div>
+
+          <!-- 우상단: 다이아몬드 배지 -->
+          <div class="card-badge">
+            <div class="badge-ring">
+              <div class="badge-diamond">
+                <!-- CSS 다이아몬드 SVG -->
+                <svg viewBox="0 0 18 18" fill="none" xmlns="http://www.w3.org/2000/svg">
+                  <!-- 다이아 상단 삼각 -->
+                  <polygon points="9,1 15,7 9,17 3,7"
+                    fill="rgba(200,240,255,0.15)"
+                    stroke="rgba(200,240,255,0.70)"
+                    stroke-width="0.7"
+                    stroke-linejoin="round"/>
+                  <!-- 상단 패싯 라인 -->
+                  <line x1="3"  y1="7" x2="9"  y2="1" stroke="rgba(220,248,255,0.50)" stroke-width="0.5"/>
+                  <line x1="15" y1="7" x2="9"  y2="1" stroke="rgba(220,248,255,0.40)" stroke-width="0.5"/>
+                  <line x1="3"  y1="7" x2="9"  y2="7" stroke="rgba(220,248,255,0.35)" stroke-width="0.5"/>
+                  <line x1="15" y1="7" x2="9"  y2="7" stroke="rgba(220,248,255,0.35)" stroke-width="0.5"/>
+                  <line x1="9"  y1="1" x2="9"  y2="7" stroke="rgba(220,248,255,0.45)" stroke-width="0.5"/>
+                  <!-- 하단 파빌리온 -->
+                  <line x1="3"  y1="7" x2="9"  y2="17" stroke="rgba(180,230,255,0.35)" stroke-width="0.5"/>
+                  <line x1="15" y1="7" x2="9"  y2="17" stroke="rgba(180,230,255,0.30)" stroke-width="0.5"/>
+                  <line x1="9"  y1="7" x2="9"  y2="17" stroke="rgba(200,240,255,0.40)" stroke-width="0.5"/>
+                  <!-- 중앙 글로우 닷 -->
+                  <circle cx="9" cy="6.5" r="1" fill="rgba(230,248,255,0.8)"/>
+                </svg>
+              </div>
+            </div>
+          </div>
+
+          <!-- 좌하단: 의미 -->
+          <div class="card-meta">
+            <div class="meta-row">
+              <div class="meta-dot"></div>
+              <span class="meta-text"><em>Ice</em> — Clarity &amp; Stillness</span>
+            </div>
+            <div class="meta-row">
+              <div class="meta-dot"></div>
+              <span class="meta-text"><em>Icy</em> — Steely &amp; Composed</span>
+            </div>
+            <div class="meta-row">
+              <div class="meta-dot"></div>
+              <span class="meta-text"><em>Ice</em> — Diamond · Iced Out</span>
+            </div>
+          </div>
+
+          <!-- 우하단: 도메인 -->
+          <div class="card-domain">
+            <div class="domain-url">
+              icy<span class="domain-tld">.kr</span>
+            </div>
+          </div>
+
+        </div>
+        <!-- /card-content -->
+
+      </div>
+      <!-- /card -->
+
+    </div>
+  </div>
+
+  <script>
+    const wrap = document.getElementById('cardWrap');
+    const holo = document.getElementById('cardHolo');
+    const spot = document.getElementById('cardSpot');
+
+    let tX = 0, tY = 0, cX = 0, cY = 0;
+    let hovering = false;
+
+    const lerp = (a, b, t) => a + (b - a) * t;
+
+    (function loop() {
+      cX = lerp(cX, tX, 0.10);
+      cY = lerp(cY, tY, 0.10);
+
+      wrap.style.transform = hovering
+        ? `rotateX(${cX}deg) rotateY(${cY}deg) scale(1.038)`
+        : `rotateX(${cX}deg) rotateY(${cY}deg)`;
+
+      requestAnimationFrame(loop);
+    })();
+
+    wrap.addEventListener('mouseenter', () => {
+      hovering = true;
+      wrap.classList.remove('is-idle');
+      wrap.style.animation = 'none';
+      wrap.style.boxShadow = `
+        0 40px 80px rgba(0,10,30,0.75),
+        0  0  60px rgba(80,180,255,0.14),
+        0  0 100px rgba(120,210,255,0.08)
+      `;
+    });
+
+    wrap.addEventListener('mouseleave', () => {
+      hovering = false;
+      tX = 0; tY = 0;
+      wrap.style.boxShadow = '';
+      holo.style.removeProperty('--mx');
+      holo.style.removeProperty('--my');
+      holo.style.removeProperty('--r');
+      spot.style.removeProperty('--mx');
+      spot.style.removeProperty('--my');
+    });
+
+    wrap.addEventListener('mousemove', (e) => {
+      const r  = wrap.getBoundingClientRect();
+      const nx = (e.clientX - r.left  - r.width  / 2) / (r.width  / 2);
+      const ny = (e.clientY - r.top   - r.height / 2) / (r.height / 2);
+
+      tY =  nx * 16;
+      tX = -ny * 12;
+
+      const px    = ((e.clientX - r.left) / r.width  * 100).toFixed(1) + '%';
+      const py    = ((e.clientY - r.top)  / r.height * 100).toFixed(1) + '%';
+      const angle = (Math.atan2(ny, nx) * 180 / Math.PI + 90).toFixed(1) + 'deg';
+
+      holo.style.setProperty('--mx', px);
+      holo.style.setProperty('--my', py);
+      holo.style.setProperty('--r',  angle);
+      spot.style.setProperty('--mx', px);
+      spot.style.setProperty('--my', py);
+    });
+  </script>
+
+</body>
+</html>
