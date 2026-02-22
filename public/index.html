@@ -1,1 +1,1021 @@
+<!DOCTYPE html>
+<html lang="ko">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>ICY — icy.kr</title>
+    <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Josefin+Sans:wght@100;200;300;400&family=Cormorant+Garamond:ital,wght@0,300;0,400;1,300;1,400&display=swap"
+      rel="stylesheet"
+    />
 
+    <style type="text/tailwindcss">
+      @theme {
+        /* ── ICY colour system ── */
+        --color-ice-50:  #f0f8ff;
+        --color-ice-100: #e0f1fe;
+        --color-ice-200: #bae3fd;
+        --color-ice-300: #7dcefb;
+        --color-ice-400: #38b2f6;
+        --color-ice-500: #0e95e1;
+        --color-ice-600: #0276be;
+        --color-ice-700: #035e9a;
+        --color-ice-800: #074f7e;
+        --color-ice-900: #0c4169;
+        --color-ice-950: #082847;
+
+        /* Glacier deep tones */
+        --color-glacier-950: #030c14;
+        --color-glacier-900: #060f1c;
+        --color-glacier-800: #0a1828;
+        --color-glacier-700: #0f2236;
+
+        /* Frost highlight */
+        --color-frost-100: #eef9ff;
+        --color-frost-200: #c8effc;
+        --color-frost-300: #a0e1f8;
+        --color-frost-400: #5cc6f0;
+
+        /* Crystal accent */
+        --color-crystal-400: #a8d8ea;
+        --color-crystal-500: #82c5de;
+        --color-crystal-600: #5aaec8;
+
+        --font-display: "Josefin Sans", "Helvetica Neue", sans-serif;
+        --font-serif:   "Cormorant Garamond", Georgia, serif;
+        --font-sans:    "Inter", system-ui, sans-serif;
+      }
+
+      @layer base {
+        *, *::before, *::after { box-sizing: border-box; }
+
+        html {
+          scroll-behavior: smooth;
+          background-color: var(--color-glacier-950);
+          color: var(--color-ice-200);
+        }
+
+        body {
+          font-family: var(--font-sans);
+          font-weight: 300;
+          letter-spacing: 0.01em;
+          overflow-x: hidden;
+        }
+
+        ::selection {
+          background-color: var(--color-ice-500);
+          color: #fff;
+        }
+
+        ::-webkit-scrollbar { width: 4px; }
+        ::-webkit-scrollbar-track { background: var(--color-glacier-950); }
+        ::-webkit-scrollbar-thumb {
+          background: var(--color-glacier-700);
+          border-radius: 2px;
+        }
+      }
+
+      /* ─────────────────────────────────────────
+         CANVAS & OVERLAYS
+      ───────────────────────────────────────── */
+      #crystal-canvas {
+        position: fixed;
+        inset: 0;
+        pointer-events: none;
+        z-index: 0;
+      }
+
+      /* Aurora borealis radial glow */
+      .aurora-layer {
+        position: fixed;
+        inset: 0;
+        pointer-events: none;
+        z-index: 1;
+        background:
+          radial-gradient(ellipse 70% 40% at 20% 30%,
+            rgba(14,149,225, 0.07) 0%, transparent 60%),
+          radial-gradient(ellipse 50% 60% at 80% 70%,
+            rgba(56,178,246, 0.05) 0%, transparent 55%),
+          radial-gradient(ellipse 90% 30% at 50% 100%,
+            rgba(7,94,154, 0.12) 0%, transparent 50%);
+        animation: aurora-shift 12s ease-in-out infinite alternate;
+      }
+
+      @keyframes aurora-shift {
+        0%   { opacity: 0.6; transform: translateX(0)  translateY(0);  }
+        33%  { opacity: 1;   transform: translateX(12px) translateY(-8px); }
+        66%  { opacity: 0.7; transform: translateX(-8px) translateY(6px); }
+        100% { opacity: 0.9; transform: translateX(4px)  translateY(-4px); }
+      }
+
+      /* Subtle scanline texture */
+      .scanline-overlay {
+        position: fixed;
+        inset: 0;
+        pointer-events: none;
+        z-index: 2;
+        background: repeating-linear-gradient(
+          0deg,
+          transparent,
+          transparent 2px,
+          rgba(0,0,0,0.03) 2px,
+          rgba(0,0,0,0.03) 4px
+        );
+      }
+
+      /* ─────────────────────────────────────────
+         SITE WRAPPER
+      ───────────────────────────────────────── */
+      .site-wrapper {
+        position: relative;
+        z-index: 3;
+        min-height: 100dvh;
+        display: grid;
+        grid-template-rows: auto 1fr auto;
+      }
+
+      /* ─────────────────────────────────────────
+         LOGO
+      ───────────────────────────────────────── */
+      .logo-icy {
+        font-family: var(--font-display);
+        font-weight: 100;
+        letter-spacing: 0.55em;
+        text-transform: uppercase;
+        font-size: clamp(3.8rem, 10vw, 8rem);
+        line-height: 1;
+        color: transparent;
+        background: linear-gradient(
+          160deg,
+          #ffffff          0%,
+          var(--color-frost-300) 30%,
+          var(--color-ice-400)  60%,
+          var(--color-ice-600)  100%
+        );
+        -webkit-background-clip: text;
+        background-clip: text;
+        filter: drop-shadow(0 0 28px rgba(56,178,246,0.25));
+        transition: filter 0.6s ease, background 0.6s ease;
+      }
+
+      .logo-icy:hover {
+        filter: drop-shadow(0 0 45px rgba(56,178,246,0.55));
+        background: linear-gradient(
+          160deg,
+          #ffffff          0%,
+          var(--color-ice-200) 25%,
+          var(--color-crystal-400) 55%,
+          #ffffff          100%
+        );
+        -webkit-background-clip: text;
+        background-clip: text;
+      }
+
+      /* ─────────────────────────────────────────
+         NAV
+      ───────────────────────────────────────── */
+      .nav-link {
+        font-family: var(--font-display);
+        font-weight: 200;
+        font-size: 0.68rem;
+        letter-spacing: 0.3em;
+        text-transform: uppercase;
+        color: rgba(186,227,253,0.45);
+        position: relative;
+        transition: color 0.35s ease;
+      }
+
+      .nav-link::after {
+        content: "";
+        position: absolute;
+        bottom: -3px;
+        left: 0;
+        width: 0;
+        height: 1px;
+        background: linear-gradient(90deg,
+          var(--color-ice-400), var(--color-frost-300));
+        transition: width 0.45s cubic-bezier(0.4,0,0.2,1);
+      }
+
+      .nav-link:hover {
+        color: var(--color-ice-200);
+      }
+      .nav-link:hover::after { width: 100%; }
+
+      /* ─────────────────────────────────────────
+         HEADER GLASS
+      ───────────────────────────────────────── */
+      .glass-header {
+        background: rgba(3,12,20, 0.55);
+        backdrop-filter: blur(18px) saturate(1.4);
+        border-bottom: 1px solid rgba(186,227,253,0.07);
+      }
+
+      /* ─────────────────────────────────────────
+         HERO
+      ───────────────────────────────────────── */
+      .hero-section {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        text-align: center;
+        position: relative;
+        padding: clamp(5rem,14vw,11rem) 1.5rem clamp(4rem,10vw,9rem);
+        min-height: 88dvh;
+      }
+
+      /* Large background ICY letters */
+      .hero-bg-text {
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -54%);
+        font-family: var(--font-display);
+        font-weight: 100;
+        font-size: clamp(18vw, 28vw, 36vw);
+        letter-spacing: 0.2em;
+        color: transparent;
+        -webkit-text-stroke: 1px rgba(56,178,246,0.06);
+        user-select: none;
+        pointer-events: none;
+        white-space: nowrap;
+        line-height: 1;
+      }
+
+      /* Central ice glow */
+      .ice-glow {
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        width: min(700px, 110vw);
+        height: min(700px, 110vw);
+        background: radial-gradient(
+          ellipse at center,
+          rgba(56,178,246, 0.06)  0%,
+          rgba(14,149,225, 0.04)  35%,
+          rgba(7,94,154,   0.02)  60%,
+          transparent             80%
+        );
+        border-radius: 50%;
+        pointer-events: none;
+        animation: ice-breathe 7s ease-in-out infinite;
+      }
+
+      @keyframes ice-breathe {
+        0%, 100% { transform: translate(-50%,-50%) scale(1);    opacity: 0.7; }
+        50%       { transform: translate(-50%,-50%) scale(1.08); opacity: 1;   }
+      }
+
+      /* ─────────────────────────────────────────
+         TAGLINE
+      ───────────────────────────────────────── */
+      .tagline {
+        font-family: var(--font-serif);
+        font-style: italic;
+        font-weight: 300;
+        font-size: clamp(1rem, 2.4vw, 1.35rem);
+        color: rgba(168,216,234,0.6);
+        letter-spacing: 0.04em;
+        line-height: 1.6;
+      }
+
+      /* ─────────────────────────────────────────
+         SECTION LABEL
+      ───────────────────────────────────────── */
+      .section-label {
+        font-family: var(--font-display);
+        font-size: 0.62rem;
+        letter-spacing: 0.38em;
+        text-transform: uppercase;
+        color: var(--color-ice-500);
+        font-weight: 200;
+      }
+
+      /* ─────────────────────────────────────────
+         ICE DIVIDER
+      ───────────────────────────────────────── */
+      .ice-line-h {
+        border: none;
+        height: 1px;
+        background: linear-gradient(
+          90deg,
+          transparent 0%,
+          rgba(56,178,246,0.15) 20%,
+          rgba(186,227,253,0.25) 50%,
+          rgba(56,178,246,0.15) 80%,
+          transparent 100%
+        );
+        margin: 0;
+      }
+
+      .ice-line-v {
+        width: 1px;
+        background: linear-gradient(
+          to bottom,
+          transparent,
+          rgba(186,227,253,0.3) 30%,
+          rgba(56,178,246,0.5) 60%,
+          transparent
+        );
+        animation: cryo-pulse 4s ease-in-out infinite alternate;
+      }
+
+      @keyframes cryo-pulse {
+        from { opacity: 0.4; transform: scaleY(0.9);  }
+        to   { opacity: 1;   transform: scaleY(1.1);  }
+      }
+
+      /* ─────────────────────────────────────────
+         FEATURE CARDS
+      ───────────────────────────────────────── */
+      .feature-card {
+        background: linear-gradient(
+          145deg,
+          rgba(10,24,40, 0.8)  0%,
+          rgba(6,15,28,  0.6)  100%
+        );
+        border: 1px solid rgba(186,227,253,0.08);
+        backdrop-filter: blur(16px);
+        transition:
+          border-color 0.45s ease,
+          transform    0.45s cubic-bezier(0.22,1,0.36,1),
+          box-shadow   0.45s ease;
+        cursor: default;
+        position: relative;
+        overflow: hidden;
+      }
+
+      /* top-edge frost shimmer */
+      .feature-card::before {
+        content: "";
+        position: absolute;
+        top: 0; left: 0; right: 0;
+        height: 1px;
+        background: linear-gradient(
+          90deg,
+          transparent,
+          rgba(186,227,253,0.25) 40%,
+          rgba(56,178,246,0.4)  60%,
+          transparent
+        );
+        opacity: 0;
+        transition: opacity 0.45s ease;
+      }
+
+      .feature-card:hover {
+        border-color: rgba(56,178,246,0.25);
+        transform: translateY(-5px);
+        box-shadow:
+          0 28px 60px rgba(0,0,0,0.55),
+          0 0 50px rgba(14,149,225,0.07),
+          inset 0 0 30px rgba(56,178,246,0.025);
+      }
+
+      .feature-card:hover::before { opacity: 1; }
+
+      .feature-icon {
+        font-size: 1.6rem;
+        line-height: 1;
+        transition: transform 0.35s cubic-bezier(0.34,1.56,0.64,1), filter 0.35s ease;
+        filter: saturate(0.6) brightness(0.85);
+      }
+      .feature-card:hover .feature-icon {
+        transform: scale(1.18) translateY(-2px);
+        filter: saturate(1) brightness(1.1);
+      }
+
+      .feature-title {
+        font-family: var(--font-display);
+        font-size: 0.95rem;
+        font-weight: 200;
+        letter-spacing: 0.2em;
+        text-transform: uppercase;
+        color: var(--color-ice-200);
+      }
+
+      .feature-body {
+        font-size: 0.82rem;
+        line-height: 1.85;
+        color: rgba(125,206,251,0.45);
+        font-weight: 300;
+      }
+
+      /* ─────────────────────────────────────────
+         CTA BUTTON
+      ───────────────────────────────────────── */
+      .cta-btn {
+        display: inline-flex;
+        align-items: center;
+        gap: 0.65rem;
+        padding: 0.8rem 2.2rem;
+        font-family: var(--font-display);
+        font-size: 0.68rem;
+        letter-spacing: 0.3em;
+        text-transform: uppercase;
+        font-weight: 200;
+        color: var(--color-ice-200);
+        border: 1px solid rgba(186,227,253,0.15);
+        background: rgba(14,149,225,0.04);
+        cursor: pointer;
+        text-decoration: none;
+        position: relative;
+        overflow: hidden;
+        transition: all 0.45s cubic-bezier(0.4,0,0.2,1);
+      }
+
+      .cta-btn::before {
+        content: "";
+        position: absolute;
+        inset: 0;
+        background: linear-gradient(
+          135deg,
+          rgba(56,178,246,0.12),
+          rgba(186,227,253,0.06)
+        );
+        opacity: 0;
+        transition: opacity 0.45s ease;
+      }
+
+      .cta-btn:hover {
+        border-color: rgba(56,178,246,0.45);
+        color: #fff;
+        box-shadow:
+          0 0 30px rgba(56,178,246,0.15),
+          inset 0 0 20px rgba(56,178,246,0.05);
+      }
+      .cta-btn:hover::before { opacity: 1; }
+
+      /* ─────────────────────────────────────────
+         QUOTE
+      ───────────────────────────────────────── */
+      .icy-quote {
+        font-family: var(--font-serif);
+        font-style: italic;
+        font-size: clamp(1.1rem, 2.6vw, 1.55rem);
+        line-height: 1.8;
+        color: rgba(168,216,234,0.55);
+        position: relative;
+        padding: 0 2.5rem;
+      }
+      .icy-quote::before,
+      .icy-quote::after {
+        position: absolute;
+        font-family: var(--font-serif);
+        font-size: 3.5rem;
+        line-height: 0;
+        opacity: 0.15;
+        color: var(--color-ice-400);
+      }
+      .icy-quote::before { content: '"'; top: 0.4em; left: 0; }
+      .icy-quote::after  { content: '"'; bottom: -0.2em; right: 0; }
+
+      /* ─────────────────────────────────────────
+         STATS ROW
+      ───────────────────────────────────────── */
+      .stat-item {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 0.4rem;
+      }
+
+      .stat-num {
+        font-family: var(--font-display);
+        font-weight: 100;
+        font-size: clamp(2rem,5vw,3.2rem);
+        letter-spacing: 0.1em;
+        color: transparent;
+        background: linear-gradient(160deg,
+          #fff 0%, var(--color-ice-300) 60%);
+        -webkit-background-clip: text;
+        background-clip: text;
+        line-height: 1;
+      }
+
+      .stat-label {
+        font-family: var(--font-display);
+        font-size: 0.6rem;
+        letter-spacing: 0.3em;
+        text-transform: uppercase;
+        color: rgba(125,206,251,0.4);
+        font-weight: 200;
+      }
+
+      /* ─────────────────────────────────────────
+         ORIGIN SECTION
+      ───────────────────────────────────────── */
+      .origin-text {
+        font-family: var(--font-serif);
+        font-size: clamp(1rem,2.4vw,1.4rem);
+        font-weight: 300;
+        line-height: 2;
+        color: rgba(168,216,234,0.55);
+      }
+
+      .origin-highlight {
+        color: var(--color-ice-300);
+        font-weight: 400;
+      }
+
+      /* ─────────────────────────────────────────
+         FOOTER
+      ───────────────────────────────────────── */
+      .site-footer {
+        border-top: 1px solid rgba(186,227,253,0.05);
+        padding: 2rem 2.5rem;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        flex-wrap: wrap;
+        gap: 1rem;
+        background: rgba(3,12,20,0.6);
+        backdrop-filter: blur(12px);
+      }
+
+      .footer-copy {
+        font-family: var(--font-display);
+        font-size: 0.62rem;
+        letter-spacing: 0.22em;
+        text-transform: uppercase;
+        color: rgba(125,206,251,0.2);
+        font-weight: 200;
+      }
+
+      /* ─────────────────────────────────────────
+         FADE-UP ANIMATIONS
+      ───────────────────────────────────────── */
+      .fade-up {
+        opacity: 0;
+        transform: translateY(20px);
+        animation: fade-up-in 1s cubic-bezier(0.22,1,0.36,1) forwards;
+      }
+      @keyframes fade-up-in {
+        to { opacity: 1; transform: translateY(0); }
+      }
+      .delay-1 { animation-delay: 0.1s;  }
+      .delay-2 { animation-delay: 0.25s; }
+      .delay-3 { animation-delay: 0.4s;  }
+      .delay-4 { animation-delay: 0.55s; }
+      .delay-5 { animation-delay: 0.7s;  }
+      .delay-6 { animation-delay: 0.85s; }
+      .delay-7 { animation-delay: 1.0s;  }
+
+      /* ─────────────────────────────────────────
+         SCROLL INDICATOR
+      ───────────────────────────────────────── */
+      .scroll-indicator {
+        position: absolute;
+        bottom: 2.5rem;
+        left: 50%;
+        transform: translateX(-50%);
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 0.4rem;
+        animation: scroll-bob 2.8s ease-in-out infinite;
+      }
+      @keyframes scroll-bob {
+        0%, 100% { opacity: 0.2; transform: translateX(-50%) translateY(0);   }
+        50%       { opacity: 0.5; transform: translateX(-50%) translateY(7px); }
+      }
+
+      /* ─────────────────────────────────────────
+         RESPONSIVE GRID
+      ───────────────────────────────────────── */
+      .cards-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(min(270px,100%), 1fr));
+        gap: 1.2rem;
+      }
+
+      /* ─────────────────────────────────────────
+         HEXAGON / CRYSTAL DECORATION
+      ───────────────────────────────────────── */
+      .hex-deco {
+        width: 1px;
+        height: 1px;
+        position: absolute;
+        pointer-events: none;
+      }
+
+      /* Snowflake / crystal fragments floating */
+      @keyframes float-crystal {
+        0%   { transform: translateY(0)   rotate(0deg)   opacity(0.3); }
+        33%  { transform: translateY(-14px) rotate(120deg); }
+        66%  { transform: translateY(-6px)  rotate(240deg); }
+        100% { transform: translateY(0)   rotate(360deg); }
+      }
+
+      /* ─────────────────────────────────────────
+         DOMAIN BADGE
+      ───────────────────────────────────────── */
+      .domain-badge {
+        font-family: var(--font-display);
+        font-weight: 100;
+        font-size: 0.65rem;
+        letter-spacing: 0.35em;
+        text-transform: uppercase;
+        color: rgba(125,206,251,0.25);
+        border: 1px solid rgba(186,227,253,0.1);
+        padding: 0.35rem 0.85rem;
+      }
+
+      /* ─────────────────────────────────────────
+         TEMPERATURE INDICATOR (decorative)
+      ───────────────────────────────────────── */
+      .temp-badge {
+        font-family: var(--font-display);
+        font-weight: 100;
+        font-size: 0.75rem;
+        letter-spacing: 0.15em;
+        color: rgba(125,206,251,0.35);
+        display: flex;
+        align-items: baseline;
+        gap: 0.15rem;
+      }
+
+      .temp-value {
+        font-size: 1.6rem;
+        font-weight: 100;
+        color: rgba(186,227,253,0.5);
+        letter-spacing: -0.02em;
+      }
+    </style>
+  </head>
+
+  <body>
+    <!-- ─── Background layers ─── -->
+    <canvas id="crystal-canvas"></canvas>
+    <div class="aurora-layer"    aria-hidden="true"></div>
+    <div class="scanline-overlay" aria-hidden="true"></div>
+
+    <div class="site-wrapper">
+
+      <!-- ══════════════════════════════════════
+           HEADER
+      ══════════════════════════════════════ -->
+      <header class="glass-header relative z-10 flex items-center
+                     justify-between px-8 py-6">
+
+        <!-- Wordmark -->
+        <a href="/" class="logo-icy select-none"
+           style="font-size:1.3rem; letter-spacing:0.45em;">ICY</a>
+
+        <!-- Nav -->
+        <nav class="hidden sm:flex items-center gap-10" aria-label="Primary">
+          <a href="#nature"   class="nav-link">Nature</a>
+          <a href="#essence"  class="nav-link">Essence</a>
+          <a href="#contact"  class="nav-link">Contact</a>
+        </nav>
+
+        <!-- Domain badge -->
+        <div class="domain-badge hidden sm:block select-none">icy.kr</div>
+      </header>
+
+      <!-- ══════════════════════════════════════
+           HERO
+      ══════════════════════════════════════ -->
+      <main>
+        <section class="hero-section">
+
+          <!-- BG ghost text -->
+          <div class="hero-bg-text" aria-hidden="true">ICY</div>
+
+          <!-- Glow core -->
+          <div class="ice-glow" aria-hidden="true"></div>
+
+          <!-- Temperature deco (top-right) -->
+          <div class="temp-badge absolute top-8 right-8
+                      hidden lg:flex" aria-hidden="true">
+            <span class="temp-value">−</span>
+            <span class="temp-value">∞</span>
+            <span style="font-size:0.7rem;margin-left:0.3rem;
+                         letter-spacing:0.2em;">°C</span>
+          </div>
+
+          <!-- Coordinates deco (bottom-left) -->
+          <div class="absolute bottom-10 left-8 hidden lg:block"
+               aria-hidden="true"
+               style="font-family:var(--font-display);font-weight:100;
+                      font-size:0.6rem;letter-spacing:0.25em;
+                      color:rgba(125,206,251,0.18);line-height:2;">
+            <div>90°00′N  000°00′W</div>
+            <div>ARCTIC POLE</div>
+          </div>
+
+          <!-- Section label -->
+          <p class="section-label fade-up mb-7">icy · 아이시</p>
+
+          <!-- Main logotype -->
+          <h1 class="logo-icy fade-up delay-1 select-none">ICY</h1>
+
+          <!-- Tagline -->
+          <p class="tagline fade-up delay-2 mt-6 max-w-lg">
+            Still. Clear. Absolute.<br />
+            <span style="font-size:0.9em; opacity:0.7;">
+              얼어붙은 순간 속에 담긴 영원.
+            </span>
+          </p>
+
+          <!-- Vertical line -->
+          <div class="ice-line-v h-16 mx-auto my-10 fade-up delay-3"
+               aria-hidden="true"></div>
+
+          <!-- Quote -->
+          <blockquote class="icy-quote fade-up delay-4 max-w-2xl">
+            얼음은 무언가를 멈추는 것이 아니다.<br />
+            그것은 완벽한 형태로 보존하는 것이다.
+          </blockquote>
+
+          <!-- CTA -->
+          <div class="mt-12 fade-up delay-5">
+            <a href="#nature" class="cta-btn">
+              <span>탐색하기</span>
+              <svg width="14" height="14" viewBox="0 0 14 14" fill="none"
+                   aria-hidden="true">
+                <path d="M7 1v12M7 13l-4-4M7 13l4-4"
+                      stroke="currentColor" stroke-width="1"
+                      stroke-linecap="round" stroke-linejoin="round"/>
+              </svg>
+            </a>
+          </div>
+
+          <!-- Scroll indicator -->
+          <div class="scroll-indicator" aria-hidden="true">
+            <span style="font-family:var(--font-display);font-weight:100;
+                         font-size:0.55rem;letter-spacing:0.3em;
+                         text-transform:uppercase;
+                         color:rgba(125,206,251,0.25);">scroll</span>
+            <svg width="1" height="30" viewBox="0 0 1 30">
+              <line x1="0.5" y1="0" x2="0.5" y2="30"
+                    stroke="rgba(125,206,251,0.2)" stroke-width="1"/>
+            </svg>
+          </div>
+        </section>
+
+        <hr class="ice-line-h" />
+
+        <!-- ══════════════════════════════════════
+             STATS ROW
+        ══════════════════════════════════════ -->
+        <section class="px-8 py-14 max-w-4xl mx-auto">
+          <div class="grid grid-cols-3 gap-4 sm:gap-8">
+            <div class="stat-item">
+              <span class="stat-num">−89°</span>
+              <span class="stat-label">Record Low</span>
+            </div>
+            <div class="stat-item">
+              <span class="stat-num">0°</span>
+              <span class="stat-label">Threshold</span>
+            </div>
+            <div class="stat-item">
+              <span class="stat-num">∞</span>
+              <span class="stat-label">Preserved</span>
+            </div>
+          </div>
+        </section>
+
+        <hr class="ice-line-h" />
+
+        <!-- ══════════════════════════════════════
+             NATURE CARDS
+        ══════════════════════════════════════ -->
+        <section id="nature" class="px-8 py-20 max-w-5xl mx-auto">
+          <div class="mb-14 text-center">
+            <p class="section-label mb-3">세 가지 얼굴</p>
+            <h2 style="font-family:var(--font-display);
+                       font-weight:100;
+                       font-size:clamp(1.6rem,4vw,2.6rem);
+                       letter-spacing:0.2em;
+                       text-transform:uppercase;
+                       color:var(--color-ice-200);">
+              ICY, 무엇을 의미하는가
+            </h2>
+          </div>
+
+          <div class="cards-grid">
+
+            <!-- Card 1 : Ice -->
+            <div class="feature-card rounded-none p-8">
+              <div class="feature-icon mb-6">🧊</div>
+              <h3 class="feature-title mb-4">얼음 (Ice)</h3>
+              <p class="feature-body">
+                물이 완전히 고요해질 때 만들어진다.
+                투명하고 단단한 결정체 — 소음도, 흔들림도 없는
+                완전한 정지의 상태. ICY는 그 절대적 순수함이다.
+              </p>
+            </div>
+
+            <!-- Card 2 : Frost -->
+            <div class="feature-card rounded-none p-8">
+              <div class="feature-icon mb-6">❄️</div>
+              <h3 class="feature-title mb-4">서리 (Frost)</h3>
+              <p class="feature-body">
+                경계면에서 피어나는 결정. 유리창 위의 서리는
+                자연이 스스로 그린 기하학이다. 규칙 없이도
+                완벽한 대칭을 만들어내는 차가운 예술.
+              </p>
+            </div>
+
+            <!-- Card 3 : Arctic -->
+            <div class="feature-card rounded-none p-8">
+              <div class="feature-icon mb-6">🌊</div>
+              <h3 class="feature-title mb-4">북극 (Arctic)</h3>
+              <p class="feature-body">
+                인간의 언어가 닿지 않는 곳. 광활한 침묵과
+                아무도 밟지 않은 흰 대지. ICY는 그 원초적
+                장엄함을 담은 이름이다.
+              </p>
+            </div>
+
+          </div>
+        </section>
+
+        <hr class="ice-line-h" />
+
+        <!-- ══════════════════════════════════════
+             ESSENCE / ORIGIN
+        ══════════════════════════════════════ -->
+        <section id="essence" class="px-8 py-20 max-w-3xl mx-auto text-center">
+          <p class="section-label mb-5">essence · origin</p>
+
+          <p class="origin-text">
+            고대 영어 <strong class="origin-highlight">īsig</strong>에서 왔다.
+            얼음으로 덮인, 차갑게 빛나는, 감정을 넘어선.<br />
+            <br />
+            차갑다는 것은 거리를 두는 게 아니다.<br />
+            그것은 <em style="color:var(--color-frost-300);">완전히 투명해지는 것</em>이다.
+          </p>
+
+          <div class="ice-line-v h-20 mx-auto mt-14" aria-hidden="true"></div>
+        </section>
+
+        <hr class="ice-line-h" />
+
+        <!-- ══════════════════════════════════════
+             CONTACT
+        ══════════════════════════════════════ -->
+        <section id="contact" class="px-8 py-20 max-w-xl mx-auto text-center">
+          <p class="section-label mb-5">contact</p>
+          <h2 style="font-family:var(--font-display);
+                     font-weight:100;
+                     font-size:clamp(1.5rem,3.5vw,2.2rem);
+                     letter-spacing:0.25em;
+                     text-transform:uppercase;
+                     color:var(--color-ice-200);">
+            연락하기
+          </h2>
+          <p class="mt-5 mb-10"
+             style="font-size:0.82rem;line-height:1.9;
+                    color:rgba(125,206,251,0.38);
+                    font-weight:300;">
+            협업, 문의, 혹은 차가운 인사 한 마디.
+          </p>
+          <a href="mailto:hello@icy.kr" class="cta-btn">
+            hello@icy.kr
+          </a>
+        </section>
+
+      </main>
+
+      <!-- ══════════════════════════════════════
+           FOOTER
+      ══════════════════════════════════════ -->
+      <footer class="site-footer">
+        <span class="footer-copy">© 2026 icy.kr — All rights reserved.</span>
+        <span class="footer-copy" style="opacity:0.5;">
+          still · clear · absolute.
+        </span>
+      </footer>
+
+    </div><!-- /site-wrapper -->
+
+    <!-- ══════════════════════════════════════
+         CRYSTAL PARTICLE SCRIPT
+    ══════════════════════════════════════ -->
+    <script>
+    (() => {
+      const canvas = document.getElementById('crystal-canvas');
+      const ctx    = canvas.getContext('2d');
+
+      let W, H;
+      const FLAKES  = [];
+      const SHARDS  = [];
+      const F_COUNT = 60;   // falling snowflakes
+      const S_COUNT = 20;   // drifting crystal shards
+
+      function resize() {
+        W = canvas.width  = window.innerWidth;
+        H = canvas.height = window.innerHeight;
+      }
+      resize();
+      window.addEventListener('resize', () => { resize(); init(); });
+
+      /* ── Snowflake ── */
+      class Snowflake {
+        constructor(fresh = false) { this.reset(fresh); }
+        reset(fresh = false) {
+          this.x    = Math.random() * W;
+          this.y    = fresh ? -10 : Math.random() * H;
+          this.r    = Math.random() * 1.4 + 0.3;
+          this.vx   = (Math.random() - 0.5) * 0.3;
+          this.vy   = Math.random() * 0.55 + 0.18;
+          this.life = 0;
+          this.maxL = Math.random() * 300 + 200;
+          // white → ice-blue
+          const cold = Math.random();
+          if (cold < 0.5)      this.col = `rgba(224,243,255,`;
+          else if (cold < 0.8) this.col = `rgba(125,206,251,`;
+          else                 this.col = `rgba(56,178,246,`;
+        }
+        step() {
+          this.x += this.vx + Math.sin(this.life * 0.03) * 0.22;
+          this.y += this.vy;
+          this.life++;
+          if (this.y > H + 10 || this.life > this.maxL) this.reset(true);
+        }
+        draw() {
+          const alpha = Math.sin((this.life / this.maxL) * Math.PI) * 0.55;
+          ctx.beginPath();
+          ctx.arc(this.x, this.y, this.r, 0, Math.PI * 2);
+          ctx.fillStyle = this.col + alpha.toFixed(2) + ')';
+          ctx.fill();
+        }
+      }
+
+      /* ── Crystal shard (hexagonal lines) ── */
+      class CrystalShard {
+        constructor() { this.reset(false); }
+        reset(fresh = false) {
+          this.x     = Math.random() * W;
+          this.y     = fresh ? -20 : Math.random() * H;
+          this.size  = Math.random() * 5 + 2;
+          this.angle = Math.random() * Math.PI * 2;
+          this.vx    = (Math.random() - 0.5) * 0.25;
+          this.vy    = Math.random() * 0.35 + 0.1;
+          this.va    = (Math.random() - 0.5) * 0.012;
+          this.life  = 0;
+          this.maxL  = Math.random() * 400 + 250;
+          this.alpha = Math.random() * 0.3 + 0.1;
+        }
+        step() {
+          this.x     += this.vx;
+          this.y     += this.vy;
+          this.angle += this.va;
+          this.life++;
+          if (this.y > H + 20 || this.life > this.maxL) this.reset(true);
+        }
+        /* Draw a tiny 6-pointed star / snowflake shape */
+        draw() {
+          const a = Math.sin((this.life / this.maxL) * Math.PI) * this.alpha;
+          ctx.save();
+          ctx.translate(this.x, this.y);
+          ctx.rotate(this.angle);
+          ctx.strokeStyle = `rgba(186,227,253,${a.toFixed(3)})`;
+          ctx.lineWidth   = 0.6;
+          ctx.beginPath();
+          for (let i = 0; i < 6; i++) {
+            const θ = (i / 6) * Math.PI * 2;
+            ctx.moveTo(0, 0);
+            ctx.lineTo(Math.cos(θ) * this.size, Math.sin(θ) * this.size);
+            // tiny crossbar
+            ctx.moveTo(
+              Math.cos(θ) * this.size * 0.55 + Math.cos(θ + Math.PI/2) * this.size * 0.22,
+              Math.sin(θ) * this.size * 0.55 + Math.sin(θ + Math.PI/2) * this.size * 0.22
+            );
+            ctx.lineTo(
+              Math.cos(θ) * this.size * 0.55 + Math.cos(θ - Math.PI/2) * this.size * 0.22,
+              Math.sin(θ) * this.size * 0.55 + Math.sin(θ - Math.PI/2) * this.size * 0.22
+            );
+          }
+          ctx.stroke();
+          ctx.restore();
+        }
+      }
+
+      function init() {
+        FLAKES.length = 0;
+        SHARDS.length = 0;
+        for (let i = 0; i < F_COUNT; i++) FLAKES.push(new Snowflake(false));
+        for (let i = 0; i < S_COUNT; i++) SHARDS.push(new CrystalShard());
+      }
+
+      function loop() {
+        ctx.clearRect(0, 0, W, H);
+        FLAKES.forEach(f => { f.step(); f.draw(); });
+        SHARDS.forEach(s => { s.step(); s.draw(); });
+        requestAnimationFrame(loop);
+      }
+
+      init();
+      loop();
+    })();
+    </script>
+
+  </body>
+</html>
