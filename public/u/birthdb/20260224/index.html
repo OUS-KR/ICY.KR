@@ -1,570 +1,1091 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="ko">
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>2월 24일 — 아름다운 추억을 품은 영혼</title>
-  <script src="https://cdn.tailwindcss.com/4"></script>
+  <title>2월 24일 탄생 정보 — birthdb.com</title>
+  <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;500;700&family=Cormorant+Garamond:ital,wght@0,400;0,600;1,400&display=swap" rel="stylesheet" />
-  <style>
-    :root {
-      --pink-nectar: #D7A7B4;
-      --reed-green: #D8E2AE;
-      --amethyst: #9966CC;
-      --deep-sea: #0C1B33;
-      --neptune: #3B6BA5;
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+KR:wght@300;400;500;700&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet" />
+
+  <style type="text/tailwindcss">
+    @theme {
+      --color-nectar-50:  #fdf2f5;
+      --color-nectar-100: #fbe8ed;
+      --color-nectar-200: #f5ccd6;
+      --color-nectar-300: #e8aab9;
+      --color-nectar-400: #d8aab7;
+      --color-nectar-500: #c48a9a;
+      --color-nectar-600: #a96b7e;
+      --color-nectar-700: #8c5065;
+      --color-nectar-800: #6e3d4f;
+      --color-nectar-900: #4a2535;
+      --color-nectar-950: #2d1520;
+      --color-reed-50:  #f4f5ee;
+      --color-reed-100: #e6e8d5;
+      --color-reed-200: #cdd1ab;
+      --color-reed-300: #b0b67e;
+      --color-reed-400: #9a9f5e;
+      --color-reed-500: #7a765a;
+      --color-reed-600: #5e5c42;
+      --color-reed-700: #474533;
+      --color-reed-800: #333125;
+      --color-reed-900: #1f1e18;
+      --color-reed-950: #12110e;
+      --color-amethyst-50:  #f5f0ff;
+      --color-amethyst-100: #ede5ff;
+      --color-amethyst-200: #d4c4f7;
+      --color-amethyst-300: #b89de8;
+      --color-amethyst-400: #9966cc;
+      --color-amethyst-500: #7f4db5;
+      --color-amethyst-600: #6a3d9a;
+      --color-amethyst-700: #532f78;
+      --color-amethyst-800: #3d2358;
+      --color-amethyst-900: #27163a;
+      --color-amethyst-950: #170d22;
+      --color-deep-50:  #f0f4f8;
+      --color-deep-100: #dce4ef;
+      --color-deep-200: #b8c9df;
+      --color-deep-300: #8ea8cc;
+      --color-deep-400: #6b8ab5;
+      --color-deep-500: #4a6a96;
+      --color-deep-600: #3b5578;
+      --color-deep-700: #2d4160;
+      --color-deep-800: #1e2d44;
+      --color-deep-900: #101a2b;
+      --color-deep-950: #080e1a;
+      --font-sans: 'Inter', system-ui, sans-serif;
+      --font-serif: 'Noto Serif KR', Georgia, serif;
     }
+  </style>
+
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; }
 
     body {
-      font-family: 'Noto Sans KR', sans-serif;
-      background: var(--deep-sea);
+      font-family: 'Inter', system-ui, sans-serif;
+      background-color: #0e0a14;
+      color: #e2e0e8;
+      min-height: 100vh;
+      overflow-x: hidden;
+      position: relative;
     }
 
-    .font-serif-display {
-      font-family: 'Cormorant Garamond', serif;
-    }
-
-    /* 배경 오로라 효과 */
-    .aurora-bg {
+    /* ── Aurora background ── */
+    body::after {
+      content: '';
+      position: fixed;
+      inset: 0;
+      pointer-events: none;
+      z-index: 0;
       background:
-        radial-gradient(ellipse 80% 50% at 20% 20%, rgba(215, 167, 180, 0.12) 0%, transparent 60%),
-        radial-gradient(ellipse 60% 60% at 80% 80%, rgba(216, 226, 174, 0.08) 0%, transparent 60%),
-        radial-gradient(ellipse 50% 40% at 50% 50%, rgba(153, 102, 204, 0.06) 0%, transparent 60%),
-        linear-gradient(180deg, #080e1a 0%, #0C1B33 30%, #101d35 70%, #0a1628 100%);
+        radial-gradient(ellipse 80% 50% at 20% 10%, rgba(216,170,183,.06) 0%, transparent 60%),
+        radial-gradient(ellipse 60% 40% at 80% 80%, rgba(153,102,204,.05) 0%, transparent 55%),
+        radial-gradient(ellipse 50% 35% at 50% 50%, rgba(122,118,90,.03) 0%, transparent 60%);
     }
 
-    /* 부유 애니메이션 */
-    @keyframes float {
-      0%, 100% { transform: translateY(0px); }
-      50% { transform: translateY(-8px); }
-    }
-    .animate-float {
-      animation: float 6s ease-in-out infinite;
-    }
-    .animate-float-delay {
-      animation: float 6s ease-in-out 2s infinite;
-    }
-
-    /* 반짝임 */
-    @keyframes twinkle {
-      0%, 100% { opacity: 0.3; }
-      50% { opacity: 1; }
-    }
-    .animate-twinkle {
-      animation: twinkle 3s ease-in-out infinite;
+    /* ── Crystal grain ── */
+    body::before {
+      content: '';
+      position: fixed;
+      inset: 0;
+      pointer-events: none;
+      z-index: 0;
+      background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.025'/%3E%3C/svg%3E");
+      background-size: 180px 180px;
     }
 
-    /* 물결 */
-    @keyframes ripple {
-      0% { transform: scale(1); opacity: 0.4; }
-      100% { transform: scale(1.6); opacity: 0; }
+    /* ── Shimmer (pink-purple) ── */
+    @keyframes shimmer-birth {
+      0%   { background-position: -700px 0; }
+      100% { background-position:  700px 0; }
+    }
+    .shimmer-text {
+      background: linear-gradient(90deg,
+        #94a3b8 0%,
+        #d8aab7 30%,
+        #9966cc 50%,
+        #d8aab7 70%,
+        #94a3b8 100%
+      );
+      background-size: 1400px auto;
+      background-clip: text;
+      -webkit-background-clip: text;
+      color: transparent;
+      animation: shimmer-birth 6s ease-in-out infinite;
     }
 
-    /* 글래스모피즘 카드 */
-    .glass-card {
-      background: rgba(255, 255, 255, 0.04);
-      backdrop-filter: blur(16px);
-      -webkit-backdrop-filter: blur(16px);
-      border: 1px solid rgba(255, 255, 255, 0.06);
+    /* ── Petal float ── */
+    @keyframes petal-float {
+      0%   { transform: translateY(0) rotate(0deg) scale(1);   opacity: 0; }
+      10%  { opacity: .5; }
+      85%  { opacity: .2; }
+      100% { transform: translateY(-160px) rotate(200deg) scale(.3); opacity: 0; }
+    }
+    @keyframes star-fall {
+      0%   { transform: translateY(-20px) translateX(0) rotate(0deg);   opacity: 0; }
+      12%  { opacity: .45; }
+      88%  { opacity: .15; }
+      100% { transform: translateY(120px) translateX(12px) rotate(90deg); opacity: 0; }
     }
 
-    .glass-card-hover:hover {
-      background: rgba(255, 255, 255, 0.07);
-      border-color: rgba(215, 167, 180, 0.2);
+    /* ── Breath / pulse ── */
+    @keyframes breath {
+      0%, 100% { transform: scale(1);   opacity: .35; }
+      50%       { transform: scale(1.1); opacity: .65; }
+    }
+
+    /* ── Reveal ── */
+    @keyframes reveal-up {
+      from { opacity: 0; transform: translateY(20px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+    .reveal { opacity: 0; }
+    .reveal.in { animation: reveal-up .55s ease forwards; }
+
+    /* ── Card ── */
+    .birth-card {
+      background: linear-gradient(135deg,
+        rgba(45,21,32,.55),
+        rgba(14,10,20,.88)
+      );
+      border: 1px solid rgba(216,170,183,.1);
+      backdrop-filter: blur(14px);
+      transition: transform .3s ease, border-color .3s ease, box-shadow .3s ease;
+    }
+    .birth-card:hover {
+      transform: translateY(-3px);
+      border-color: rgba(216,170,183,.22);
+      box-shadow: 0 16px 48px rgba(0,0,0,.5), 0 0 0 1px rgba(216,170,183,.06);
+    }
+
+    /* ── Link button ── */
+    .link-btn {
+      display: flex;
+      align-items: center;
+      gap: .75rem;
+      width: 100%;
+      padding: .875rem 1.25rem;
+      border-radius: .75rem;
+      font-size: .9375rem;
+      font-weight: 500;
+      text-decoration: none;
+      color: #e2e0e8;
+      background: linear-gradient(135deg, rgba(45,21,32,.55), rgba(14,10,20,.9));
+      border: 1px solid rgba(216,170,183,.1);
+      transition: all .25s ease;
+      position: relative;
+      overflow: hidden;
+    }
+    .link-btn:hover {
+      color: #fdf2f5;
+      border-color: rgba(216,170,183,.28);
       transform: translateY(-2px);
-      transition: all 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+      box-shadow: 0 8px 28px rgba(0,0,0,.45), 0 0 16px rgba(153,102,204,.08);
+    }
+    .link-btn.amethyst-btn {
+      border-color: rgba(153,102,204,.25);
+      background: linear-gradient(135deg, rgba(83,47,120,.2), rgba(14,10,20,.9));
+    }
+    .link-btn.amethyst-btn:hover {
+      border-color: rgba(153,102,204,.5);
+      box-shadow: 0 8px 28px rgba(0,0,0,.45), 0 0 20px rgba(153,102,204,.15);
     }
 
-    /* 색상 원형 그라디언트 */
-    .color-orb-pink {
-      background: radial-gradient(circle, var(--pink-nectar), rgba(215, 167, 180, 0.3));
-      box-shadow: 0 0 40px rgba(215, 167, 180, 0.3), 0 0 80px rgba(215, 167, 180, 0.1);
-    }
-    .color-orb-green {
-      background: radial-gradient(circle, var(--reed-green), rgba(216, 226, 174, 0.3));
-      box-shadow: 0 0 40px rgba(216, 226, 174, 0.3), 0 0 80px rgba(216, 226, 174, 0.1);
+    /* ── Icon badge ── */
+    .icon-badge {
+      width: 2rem; height: 2rem;
+      border-radius: .5rem;
+      display: flex; align-items: center; justify-content: center;
+      flex-shrink: 0;
     }
 
-    /* 구분선 */
-    .divider-glow {
+    /* ── Carousel ── */
+    .carousel-track {
+      display: flex;
+      transition: transform .42s cubic-bezier(.25,.46,.45,.94);
+    }
+    .carousel-slide { min-width: 100%; }
+
+    /* ── YouTube ── */
+    .yt-wrap {
+      position: relative;
+      padding-bottom: 56.25%;
+      height: 0; overflow: hidden;
+    }
+    .yt-wrap iframe {
+      position: absolute; inset: 0;
+      width: 100%; height: 100%;
+      border: none;
+    }
+
+    /* ── Tag ── */
+    .tag {
+      display: inline-flex; align-items: center;
+      padding: .2rem .65rem;
+      border-radius: 9999px;
+      font-size: .7rem;
+      font-weight: 500;
+      letter-spacing: .05em;
+      text-transform: uppercase;
+      background: rgba(216,170,183,.06);
+      border: 1px solid rgba(216,170,183,.13);
+      color: #94a3b8;
+    }
+
+    /* ── Divider ── */
+    .birth-divider {
       height: 1px;
-      background: linear-gradient(90deg, transparent, rgba(215, 167, 180, 0.3), rgba(216, 226, 174, 0.3), transparent);
+      background: linear-gradient(90deg,
+        transparent,
+        rgba(216,170,183,.16),
+        transparent
+      );
+      border: none;
     }
 
-    /* 링크 호버 */
-    .link-item {
-      transition: all 0.35s cubic-bezier(0.25, 0.46, 0.45, 0.94);
-    }
-    .link-item:hover {
-      background: rgba(255, 255, 255, 0.07);
-      border-color: rgba(215, 167, 180, 0.25);
-      transform: translateY(-2px);
-      box-shadow: 0 8px 32px rgba(215, 167, 180, 0.08);
+    /* ── Accordion ── */
+    details > summary { list-style: none; cursor: pointer; user-select: none; }
+    details > summary::-webkit-details-marker { display: none; }
+    details[open] .chev { transform: rotate(180deg); }
+    .chev { transition: transform .22s ease; display: inline-block; }
+
+    /* ── Scrollbar ── */
+    ::-webkit-scrollbar { width: 5px; }
+    ::-webkit-scrollbar-track { background: #0e0a14; }
+    ::-webkit-scrollbar-thumb { background: #2d1520; border-radius: 3px; }
+
+    /* ── Color swatch animation ── */
+    @keyframes swatch-glow {
+      0%, 100% { box-shadow: 0 0 12px rgba(216,170,183,.2); }
+      50%      { box-shadow: 0 0 24px rgba(216,170,183,.4); }
     }
 
-    /* 스크롤바 */
-    ::-webkit-scrollbar { width: 4px; }
-    ::-webkit-scrollbar-track { background: transparent; }
-    ::-webkit-scrollbar-thumb { background: rgba(215, 167, 180, 0.2); border-radius: 4px; }
+    /* ── Temp bar ── */
+    @keyframes bar-fill {
+      from { width: 0%; }
+      to   { width: var(--fill); }
+    }
+    .info-bar {
+      height: 3px;
+      border-radius: 9999px;
+      animation: bar-fill 1.8s ease forwards;
+      animation-play-state: paused;
+    }
+    .info-bar.run { animation-play-state: running; }
 
-    /* 별 입자 */
-    .star {
-      position: absolute;
-      width: 2px;
-      height: 2px;
-      background: white;
-      border-radius: 50%;
+    /* ── Sparkle ── */
+    @keyframes sparkle {
+      0%,100% { opacity: .2; transform: scale(.8); }
+      50%     { opacity: .8; transform: scale(1.2); }
+    }
+
+    /* ── Poem text fade ── */
+    @keyframes poem-line {
+      from { opacity: 0; transform: translateX(-8px); }
+      to   { opacity: 1; transform: translateX(0); }
     }
   </style>
 </head>
 
-<body class="aurora-bg min-h-screen text-white overflow-x-hidden">
+<body>
 
-  <!-- 별 파티클 배경 -->
-  <div class="fixed inset-0 pointer-events-none overflow-hidden" aria-hidden="true">
-    <div class="star animate-twinkle" style="top:8%;left:15%;opacity:0.4;animation-delay:0s"></div>
-    <div class="star animate-twinkle" style="top:12%;left:72%;opacity:0.3;animation-delay:1.2s"></div>
-    <div class="star animate-twinkle" style="top:25%;left:88%;opacity:0.5;animation-delay:0.5s"></div>
-    <div class="star animate-twinkle" style="top:35%;left:8%;opacity:0.3;animation-delay:2s"></div>
-    <div class="star animate-twinkle" style="top:48%;left:45%;opacity:0.2;animation-delay:1.8s"></div>
-    <div class="star animate-twinkle" style="top:55%;left:92%;opacity:0.4;animation-delay:0.3s"></div>
-    <div class="star animate-twinkle" style="top:68%;left:22%;opacity:0.3;animation-delay:1.5s"></div>
-    <div class="star animate-twinkle" style="top:78%;left:65%;opacity:0.5;animation-delay:0.8s"></div>
-    <div class="star animate-twinkle" style="top:88%;left:38%;opacity:0.2;animation-delay:2.2s"></div>
-    <div class="star animate-twinkle" style="top:92%;left:80%;opacity:0.4;animation-delay:1s"></div>
+  <!-- ░░ PARTICLE LAYER ░░ -->
+  <div id="ptcl" style="position:fixed;inset:0;z-index:0;pointer-events:none;overflow:hidden;"></div>
+
+  <!-- ░░ CRYSTAL CORNER DECO ░░ -->
+  <div style="position:fixed;top:-40px;right:-40px;width:200px;height:200px;opacity:.06;pointer-events:none;z-index:0;">
+    <svg viewBox="0 0 200 200" fill="none" stroke="#d8aab7" stroke-width="1">
+      <line x1="100" y1="0"   x2="100" y2="200"/>
+      <line x1="0"   y1="100" x2="200" y2="100"/>
+      <line x1="15"  y1="15"  x2="185" y2="185"/>
+      <line x1="185" y1="15"  x2="15"  y2="185"/>
+      <circle cx="100" cy="100" r="60"/>
+      <circle cx="100" cy="100" r="30"/>
+      <circle cx="100" cy="100" r="8"/>
+      <polygon points="100,35 116,70 155,70 124,92 136,130 100,108 64,130 76,92 45,70 84,70" stroke-width=".8"/>
+    </svg>
+  </div>
+  <div style="position:fixed;bottom:-40px;left:-40px;width:160px;height:160px;opacity:.04;pointer-events:none;z-index:0;transform:rotate(30deg);">
+    <svg viewBox="0 0 200 200" fill="none" stroke="#9966cc" stroke-width="1">
+      <line x1="100" y1="0"   x2="100" y2="200"/>
+      <line x1="0"   y1="100" x2="200" y2="100"/>
+      <line x1="15"  y1="15"  x2="185" y2="185"/>
+      <line x1="185" y1="15"  x2="15"  y2="185"/>
+      <circle cx="100" cy="100" r="55"/>
+      <circle cx="100" cy="100" r="25"/>
+    </svg>
   </div>
 
-  <!-- 메인 컨테이너 -->
-  <main class="relative z-10 max-w-md mx-auto px-5 py-12">
+  <!-- ░░ MAIN ░░ -->
+  <main style="position:relative;z-index:1;max-width:480px;margin:0 auto;padding:3rem 1rem 6rem;">
 
-    <!-- 탄생색 오브 -->
-    <div class="flex justify-center gap-6 mb-8">
-      <div class="color-orb-pink w-16 h-16 rounded-full animate-float"></div>
-      <div class="color-orb-green w-16 h-16 rounded-full animate-float-delay"></div>
-    </div>
+    <!-- ═══════════ HERO ═══════════ -->
+    <header class="reveal" style="text-align:center;margin-bottom:2.5rem;">
 
-    <!-- 날짜 헤더 -->
-    <header class="text-center mb-10">
-      <p class="text-xs tracking-[0.35em] uppercase mb-3" style="color: var(--pink-nectar); opacity: 0.7;">
-        February 24, 2026
+      <!-- avatar glow ring -->
+      <div style="position:relative;display:inline-block;margin-bottom:1.4rem;">
+        <div style="position:absolute;inset:-14px;border-radius:50%;background:radial-gradient(circle,rgba(216,170,183,.18),transparent 70%);animation:breath 4s ease-in-out infinite;pointer-events:none;"></div>
+        <!-- birth date emblem -->
+        <div style="width:96px;height:96px;border-radius:50%;overflow:hidden;border:1.5px solid rgba(216,170,183,.3);margin:0 auto;position:relative;background:linear-gradient(135deg,#2d1520,#170d22);">
+          <div style="position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;">
+            <span style="font-size:.65rem;color:#d8aab7;letter-spacing:.15em;text-transform:uppercase;font-weight:600;">FEB</span>
+            <span style="font-size:2.2rem;font-weight:700;color:#e2e0e8;line-height:1;font-family:'Noto Serif KR',serif;">24</span>
+            <span style="font-size:.55rem;color:#9966cc;letter-spacing:.1em;">2026</span>
+          </div>
+        </div>
+        <!-- Pisces symbol dot -->
+        <span style="position:absolute;bottom:4px;right:4px;width:14px;height:14px;background:linear-gradient(135deg,#d8aab7,#9966cc);border-radius:50%;border:2.5px solid #0e0a14;display:block;box-shadow:0 0 6px rgba(153,102,204,.6);"></span>
+      </div>
+
+      <!-- name / title -->
+      <h1 class="shimmer-text" style="font-family:'Noto Serif KR',serif;font-size:1.8rem;font-weight:700;letter-spacing:.08em;margin-bottom:.3rem;">2월 24일 탄생 정보</h1>
+      <p style="color:#64546b;font-size:.75rem;letter-spacing:.28em;text-transform:uppercase;margin-bottom:1rem;">BIRTH INFO · 2026.02.24</p>
+
+      <!-- bio poem excerpt -->
+      <p style="color:#94a3b8;font-size:.85rem;line-height:1.9;max-width:320px;margin:0 auto 1rem;font-family:'Noto Serif KR',serif;">
+        아름다운 추억을 품은 영혼으로<br/>태어난 당신에게
+        <br/><span style="color:#64546b;font-size:.78rem;">당신의 모든 걸음이 소나무처럼 푸르고 고결하기를</span>
       </p>
-      <h1 class="font-serif-display text-4xl font-semibold italic tracking-wide mb-2" style="color: var(--pink-nectar);">
-        2월 24일
-      </h1>
-      <p class="text-sm text-white/40 mb-5">음력 2026년 1월 8일 (평달)</p>
-      <p class="text-base text-white/70 leading-relaxed font-light">
-        아름다운 추억을 품은 영혼으로<br/>태어난 당신
-      </p>
+
+      <!-- tags -->
+      <div style="display:flex;flex-wrap:wrap;justify-content:center;gap:.45rem;margin-bottom:1.4rem;">
+        <span class="tag">♓ 물고기자리</span>
+        <span class="tag">🌸 빈카</span>
+        <span class="tag">💎 애머시스트</span>
+        <span class="tag">🪐 해왕성</span>
+      </div>
+
+      <!-- key stats -->
+      <div style="display:flex;justify-content:center;align-items:center;gap:1.8rem;">
+        <div style="text-align:center;">
+          <p style="color:#d8aab7;font-weight:600;font-size:1.1rem;">♓</p>
+          <p style="color:#64546b;font-size:.68rem;letter-spacing:.1em;text-transform:uppercase;">Pisces</p>
+        </div>
+        <div style="width:1px;height:28px;background:#2d1520;"></div>
+        <div style="text-align:center;">
+          <p style="color:#d8aab7;font-weight:600;font-size:1.1rem;">9</p>
+          <p style="color:#64546b;font-size:.68rem;letter-spacing:.1em;text-transform:uppercase;">탄생수</p>
+        </div>
+        <div style="width:1px;height:28px;background:#2d1520;"></div>
+        <div style="text-align:center;">
+          <p style="color:#d8aab7;font-weight:600;font-size:1.1rem;">영혼</p>
+          <p style="color:#64546b;font-size:.68rem;letter-spacing:.1em;text-transform:uppercase;">물고기Ⅰ</p>
+        </div>
+      </div>
     </header>
 
-    <div class="divider-glow mb-10"></div>
+    <hr class="birth-divider" style="margin-bottom:2rem;" />
 
-    <!-- 탄생 좌우명 -->
-    <section class="glass-card rounded-2xl p-6 mb-8 text-center">
-      <p class="font-serif-display text-lg italic text-white/60 leading-relaxed">
-        "당신의 모든 걸음이<br/>소나무처럼 푸르고 고결하기를"
-      </p>
+    <!-- ═══════════ POEM / LYRICS ═══════════ -->
+    <section class="reveal" style="margin-bottom:2rem;">
+      <p style="color:#64546b;font-size:.7rem;letter-spacing:.18em;text-transform:uppercase;margin-bottom:.75rem;font-weight:500;">탄생 시 (Birth Poem)</p>
+      <div class="birth-card" style="border-radius:.875rem;padding:1.5rem;border-left:2.5px solid rgba(216,170,183,.35);">
+        <div style="font-family:'Noto Serif KR',serif;font-size:.82rem;color:#94a3b8;line-height:2.2;">
+          <p style="margin-bottom:1.2rem;">
+            핑크 넥타 빛 감미로운 꽃의 꿀처럼 달콤한<br/>
+            보랏빛 안개 리드 그린의 차분한 선율<br/>
+            갈대 숲을 스치는 연두빛 온기 위로<br/>
+            즐거운 추억을 속삭이는 청초한 빈카의 푸른 꽃잎<br/>
+            시린 겨울 창가에서 영원한 우정을 조용히 피워내네
+          </p>
+          <p style="margin-bottom:1.2rem;">
+            우뚝 솟은 <strong style="color:#b0b67e;">소나무</strong> 그 고결하고 변치 않는 기개 위로<br/>
+            <strong style="color:#9966cc;">포세이돈</strong>이 다스리는 <strong style="color:#6b8ab5;">해왕성</strong>의 깊고 푸른 신비의 문<br/>
+            심해의 신비로운 메아리 별들이 속삭이는 차가운 노래<br/>
+            <strong style="color:#d8aab7;">물고기자리</strong>의 유연한 꿈을 투명한 얼음 조각 위에 새기네
+          </p>
+          <p style="margin-bottom:1.2rem;">
+            보랏빛 <strong style="color:#9966cc;">애머시스트</strong> 속에 깃든 영롱하고 평온한 마음<br/>
+            흔들림 없는 신비 하나 보석처럼 가슴 깊이 간직하고<br/>
+            <strong style="color:#6b8ab5;">스카이랜드 피즈</strong> 한 잔 그 상큼하고 맑은 위로 속에<br/>
+            깊어가는 2월의 밤을 찬란하고 맑은 빛으로 채워보네
+          </p>
+          <p style="color:#d8aab7;text-align:center;font-style:italic;margin-top:.5rem;font-size:.78rem;">
+            2월의 스물네 번째 날<br/>
+            바다와 대지가 차갑게 맞닿은 시간<br/>
+            지난날의 즐거운 기억이<br/>
+            비로소 나를 세우는 고결함이 되는 밤
+          </p>
+        </div>
+      </div>
     </section>
 
-    <!-- 탄생 정보 그리드 -->
-    <section class="mb-10">
-      <h2 class="text-xs tracking-[0.3em] uppercase text-white/30 mb-5 text-center">Birth Profile</h2>
+    <hr class="birth-divider" style="margin-bottom:2rem;" />
 
-      <div class="grid grid-cols-3 gap-3 mb-3">
+    <!-- ═══════════ FEATURED VIDEO ═══════════ -->
+    <section class="reveal" style="margin-bottom:2rem;">
+      <p style="color:#64546b;font-size:.7rem;letter-spacing:.18em;text-transform:uppercase;margin-bottom:.75rem;font-weight:500;">탄생 로파이 영상</p>
+      <div class="birth-card" style="border-radius:.875rem;overflow:hidden;">
+        <div class="yt-wrap">
+          <iframe src="https://www.youtube.com/embed/64i9dgQ-TIk?rel=0&modestbranding=1"
+                  title="2월 24일 탄생 로파이"
+                  allow="accelerometer;autoplay;clipboard-write;encrypted-media;gyroscope;picture-in-picture"
+                  allowfullscreen></iframe>
+        </div>
+        <div style="padding:1rem;">
+          <h3 style="color:#e2e0e8;font-size:.875rem;font-weight:600;margin-bottom:.35rem;">2월 24일 | 아름다운 추억을 품은 영혼으로 태어난 당신</h3>
+          <p style="color:#64546b;font-size:.78rem;line-height:1.65;margin-bottom:.6rem;">Birth Lofi · 음력 2026년 1월 8일 · BirthDB</p>
+          <div style="display:flex;align-items:center;gap:.75rem;">
+            <span class="tag">Birth Lofi</span>
+            <span class="tag">2월 24일</span>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ═══════════ BIRTH COLORS ═══════════ -->
+    <section class="reveal" style="margin-bottom:2rem;">
+      <p style="color:#64546b;font-size:.7rem;letter-spacing:.18em;text-transform:uppercase;margin-bottom:.75rem;font-weight:500;">🎨 탄생색</p>
+
+      <!-- Pink Nectar -->
+      <div class="birth-card" style="border-radius:.875rem;padding:1.25rem;margin-bottom:.75rem;">
+        <div style="display:flex;align-items:flex-start;gap:1rem;">
+          <div style="width:56px;height:56px;border-radius:.75rem;flex-shrink:0;background:#d8aab7;box-shadow:0 0 18px rgba(216,170,183,.3);animation:swatch-glow 3s ease-in-out infinite;"></div>
+          <div style="flex:1;">
+            <p style="color:#e2e0e8;font-size:.9rem;font-weight:600;margin-bottom:.2rem;">핑크 넥타 <span style="color:#64546b;font-weight:400;font-size:.78rem;">(Pink Nectar)</span></p>
+            <p style="color:#64546b;font-size:.72rem;margin-bottom:.5rem;">PANTONE 14-2305 TCX · #D8AAB7</p>
+            <p style="color:#94a3b8;font-size:.78rem;line-height:1.65;">달콤한 위로, 다정한 양육, 치유하는 사랑의 손길</p>
+          </div>
+        </div>
+        <!-- Similar colors -->
+        <div style="margin-top:1rem;padding-top:.75rem;border-top:1px solid rgba(216,170,183,.08);">
+          <p style="color:#64546b;font-size:.68rem;margin-bottom:.6rem;letter-spacing:.08em;">비슷한 색상의 탄생색</p>
+          <div style="display:flex;flex-wrap:wrap;gap:.4rem;">
+            <span class="tag" style="font-size:.65rem;">7/2 프래그런트 라일락</span>
+            <span class="tag" style="font-size:.65rem;">7/9 실버 핑크</span>
+            <span class="tag" style="font-size:.65rem;">1/21 제피르</span>
+            <span class="tag" style="font-size:.65rem;">3/9 멜로 로즈</span>
+            <span class="tag" style="font-size:.65rem;">3/6 파스텔 라벤더</span>
+            <span class="tag" style="font-size:.65rem;">9/22 미스티 로즈</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Reed Green -->
+      <div class="birth-card" style="border-radius:.875rem;padding:1.25rem;">
+        <div style="display:flex;align-items:flex-start;gap:1rem;">
+          <div style="width:56px;height:56px;border-radius:.75rem;flex-shrink:0;background:#7a765a;box-shadow:0 0 18px rgba(122,118,90,.25);"></div>
+          <div style="flex:1;">
+            <p style="color:#e2e0e8;font-size:.9rem;font-weight:600;margin-bottom:.2rem;">리드 그린 <span style="color:#64546b;font-weight:400;font-size:.78rem;">(Reed Green; リードグリーン)</span></p>
+            <p style="color:#64546b;font-size:.72rem;margin-bottom:.5rem;">#7A765A</p>
+            <p style="color:#94a3b8;font-size:.78rem;line-height:1.65;">유연한 생명력, 꺾이지 않는 회복력, 신선한 성장 에너지</p>
+          </div>
+        </div>
+        <!-- Similar colors -->
+        <div style="margin-top:1rem;padding-top:.75rem;border-top:1px solid rgba(122,118,90,.1);">
+          <p style="color:#64546b;font-size:.68rem;margin-bottom:.6rem;letter-spacing:.08em;">비슷한 색상의 탄생색</p>
+          <div style="display:flex;flex-wrap:wrap;gap:.4rem;">
+            <span class="tag" style="font-size:.65rem;">6/5 밍</span>
+            <span class="tag" style="font-size:.65rem;">1/31 아쿠어퍼</span>
+            <span class="tag" style="font-size:.65rem;">11/12 베이크드 애플</span>
+            <span class="tag" style="font-size:.65rem;">1/26 더스키 오키드</span>
+            <span class="tag" style="font-size:.65rem;">4/21 오페라 모브</span>
+            <span class="tag" style="font-size:.65rem;">12/17 퍼플 세이지</span>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <hr class="birth-divider" style="margin-bottom:2rem;" />
+
+    <!-- ═══════════ BIRTH INFO GRID ═══════════ -->
+    <section class="reveal" style="margin-bottom:2rem;">
+      <p style="color:#64546b;font-size:.7rem;letter-spacing:.18em;text-transform:uppercase;margin-bottom:.75rem;font-weight:500;">탄생 프로필</p>
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:.75rem;">
+
+        <!-- 탄생화 -->
+        <a href="https://birthdb.com/birth_flowers/2/" target="_blank" class="birth-card" style="border-radius:.875rem;padding:1rem;text-decoration:none;display:block;">
+          <div style="width:40px;height:40px;border-radius:.5rem;background:rgba(216,170,183,.1);border:1px solid rgba(216,170,183,.2);display:flex;align-items:center;justify-content:center;font-size:1.25rem;margin-bottom:.75rem;">🌸</div>
+          <p style="color:#e2e0e8;font-size:.85rem;font-weight:600;margin-bottom:.3rem;">빈카</p>
+          <p style="color:#64546b;font-size:.72rem;line-height:1.5;margin-bottom:.55rem;">탄생화 · Birth Flower</p>
+          <p style="color:#94a3b8;font-size:.72rem;line-height:1.5;">즐거운 추억, 친구의 정</p>
+        </a>
+
+        <!-- 탄생석 -->
+        <a href="https://birthdb.com/birth_stones/" target="_blank" class="birth-card" style="border-radius:.875rem;padding:1rem;text-decoration:none;display:block;">
+          <div style="width:40px;height:40px;border-radius:.5rem;background:rgba(153,102,204,.1);border:1px solid rgba(153,102,204,.2);display:flex;align-items:center;justify-content:center;font-size:1.25rem;margin-bottom:.75rem;">💎</div>
+          <p style="color:#e2e0e8;font-size:.85rem;font-weight:600;margin-bottom:.3rem;">애머시스트</p>
+          <p style="color:#64546b;font-size:.72rem;line-height:1.5;margin-bottom:.55rem;">자수정 · Amethyst</p>
+          <p style="color:#94a3b8;font-size:.72rem;line-height:1.5;">영롱하고 평온한 마음</p>
+        </a>
+
+        <!-- 탄생목 -->
+        <a href="https://birthdb.com/birth_trees/" target="_blank" class="birth-card" style="border-radius:.875rem;padding:1rem;text-decoration:none;display:block;">
+          <div style="width:40px;height:40px;border-radius:.5rem;background:rgba(122,118,90,.1);border:1px solid rgba(122,118,90,.2);display:flex;align-items:center;justify-content:center;font-size:1.25rem;margin-bottom:.75rem;">🌳</div>
+          <p style="color:#e2e0e8;font-size:.85rem;font-weight:600;margin-bottom:.3rem;">소나무</p>
+          <p style="color:#64546b;font-size:.72rem;line-height:1.5;margin-bottom:.55rem;">탄생목 · Birth Tree</p>
+          <p style="color:#94a3b8;font-size:.72rem;line-height:1.5;">고결하고 변치 않는 기개</p>
+        </a>
+
         <!-- 탄생좌 -->
-        <div class="glass-card rounded-xl p-4 text-center">
-          <div class="text-2xl mb-2">♓</div>
-          <p class="text-[10px] tracking-wider uppercase text-white/30 mb-1">별자리</p>
-          <p class="text-xs text-white/80">물고기자리</p>
-          <p class="text-[10px] text-white/30 mt-0.5">Pisces</p>
-        </div>
-        <!-- 탄생성 -->
-        <div class="glass-card rounded-xl p-4 text-center">
-          <div class="text-2xl mb-2">🪐</div>
-          <p class="text-[10px] tracking-wider uppercase text-white/30 mb-1">행성</p>
-          <p class="text-xs text-white/80">해왕성</p>
-          <p class="text-[10px] text-white/30 mt-0.5">Neptune</p>
-        </div>
-        <!-- 탄생신 -->
-        <div class="glass-card rounded-xl p-4 text-center">
-          <div class="text-2xl mb-2">🔱</div>
-          <p class="text-[10px] tracking-wider uppercase text-white/30 mb-1">수호신</p>
-          <p class="text-xs text-white/80">포세이돈</p>
-          <p class="text-[10px] text-white/30 mt-0.5">Poseidon</p>
-        </div>
-      </div>
-
-      <div class="grid grid-cols-3 gap-3 mb-3">
-        <!-- 탄생화 -->
-        <div class="glass-card rounded-xl p-4 text-center">
-          <div class="text-2xl mb-2">🌸</div>
-          <p class="text-[10px] tracking-wider uppercase text-white/30 mb-1">탄생화</p>
-          <p class="text-xs text-white/80">빈카</p>
-          <p class="text-[10px] text-white/30 mt-0.5">즐거운 추억</p>
-        </div>
-        <!-- 탄생목 -->
-        <div class="glass-card rounded-xl p-4 text-center">
-          <div class="text-2xl mb-2">🌳</div>
-          <p class="text-[10px] tracking-wider uppercase text-white/30 mb-1">탄생목</p>
-          <p class="text-xs text-white/80">소나무</p>
-          <p class="text-[10px] text-white/30 mt-0.5">고결한 기개</p>
-        </div>
-        <!-- 탄생석 -->
-        <div class="glass-card rounded-xl p-4 text-center">
-          <div class="text-2xl mb-2">💎</div>
-          <p class="text-[10px] tracking-wider uppercase text-white/30 mb-1">탄생석</p>
-          <p class="text-xs text-white/80">애머시스트</p>
-          <p class="text-[10px] text-white/30 mt-0.5">Amethyst</p>
-        </div>
-      </div>
-
-      <div class="grid grid-cols-2 gap-3">
-        <!-- 탄생주 -->
-        <div class="glass-card rounded-xl p-4 text-center">
-          <div class="text-2xl mb-2">🍸</div>
-          <p class="text-[10px] tracking-wider uppercase text-white/30 mb-1">탄생주</p>
-          <p class="text-xs text-white/80">스카이랜드 피즈</p>
-          <p class="text-[10px] text-white/30 mt-0.5">Skyland Fizz</p>
-        </div>
-        <!-- 탄생수 -->
-        <div class="glass-card rounded-xl p-4 text-center">
-          <div class="text-2xl mb-2">🔢</div>
-          <p class="text-[10px] tracking-wider uppercase text-white/30 mb-1">탄생수</p>
-          <p class="text-xl font-light text-white/80" style="font-family:'Cormorant Garamond',serif;">9</p>
-          <p class="text-[10px] text-white/30 mt-0.5">인생 여정 수</p>
-        </div>
-      </div>
-    </section>
-
-    <div class="divider-glow mb-10"></div>
-
-    <!-- 탄생색 섹션 -->
-    <section class="mb-10">
-      <h2 class="text-xs tracking-[0.3em] uppercase text-white/30 mb-5 text-center">Birth Colors</h2>
-
-      <div class="grid grid-cols-2 gap-3">
-        <!-- 핑크 넥타 -->
-        <div class="glass-card rounded-xl overflow-hidden">
-          <div class="h-24 relative" style="background: linear-gradient(135deg, #D7A7B4, #c4909f);">
-            <div class="absolute bottom-2 left-3">
-              <p class="text-[10px] font-mono text-white/80 drop-shadow">#D7A7B4</p>
-            </div>
-          </div>
-          <div class="p-3 text-center">
-            <p class="text-xs text-white/80 font-medium">핑크 넥타</p>
-            <p class="text-[10px] text-white/40 mt-0.5">Pink Nectar</p>
-            <p class="text-[10px] text-white/30 mt-2 leading-relaxed">달콤한 위로<br/>치유하는 사랑의 손길</p>
-          </div>
-        </div>
-        <!-- 리드 그린 -->
-        <div class="glass-card rounded-xl overflow-hidden">
-          <div class="h-24 relative" style="background: linear-gradient(135deg, #D8E2AE, #c8d49a);">
-            <div class="absolute bottom-2 left-3">
-              <p class="text-[10px] font-mono text-white/80 drop-shadow">#D8E2AE</p>
-            </div>
-          </div>
-          <div class="p-3 text-center">
-            <p class="text-xs text-white/80 font-medium">리드 그린</p>
-            <p class="text-[10px] text-white/40 mt-0.5">Reed Green</p>
-            <p class="text-[10px] text-white/30 mt-2 leading-relaxed">유연한 생명력<br/>꺾이지 않는 회복력</p>
-          </div>
-        </div>
-      </div>
-    </section>
-
-    <div class="divider-glow mb-10"></div>
-
-    <!-- 48주간 별자리 -->
-    <section class="glass-card rounded-2xl p-6 mb-10 text-center">
-      <p class="text-[10px] tracking-[0.3em] uppercase text-white/30 mb-3">48-Week Constellation</p>
-      <p class="font-serif-display text-2xl italic mb-1" style="color: var(--amethyst);">♓ 물고기자리 Ⅰ</p>
-      <p class="text-sm text-white/50">영혼 — The Soul</p>
-      <div class="mt-4 flex justify-center gap-1">
-        <span class="inline-block w-1 h-1 rounded-full bg-white/20"></span>
-        <span class="inline-block w-1 h-1 rounded-full" style="background: var(--pink-nectar); opacity:0.6;"></span>
-        <span class="inline-block w-1 h-1 rounded-full bg-white/20"></span>
-      </div>
-    </section>
-
-    <!-- 시 (가사) 섹션 -->
-    <section class="mb-10">
-      <h2 class="text-xs tracking-[0.3em] uppercase text-white/30 mb-5 text-center">Birth Poem</h2>
-      <div class="glass-card rounded-2xl p-6">
-        <div class="text-sm text-white/50 leading-loose text-center font-light">
-          <p>핑크 넥타 빛 감미로운 꽃의 꿀처럼</p>
-          <p>달콤한 보랏빛 안개</p>
-          <p class="mt-3">리드 그린의 차분한 선율</p>
-          <p>갈대 숲을 스치는 연두빛 온기 위로</p>
-          <p class="mt-3">즐거운 추억을 속삭이는</p>
-          <p>청초한 빈카의 푸른 꽃잎</p>
-          <p class="mt-3">시린 겨울 창가에서</p>
-          <p>영원한 우정을 조용히 피워내네</p>
-          <p class="mt-5 text-white/20 text-xs">· · ·</p>
-          <p class="mt-5">우뚝 솟은 소나무</p>
-          <p>그 고결하고 변치 않는 기개 위로</p>
-          <p class="mt-3">포세이돈이 다스리는</p>
-          <p>해왕성의 깊고 푸른 신비의 문</p>
-          <p class="mt-3">심해의 신비로운 메아리</p>
-          <p>별들이 속삭이는 차가운 노래</p>
-          <p class="mt-3">물고기자리의 유연한 꿈을</p>
-          <p>투명한 얼음 조각 위에 새기네</p>
-          <p class="mt-5 text-white/20 text-xs">· · ·</p>
-          <p class="mt-5">보랏빛 애머시스트 속에 깃든</p>
-          <p>영롱하고 평온한 마음</p>
-          <p class="mt-3">스카이랜드 피즈 한 잔</p>
-          <p>그 상큼하고 맑은 위로 속에</p>
-          <p class="mt-3">깊어가는 2월의 밤을</p>
-          <p>찬란하고 맑은 빛으로 채워보네</p>
-        </div>
-      </div>
-    </section>
-
-    <div class="divider-glow mb-10"></div>
-
-    <!-- 추천 영상 -->
-    <section class="mb-10">
-      <h2 class="text-xs tracking-[0.3em] uppercase text-white/30 mb-5 text-center">Featured Video</h2>
-      <div class="glass-card rounded-2xl overflow-hidden">
-        <div class="relative w-full" style="padding-bottom:56.25%;">
-          <iframe
-            class="absolute inset-0 w-full h-full"
-            src="https://www.youtube.com/embed/64i9dgQ-TIk?rel=0&modestbranding=1"
-            title="Birth Lofi — 2월 24일"
-            allow="accelerometer;autoplay;clipboard-write;encrypted-media;gyroscope;picture-in-picture"
-            allowfullscreen
-          ></iframe>
-        </div>
-        <div class="p-4 text-center">
-          <p class="text-xs text-white/60">아름다운 추억을 품은 영혼으로 태어난 당신</p>
-          <p class="text-[10px] text-white/30 mt-1">Birth Lofi · BirthDB</p>
-        </div>
-      </div>
-    </section>
-
-    <div class="divider-glow mb-10"></div>
-
-    <!-- 소셜 링크 -->
-    <section class="mb-10">
-      <h2 class="text-xs tracking-[0.3em] uppercase text-white/30 mb-5 text-center">Links</h2>
-
-      <div class="flex flex-col gap-3">
-        <!-- BirthDB -->
-        <a href="https://birthdb.com/search/20260224/" target="_blank" rel="noopener noreferrer"
-           class="link-item glass-card rounded-xl px-5 py-4 flex items-center gap-4">
-          <span class="text-lg">📅</span>
-          <div class="flex-1 min-w-0">
-            <p class="text-sm text-white/80">BirthDB — 탄생 정보</p>
-            <p class="text-[10px] text-white/30 mt-0.5">2026년 2월 24일 상세 탄생 정보</p>
-          </div>
-          <span class="text-white/20 text-xs">→</span>
-        </a>
-
-        <!-- YouTube 본편 -->
-        <a href="https://youtu.be/64i9dgQ-TIk" target="_blank" rel="noopener noreferrer"
-           class="link-item glass-card rounded-xl px-5 py-4 flex items-center gap-4">
-          <span class="text-lg">🎵</span>
-          <div class="flex-1 min-w-0">
-            <p class="text-sm text-white/80">Birth Lofi — Vocal</p>
-            <p class="text-[10px] text-white/30 mt-0.5">2월 24일 탄생 로파이 보컬 버전</p>
-          </div>
-          <span class="text-white/20 text-xs">→</span>
-        </a>
-
-        <!-- YouTube Inst -->
-        <a href="https://youtu.be/YKgnTUInwKM" target="_blank" rel="noopener noreferrer"
-           class="link-item glass-card rounded-xl px-5 py-4 flex items-center gap-4">
-          <span class="text-lg">🎧</span>
-          <div class="flex-1 min-w-0">
-            <p class="text-sm text-white/80">Birth Lofi — Inst</p>
-            <p class="text-[10px] text-white/30 mt-0.5">2월 24일 탄생 로파이 인스트 버전</p>
-          </div>
-          <span class="text-white/20 text-xs">→</span>
-        </a>
-
-        <!-- 양력 탄생정보 -->
-        <a href="https://birthdb.com/search/20260224/" target="_blank" rel="noopener noreferrer"
-           class="link-item glass-card rounded-xl px-5 py-4 flex items-center gap-4">
-          <span class="text-lg">☀️</span>
-          <div class="flex-1 min-w-0">
-            <p class="text-sm text-white/80">양력 탄생 정보</p>
-            <p class="text-[10px] text-white/30 mt-0.5">2026년 2월 24일 (양력)</p>
-          </div>
-          <span class="text-white/20 text-xs">→</span>
-        </a>
-
-        <!-- 음력 탄생정보 -->
-        <a href="https://birthdb.com/search/202601080/" target="_blank" rel="noopener noreferrer"
-           class="link-item glass-card rounded-xl px-5 py-4 flex items-center gap-4">
-          <span class="text-lg">🌙</span>
-          <div class="flex-1 min-w-0">
-            <p class="text-sm text-white/80">음력 탄생 정보</p>
-            <p class="text-[10px] text-white/30 mt-0.5">2026년 1월 8일 (평달)</p>
-          </div>
-          <span class="text-white/20 text-xs">→</span>
-        </a>
-
-        <!-- 탄생색 -->
-        <a href="https://birthdb.com/birth/colors/monthly/2/" target="_blank" rel="noopener noreferrer"
-           class="link-item glass-card rounded-xl px-5 py-4 flex items-center gap-4">
-          <span class="text-lg">🎨</span>
-          <div class="flex-1 min-w-0">
-            <p class="text-sm text-white/80">2월 탄생색 모아보기</p>
-            <p class="text-[10px] text-white/30 mt-0.5">핑크 넥타 · 리드 그린</p>
-          </div>
-          <span class="text-white/20 text-xs">→</span>
-        </a>
-
-        <!-- 탄생화 -->
-        <a href="https://birthdb.com/birth_flowers/2/" target="_blank" rel="noopener noreferrer"
-           class="link-item glass-card rounded-xl px-5 py-4 flex items-center gap-4">
-          <span class="text-lg">🌸</span>
-          <div class="flex-1 min-w-0">
-            <p class="text-sm text-white/80">2월 탄생화</p>
-            <p class="text-[10px] text-white/30 mt-0.5">빈카 — 즐거운 추억, 친구의 정</p>
-          </div>
-          <span class="text-white/20 text-xs">→</span>
-        </a>
-
-        <!-- 탄생석 -->
-        <a href="https://birthdb.com/birth_stones/" target="_blank" rel="noopener noreferrer"
-           class="link-item glass-card rounded-xl px-5 py-4 flex items-center gap-4">
-          <span class="text-lg">💎</span>
-          <div class="flex-1 min-w-0">
-            <p class="text-sm text-white/80">탄생석 — 애머시스트</p>
-            <p class="text-[10px] text-white/30 mt-0.5">영롱하고 평온한 자수정</p>
-          </div>
-          <span class="text-white/20 text-xs">→</span>
-        </a>
-
-        <!-- 별자리 -->
-        <a href="https://birthdb.com/birth_stars/" target="_blank" rel="noopener noreferrer"
-           class="link-item glass-card rounded-xl px-5 py-4 flex items-center gap-4">
-          <span class="text-lg">🌟</span>
-          <div class="flex-1 min-w-0">
-            <p class="text-sm text-white/80">탄생좌 — 물고기자리</p>
-            <p class="text-[10px] text-white/30 mt-0.5">물고기자리Ⅰ: 영혼</p>
-          </div>
-          <span class="text-white/20 text-xs">→</span>
+        <a href="https://birthdb.com/birth_stars/" target="_blank" class="birth-card" style="border-radius:.875rem;padding:1rem;text-decoration:none;display:block;">
+          <div style="width:40px;height:40px;border-radius:.5rem;background:rgba(107,138,181,.1);border:1px solid rgba(107,138,181,.2);display:flex;align-items:center;justify-content:center;font-size:1.25rem;margin-bottom:.75rem;">♓</div>
+          <p style="color:#e2e0e8;font-size:.85rem;font-weight:600;margin-bottom:.3rem;">물고기자리</p>
+          <p style="color:#64546b;font-size:.72rem;line-height:1.5;margin-bottom:.55rem;">Pisces · 물고기Ⅰ: 영혼</p>
+          <p style="color:#94a3b8;font-size:.72rem;line-height:1.5;">유연한 꿈, 48주간 별자리</p>
         </a>
 
         <!-- 탄생성 -->
-        <a href="https://birthdb.com/birth_planets/" target="_blank" rel="noopener noreferrer"
-           class="link-item glass-card rounded-xl px-5 py-4 flex items-center gap-4">
-          <span class="text-lg">🪐</span>
-          <div class="flex-1 min-w-0">
-            <p class="text-sm text-white/80">탄생성 — 해왕성</p>
-            <p class="text-[10px] text-white/30 mt-0.5">Neptune · 깊고 푸른 신비</p>
-          </div>
-          <span class="text-white/20 text-xs">→</span>
+        <a href="https://birthdb.com/birth_planets/" target="_blank" class="birth-card" style="border-radius:.875rem;padding:1rem;text-decoration:none;display:block;">
+          <div style="width:40px;height:40px;border-radius:.5rem;background:rgba(107,138,181,.12);border:1px solid rgba(107,138,181,.2);display:flex;align-items:center;justify-content:center;font-size:1.25rem;margin-bottom:.75rem;">🪐</div>
+          <p style="color:#e2e0e8;font-size:.85rem;font-weight:600;margin-bottom:.3rem;">해왕성</p>
+          <p style="color:#64546b;font-size:.72rem;line-height:1.5;margin-bottom:.55rem;">Neptune · Birth Planet</p>
+          <p style="color:#94a3b8;font-size:.72rem;line-height:1.5;">깊고 푸른 신비의 문</p>
         </a>
 
         <!-- 탄생신 -->
-        <a href="https://birthdb.com/birth_gods/" target="_blank" rel="noopener noreferrer"
-           class="link-item glass-card rounded-xl px-5 py-4 flex items-center gap-4">
-          <span class="text-lg">🔱</span>
-          <div class="flex-1 min-w-0">
-            <p class="text-sm text-white/80">탄생신 — 포세이돈</p>
-            <p class="text-[10px] text-white/30 mt-0.5">바다의 신 · Poseidon</p>
-          </div>
-          <span class="text-white/20 text-xs">→</span>
+        <a href="https://birthdb.com/birth_gods/" target="_blank" class="birth-card" style="border-radius:.875rem;padding:1rem;text-decoration:none;display:block;">
+          <div style="width:40px;height:40px;border-radius:.5rem;background:rgba(153,102,204,.08);border:1px solid rgba(153,102,204,.18);display:flex;align-items:center;justify-content:center;font-size:1.25rem;margin-bottom:.75rem;">🧚</div>
+          <p style="color:#e2e0e8;font-size:.85rem;font-weight:600;margin-bottom:.3rem;">포세이돈</p>
+          <p style="color:#64546b;font-size:.72rem;line-height:1.5;margin-bottom:.55rem;">Poseidon · Birth God</p>
+          <p style="color:#94a3b8;font-size:.72rem;line-height:1.5;">바다를 다스리는 신</p>
         </a>
 
         <!-- 탄생주 -->
-        <a href="https://birthdb.com/birth_cocktails/" target="_blank" rel="noopener noreferrer"
-           class="link-item glass-card rounded-xl px-5 py-4 flex items-center gap-4">
-          <span class="text-lg">🍸</span>
-          <div class="flex-1 min-w-0">
-            <p class="text-sm text-white/80">탄생주 — 스카이랜드 피즈</p>
-            <p class="text-[10px] text-white/30 mt-0.5">Skyland Fizz · 상큼하고 맑은 위로</p>
-          </div>
-          <span class="text-white/20 text-xs">→</span>
-        </a>
-
-        <!-- 탄생목 -->
-        <a href="https://birthdb.com/birth_trees/" target="_blank" rel="noopener noreferrer"
-           class="link-item glass-card rounded-xl px-5 py-4 flex items-center gap-4">
-          <span class="text-lg">🌳</span>
-          <div class="flex-1 min-w-0">
-            <p class="text-sm text-white/80">탄생목 — 소나무</p>
-            <p class="text-[10px] text-white/30 mt-0.5">고결하고 변치 않는 기개</p>
-          </div>
-          <span class="text-white/20 text-xs">→</span>
+        <a href="https://birthdb.com/birth_cocktails/" target="_blank" class="birth-card" style="border-radius:.875rem;padding:1rem;text-decoration:none;display:block;">
+          <div style="width:40px;height:40px;border-radius:.5rem;background:rgba(216,170,183,.06);border:1px solid rgba(216,170,183,.14);display:flex;align-items:center;justify-content:center;font-size:1.25rem;margin-bottom:.75rem;">🍸</div>
+          <p style="color:#e2e0e8;font-size:.85rem;font-weight:600;margin-bottom:.3rem;">스카이랜드 피즈</p>
+          <p style="color:#64546b;font-size:.72rem;line-height:1.5;margin-bottom:.55rem;">Skyland Fizz · 2월 탄생주</p>
+          <p style="color:#94a3b8;font-size:.72rem;line-height:1.5;">상큼하고 맑은 위로</p>
         </a>
 
         <!-- 탄생수 -->
-        <a href="https://birthdb.com/birth_numbers/" target="_blank" rel="noopener noreferrer"
-           class="link-item glass-card rounded-xl px-5 py-4 flex items-center gap-4">
-          <span class="text-lg">🔢</span>
-          <div class="flex-1 min-w-0">
-            <p class="text-sm text-white/80">탄생수 — 9</p>
-            <p class="text-[10px] text-white/30 mt-0.5">인생 여정 수 9 · 탄생수 9</p>
-          </div>
-          <span class="text-white/20 text-xs">→</span>
+        <a href="https://birthdb.com/birth_numbers/" target="_blank" class="birth-card" style="border-radius:.875rem;padding:1rem;text-decoration:none;display:block;">
+          <div style="width:40px;height:40px;border-radius:.5rem;background:rgba(216,170,183,.06);border:1px solid rgba(216,170,183,.14);display:flex;align-items:center;justify-content:center;font-size:1.4rem;font-weight:700;color:#d8aab7;margin-bottom:.75rem;">9</div>
+          <p style="color:#e2e0e8;font-size:.85rem;font-weight:600;margin-bottom:.3rem;">인생 여정 수</p>
+          <p style="color:#64546b;font-size:.72rem;line-height:1.5;margin-bottom:.55rem;">탄생수 9 · Life Path 9</p>
+          <p style="color:#94a3b8;font-size:.72rem;line-height:1.5;">지혜, 완성, 영적 성장</p>
         </a>
+
       </div>
     </section>
 
-    <div class="divider-glow mb-10"></div>
+    <hr class="birth-divider" style="margin-bottom:2rem;" />
 
-    <!-- 유사 탄생색 -->
-    <section class="mb-10">
-      <h2 class="text-xs tracking-[0.3em] uppercase text-white/30 mb-5 text-center">Similar Birth Colors</h2>
-      <div class="glass-card rounded-2xl p-5">
-        <p class="text-[10px] tracking-wider uppercase text-white/30 mb-3">핑크 넥타와 비슷한 색</p>
-        <div class="flex flex-wrap gap-2 mb-5">
-          <span class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-[10px] text-white/50" style="background:rgba(215,167,180,0.1); border:1px solid rgba(215,167,180,0.15);">7/2 프래그런트 라일락</span>
-          <span class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-[10px] text-white/50" style="background:rgba(215,167,180,0.1); border:1px solid rgba(215,167,180,0.15);">7/9 실버 핑크</span>
-          <span class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-[10px] text-white/50" style="background:rgba(215,167,180,0.1); border:1px solid rgba(215,167,180,0.15);">1/21 제피르</span>
-          <span class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-[10px] text-white/50" style="background:rgba(215,167,180,0.1); border:1px solid rgba(215,167,180,0.15);">3/9 멜로 로즈</span>
-          <span class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-[10px] text-white/50" style="background:rgba(215,167,180,0.1); border:1px solid rgba(215,167,180,0.15);">3/6 파스텔 라벤더</span>
-          <span class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-[10px] text-white/50" style="background:rgba(215,167,180,0.1); border:1px solid rgba(215,167,180,0.15);">9/22 미스티 로즈</span>
-        </div>
+    <!-- ═══════════ CALENDAR INFO ═══════════ -->
+    <section class="reveal" style="margin-bottom:2rem;">
+      <p style="color:#64546b;font-size:.7rem;letter-spacing:.18em;text-transform:uppercase;margin-bottom:.75rem;font-weight:500;">📅 날짜 정보</p>
+      <div class="birth-card" style="border-radius:.875rem;padding:1.25rem;">
+        <div style="display:flex;flex-direction:column;gap:.8rem;">
 
-        <p class="text-[10px] tracking-wider uppercase text-white/30 mb-3">리드 그린과 비슷한 색</p>
-        <div class="flex flex-wrap gap-2">
-          <span class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-[10px] text-white/50" style="background:rgba(216,226,174,0.1); border:1px solid rgba(216,226,174,0.15);">6/5 밍</span>
-          <span class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-[10px] text-white/50" style="background:rgba(216,226,174,0.1); border:1px solid rgba(216,226,174,0.15);">1/31 아쿠어퍼</span>
-          <span class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-[10px] text-white/50" style="background:rgba(216,226,174,0.1); border:1px solid rgba(216,226,174,0.15);">11/12 베이크드 애플</span>
-          <span class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-[10px] text-white/50" style="background:rgba(216,226,174,0.1); border:1px solid rgba(216,226,174,0.15);">1/26 더스키 오키드</span>
-          <span class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-[10px] text-white/50" style="background:rgba(216,226,174,0.1); border:1px solid rgba(216,226,174,0.15);">4/21 오페라 모브</span>
-          <span class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-[10px] text-white/50" style="background:rgba(216,226,174,0.1); border:1px solid rgba(216,226,174,0.15);">12/17 퍼플 세이지</span>
-        </div>
-      </div>
-    </section>
+          <div style="display:flex;justify-content:space-between;align-items:center;">
+            <span style="color:#94a3b8;font-size:.8rem;">양력</span>
+            <span style="color:#e2e0e8;font-size:.8rem;font-weight:600;">2026년 2월 24일 (화)</span>
+          </div>
+          <div style="height:1px;background:rgba(216,170,183,.06);"></div>
 
-    <div class="divider-glow mb-10"></div>
+          <div style="display:flex;justify-content:space-between;align-items:center;">
+            <span style="color:#94a3b8;font-size:.8rem;">음력</span>
+            <span style="color:#e2e0e8;font-size:.8rem;font-weight:600;">2026년 1월 8일 (평달)</span>
+          </div>
+          <div style="height:1px;background:rgba(216,170,183,.06);"></div>
 
-    <!-- 요약 수치 (icy 스타일) -->
-    <section class="mb-10">
-      <div class="flex justify-center gap-8 text-center">
-        <div>
-          <p class="font-serif-display text-2xl" style="color: var(--pink-nectar);">♓</p>
-          <p class="text-[10px] text-white/30 mt-1">Pisces</p>
-        </div>
-        <div>
-          <p class="font-serif-display text-2xl" style="color: var(--reed-green);">9</p>
-          <p class="text-[10px] text-white/30 mt-1">Life Path</p>
-        </div>
-        <div>
-          <p class="font-serif-display text-2xl" style="color: var(--amethyst);">∞</p>
-          <p class="text-[10px] text-white/30 mt-1">Soul</p>
+          <div style="display:flex;justify-content:space-between;align-items:center;">
+            <span style="color:#94a3b8;font-size:.8rem;">별자리</span>
+            <span style="color:#d8aab7;font-size:.8rem;font-weight:600;">♓ 물고기자리 (Pisces)</span>
+          </div>
+          <div style="height:1px;background:rgba(216,170,183,.06);"></div>
+
+          <div style="display:flex;justify-content:space-between;align-items:center;">
+            <span style="color:#94a3b8;font-size:.8rem;">48주간 별자리</span>
+            <span style="color:#9966cc;font-size:.8rem;font-weight:600;">물고기Ⅰ: 영혼</span>
+          </div>
+          <div style="height:1px;background:rgba(216,170,183,.06);"></div>
+
+          <div style="display:flex;justify-content:space-between;align-items:center;">
+            <span style="color:#94a3b8;font-size:.8rem;">탄생수</span>
+            <span style="color:#e2e0e8;font-size:.8rem;font-weight:600;">9, 9</span>
+          </div>
+
         </div>
       </div>
     </section>
 
-    <!-- 푸터 -->
-    <footer class="text-center pt-4 pb-8">
-      <p class="text-[10px] text-white/15 tracking-wider">
-        2월 24일 · 물고기자리 · 해왕성 · 포세이돈
-      </p>
-      <p class="text-[10px] text-white/10 mt-2">
-        Powered by <a href="https://birthdb.com" target="_blank" rel="noopener noreferrer" class="underline hover:text-white/30 transition-colors">BirthDB</a>
-      </p>
+    <hr class="birth-divider" style="margin-bottom:2rem;" />
+
+    <!-- ═══════════ IMAGE CAROUSEL ═══════════ -->
+    <section class="reveal" style="margin-bottom:2rem;">
+      <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:.75rem;">
+        <p style="color:#64546b;font-size:.7rem;letter-spacing:.18em;text-transform:uppercase;font-weight:500;margin:0;">탄생 상징 갤러리</p>
+        <div id="dots" style="display:flex;gap:.375rem;align-items:center;"></div>
+      </div>
+
+      <div id="car-wrap" style="position:relative;border-radius:.875rem;overflow:hidden;">
+        <div id="car-track" class="carousel-track">
+
+          <!-- slide 1: Pink Nectar -->
+          <div class="carousel-slide">
+            <div style="aspect-ratio:4/3;background:linear-gradient(160deg,#2d1520 0%,#170d22 50%,#0e0a14 100%);display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:2rem;position:relative;overflow:hidden;">
+              <div style="position:absolute;inset:0;opacity:.08;">
+                <svg width="100%" height="100%" viewBox="0 0 400 300" fill="none" stroke="#d8aab7" stroke-width=".8">
+                  <circle cx="200" cy="150" r="100"/><circle cx="200" cy="150" r="60"/><circle cx="200" cy="150" r="25"/>
+                  <line x1="200" y1="0" x2="200" y2="300"/><line x1="0" y1="150" x2="400" y2="150"/>
+                </svg>
+              </div>
+              <div style="width:80px;height:80px;border-radius:50%;background:#d8aab7;margin-bottom:1rem;box-shadow:0 0 40px rgba(216,170,183,.35);"></div>
+              <p style="font-family:'Noto Serif KR',serif;color:#e2e0e8;font-size:1.1rem;font-weight:500;margin-bottom:.35rem;">핑크 넥타</p>
+              <p style="color:#64546b;font-size:.8rem;">Pink Nectar · #D8AAB7</p>
+              <div style="position:absolute;bottom:.75rem;left:1rem;right:1rem;display:flex;justify-content:space-between;align-items:flex-end;">
+                <span class="tag">탄생색</span>
+                <span style="color:#64546b;font-size:.72rem;">1 / 5</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- slide 2: Reed Green -->
+          <div class="carousel-slide">
+            <div style="aspect-ratio:4/3;background:radial-gradient(ellipse at 30% 70%,rgba(122,118,90,.18) 0%,#0e0a14 65%);display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:2rem;position:relative;">
+              <div style="width:80px;height:80px;border-radius:50%;background:#7a765a;margin-bottom:1rem;box-shadow:0 0 40px rgba(122,118,90,.25);"></div>
+              <p style="font-family:'Noto Serif KR',serif;color:#e2e0e8;font-size:1.1rem;font-weight:500;margin-bottom:.35rem;">리드 그린</p>
+              <p style="color:#64546b;font-size:.8rem;">Reed Green · #7A765A</p>
+              <div style="position:absolute;bottom:.75rem;left:1rem;right:1rem;display:flex;justify-content:space-between;">
+                <span class="tag">탄생색</span>
+                <span style="color:#64546b;font-size:.72rem;">2 / 5</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- slide 3: Vinca (빈카) -->
+          <div class="carousel-slide">
+            <div style="aspect-ratio:4/3;background:linear-gradient(180deg,rgba(153,102,204,.12) 0%,#170d22 50%,#0e0a14 100%);display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:2rem;position:relative;overflow:hidden;">
+              <span style="font-size:4rem;margin-bottom:.8rem;">🌸</span>
+              <p style="font-family:'Noto Serif KR',serif;color:#e2e0e8;font-size:1.1rem;font-weight:500;margin-bottom:.35rem;">빈카 (Vinca)</p>
+              <p style="color:#64546b;font-size:.8rem;">즐거운 추억, 친구의 정</p>
+              <div style="position:absolute;bottom:.75rem;left:1rem;right:1rem;display:flex;justify-content:space-between;">
+                <span class="tag">탄생화</span>
+                <span style="color:#64546b;font-size:.72rem;">3 / 5</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- slide 4: Amethyst -->
+          <div class="carousel-slide">
+            <div style="aspect-ratio:4/3;background:radial-gradient(ellipse at center,rgba(153,102,204,.2),#0e0a14 70%);display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:2rem;position:relative;overflow:hidden;">
+              <div style="position:absolute;inset:0;opacity:.06;">
+                <svg width="100%" height="100%" viewBox="0 0 400 300"><polygon points="200,40 260,120 330,140 270,200 280,280 200,240 120,280 130,200 70,140 140,120" fill="none" stroke="#9966cc" stroke-width="1"/></svg>
+              </div>
+              <span style="font-size:4rem;margin-bottom:.8rem;">💎</span>
+              <p style="font-family:'Noto Serif KR',serif;color:#e2e0e8;font-size:1.1rem;font-weight:500;margin-bottom:.35rem;">애머시스트 (자수정)</p>
+              <p style="color:#64546b;font-size:.8rem;">Amethyst · 2월 탄생석</p>
+              <div style="position:absolute;bottom:.75rem;left:1rem;right:1rem;display:flex;justify-content:space-between;">
+                <span class="tag">탄생석</span>
+                <span style="color:#64546b;font-size:.72rem;">4 / 5</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- slide 5: Pisces / Neptune -->
+          <div class="carousel-slide">
+            <div style="aspect-ratio:4/3;background:linear-gradient(180deg,#101a2b 0%,#0e0a14 100%);display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:2rem;position:relative;overflow:hidden;">
+              <div style="position:absolute;inset:0;opacity:.05;">
+                <svg width="100%" height="100%" viewBox="0 0 400 300" fill="none" stroke="#6b8ab5" stroke-width=".5"><circle cx="200" cy="150" r="110"/><circle cx="200" cy="150" r="80"/><circle cx="200" cy="150" r="50"/><circle cx="200" cy="150" r="20"/></svg>
+              </div>
+              <span style="font-size:3rem;margin-bottom:.4rem;">♓</span>
+              <span style="font-size:2rem;margin-bottom:.8rem;">🪐</span>
+              <p style="font-family:'Noto Serif KR',serif;color:#e2e0e8;font-size:1.1rem;font-weight:500;margin-bottom:.35rem;">물고기자리 · 해왕성</p>
+              <p style="color:#64546b;font-size:.8rem;">Pisces · Neptune · 포세이돈</p>
+              <div style="position:absolute;bottom:.75rem;left:1rem;right:1rem;display:flex;justify-content:space-between;">
+                <span class="tag">탄생좌 · 탄생성</span>
+                <span style="color:#64546b;font-size:.72rem;">5 / 5</span>
+              </div>
+            </div>
+          </div>
+
+        </div><!-- /track -->
+
+        <!-- prev / next -->
+        <button onclick="carGo(carIdx-1)"
+          style="position:absolute;left:.5rem;top:50%;transform:translateY(-50%);width:32px;height:32px;border-radius:50%;background:rgba(14,10,20,.65);border:1px solid rgba(216,170,183,.15);display:flex;align-items:center;justify-content:center;color:#94a3b8;cursor:pointer;z-index:5;transition:all .2s;"
+          onmouseover="this.style.background='rgba(14,10,20,.9)';this.style.color='#e2e0e8'"
+          onmouseout="this.style.background='rgba(14,10,20,.65)';this.style.color='#94a3b8'">
+          <svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M15 19l-7-7 7-7"/></svg>
+        </button>
+        <button onclick="carGo(carIdx+1)"
+          style="position:absolute;right:.5rem;top:50%;transform:translateY(-50%);width:32px;height:32px;border-radius:50%;background:rgba(14,10,20,.65);border:1px solid rgba(216,170,183,.15);display:flex;align-items:center;justify-content:center;color:#94a3b8;cursor:pointer;z-index:5;transition:all .2s;"
+          onmouseover="this.style.background='rgba(14,10,20,.9)';this.style.color='#e2e0e8'"
+          onmouseout="this.style.background='rgba(14,10,20,.65)';this.style.color='#94a3b8'">
+          <svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M9 5l7 7-7 7"/></svg>
+        </button>
+      </div>
+      <p style="color:#2d1520;font-size:.7rem;text-align:center;margin-top:.5rem;">← 스와이프하여 탐색 →</p>
+    </section>
+
+    <hr class="birth-divider" style="margin-bottom:2rem;" />
+
+    <!-- ═══════════ MUSIC / SHORTS LINKS ═══════════ -->
+    <section class="reveal" style="margin-bottom:2rem;">
+      <p style="color:#64546b;font-size:.7rem;letter-spacing:.18em;text-transform:uppercase;margin-bottom:.75rem;font-weight:500;">🎵 관련 영상 & 음악</p>
+
+      <!-- Main video -->
+      <a href="https://www.youtube.com/watch?v=64i9dgQ-TIk" target="_blank" class="link-btn amethyst-btn" style="margin-bottom:.625rem;">
+        <span class="icon-badge" style="background:#dc2626;">
+          <svg width="16" height="16" fill="white" viewBox="0 0 24 24"><path d="M23.498 6.186a3.016 3.016 0 00-2.122-2.136C19.505 3.545 12 3.545 12 3.545s-7.505 0-9.377.505A3.017 3.017 0 00.502 6.186C0 8.07 0 12 0 12s0 3.93.502 5.814a3.016 3.016 0 002.122 2.136c1.871.505 9.376.505 9.376.505s7.505 0 9.377-.505a3.015 3.015 0 002.122-2.136C24 15.93 24 12 24 12s0-3.93-.502-5.814zM9.545 15.568V8.432L15.818 12l-6.273 3.568z"/></svg>
+        </span>
+        <span style="flex:1;">2월 24일 Birth Lofi</span>
+        <span style="color:#64546b;font-size:.78rem;">보컬 ver.</span>
+        <svg width="14" height="14" fill="none" stroke="#3d2358" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M9 5l7 7-7 7"/></svg>
+      </a>
+
+      <!-- Inst version -->
+      <a href="https://youtu.be/YKgnTUInwKM" target="_blank" class="link-btn" style="margin-bottom:.625rem;">
+        <span class="icon-badge" style="background:#dc2626;">
+          <svg width="16" height="16" fill="white" viewBox="0 0 24 24"><path d="M23.498 6.186a3.016 3.016 0 00-2.122-2.136C19.505 3.545 12 3.545 12 3.545s-7.505 0-9.377.505A3.017 3.017 0 00.502 6.186C0 8.07 0 12 0 12s0 3.93.502 5.814a3.016 3.016 0 002.122 2.136c1.871.505 9.376.505 9.376.505s7.505 0 9.377-.505a3.015 3.015 0 002.122-2.136C24 15.93 24 12 24 12s0-3.93-.502-5.814zM9.545 15.568V8.432L15.818 12l-6.273 3.568z"/></svg>
+        </span>
+        <span style="flex:1;">2월 24일 Birth Lofi</span>
+        <span style="color:#64546b;font-size:.78rem;">Inst ver.</span>
+        <svg width="14" height="14" fill="none" stroke="#3d2358" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M9 5l7 7-7 7"/></svg>
+      </a>
+
+      <!-- Shorts: Birth Color -->
+      <a href="https://youtube.com/shorts/nF68yxNCEW4" target="_blank" class="link-btn" style="margin-bottom:.625rem;">
+        <span class="icon-badge" style="background:linear-gradient(135deg,#d8aab7,#9966cc);">
+          <svg width="14" height="14" fill="white" viewBox="0 0 24 24"><path d="M10 15l5.19-3L10 9v6m11.56-7.83c.13.47.22 1.1.28 1.9.07.8.1 1.49.1 2.09L22 12c0 2.19-.16 3.8-.44 4.83-.25.9-.83 1.48-1.73 1.73-.47.13-1.33.22-2.65.28-1.3.07-2.49.1-3.59.1L12 19c-4.19 0-6.8-.16-7.83-.44-.9-.25-1.48-.83-1.73-1.73-.13-.47-.22-1.1-.28-1.9-.07-.8-.1-1.49-.1-2.09L2 12c0-2.19.16-3.8.44-4.83.25-.9.83-1.48 1.73-1.73.47-.13 1.33-.22 2.65-.28 1.3-.07 2.49-.1 3.59-.1L12 5c4.19 0 6.8.16 7.83.44.9.25 1.48.83 1.73 1.73z"/></svg>
+        </span>
+        <span style="flex:1;">탄생색 & 탄생화 Shorts</span>
+        <span style="color:#64546b;font-size:.78rem;">핑크 넥타</span>
+        <svg width="14" height="14" fill="none" stroke="#3d2358" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M9 5l7 7-7 7"/></svg>
+      </a>
+
+      <!-- Similar color shorts -->
+      <a href="https://youtu.be/X-QVJ5rYWng" target="_blank" class="link-btn" style="margin-bottom:.625rem;">
+        <span class="icon-badge" style="background:#dc2626;">
+          <svg width="16" height="16" fill="white" viewBox="0 0 24 24"><path d="M23.498 6.186a3.016 3.016 0 00-2.122-2.136C19.505 3.545 12 3.545 12 3.545s-7.505 0-9.377.505A3.017 3.017 0 00.502 6.186C0 8.07 0 12 0 12s0 3.93.502 5.814a3.016 3.016 0 002.122 2.136c1.871.505 9.376.505 9.376.505s7.505 0 9.377-.505a3.015 3.015 0 002.122-2.136C24 15.93 24 12 24 12s0-3.93-.502-5.814zM9.545 15.568V8.432L15.818 12l-6.273 3.568z"/></svg>
+        </span>
+        <span style="flex:1;">비슷한 탄생색 영상</span>
+        <span style="color:#64546b;font-size:.78rem;">핑크 계열</span>
+        <svg width="14" height="14" fill="none" stroke="#3d2358" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M9 5l7 7-7 7"/></svg>
+      </a>
+
+      <a href="https://youtu.be/U_h2Z0iJcDI" target="_blank" class="link-btn" style="margin-bottom:.625rem;">
+        <span class="icon-badge" style="background:#dc2626;">
+          <svg width="16" height="16" fill="white" viewBox="0 0 24 24"><path d="M23.498 6.186a3.016 3.016 0 00-2.122-2.136C19.505 3.545 12 3.545 12 3.545s-7.505 0-9.377.505A3.017 3.017 0 00.502 6.186C0 8.07 0 12 0 12s0 3.93.502 5.814a3.016 3.016 0 002.122 2.136c1.871.505 9.376.505 9.376.505s7.505 0 9.377-.505a3.015 3.015 0 002.122-2.136C24 15.93 24 12 24 12s0-3.93-.502-5.814zM9.545 15.568V8.432L15.818 12l-6.273 3.568z"/></svg>
+        </span>
+        <span style="flex:1;">비슷한 탄생색 영상</span>
+        <span style="color:#64546b;font-size:.78rem;">리드 그린 계열</span>
+        <svg width="14" height="14" fill="none" stroke="#3d2358" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M9 5l7 7-7 7"/></svg>
+      </a>
+
+      <a href="https://youtu.be/0T38HOzAFLE" target="_blank" class="link-btn">
+        <span class="icon-badge" style="background:#dc2626;">
+          <svg width="16" height="16" fill="white" viewBox="0 0 24 24"><path d="M23.498 6.186a3.016 3.016 0 00-2.122-2.136C19.505 3.545 12 3.545 12 3.545s-7.505 0-9.377.505A3.017 3.017 0 00.502 6.186C0 8.07 0 12 0 12s0 3.93.502 5.814a3.016 3.016 0 002.122 2.136c1.871.505 9.376.505 9.376.505s7.505 0 9.377-.505a3.015 3.015 0 002.122-2.136C24 15.93 24 12 24 12s0-3.93-.502-5.814zM9.545 15.568V8.432L15.818 12l-6.273 3.568z"/></svg>
+        </span>
+        <span style="flex:1;">더스키 오키드 영상</span>
+        <span style="color:#64546b;font-size:.78rem;">유사 탄생색</span>
+        <svg width="14" height="14" fill="none" stroke="#3d2358" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M9 5l7 7-7 7"/></svg>
+      </a>
+    </section>
+
+    <hr class="birth-divider" style="margin-bottom:2rem;" />
+
+    <!-- ═══════════ LINKS TO BIRTHDB ═══════════ -->
+    <section class="reveal" style="margin-bottom:2rem;">
+      <p style="color:#64546b;font-size:.7rem;letter-spacing:.18em;text-transform:uppercase;margin-bottom:.75rem;font-weight:500;">🔗 탄생 정보 상세</p>
+
+      <a href="https://birthdb.com/search/20260224/" target="_blank" class="link-btn" style="margin-bottom:.625rem;">
+        <span class="icon-badge" style="background:linear-gradient(135deg,#d8aab7,#9966cc);">
+          <span style="font-size:.85rem;">☀</span>
+        </span>
+        <span style="flex:1;">양력 2026년 2월 24일 탄생 정보</span>
+        <svg width="14" height="14" fill="none" stroke="#3d2358" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M9 5l7 7-7 7"/></svg>
+      </a>
+
+      <a href="https://birthdb.com/search/202601080/" target="_blank" class="link-btn" style="margin-bottom:.625rem;">
+        <span class="icon-badge" style="background:linear-gradient(135deg,#2d1520,#170d22);border:1px solid rgba(216,170,183,.2);">
+          <span style="font-size:.85rem;">🌙</span>
+        </span>
+        <span style="flex:1;">음력 2026년 1월 8일 탄생 정보</span>
+        <svg width="14" height="14" fill="none" stroke="#3d2358" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M9 5l7 7-7 7"/></svg>
+      </a>
+
+      <a href="https://birthdb.com/birth/colors/monthly/2/" target="_blank" class="link-btn" style="margin-bottom:.625rem;">
+        <span class="icon-badge" style="background:#d8aab7;">
+          <span style="font-size:.85rem;">🎨</span>
+        </span>
+        <span style="flex:1;">2월 탄생색 전체 보기</span>
+        <svg width="14" height="14" fill="none" stroke="#3d2358" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M9 5l7 7-7 7"/></svg>
+      </a>
+
+      <a href="https://birthdb.com/birth_flowers/2/" target="_blank" class="link-btn" style="margin-bottom:.625rem;">
+        <span class="icon-badge" style="background:rgba(216,170,183,.15);border:1px solid rgba(216,170,183,.2);">
+          <span style="font-size:.85rem;">🌸</span>
+        </span>
+        <span style="flex:1;">2월 탄생화 전체 보기</span>
+        <svg width="14" height="14" fill="none" stroke="#3d2358" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M9 5l7 7-7 7"/></svg>
+      </a>
+
+      <a href="https://birthdb.com/birth_trees/" target="_blank" class="link-btn" style="margin-bottom:.625rem;">
+        <span class="icon-badge" style="background:rgba(122,118,90,.15);border:1px solid rgba(122,118,90,.2);">
+          <span style="font-size:.85rem;">🌳</span>
+        </span>
+        <span style="flex:1;">탄생목 보기</span>
+        <svg width="14" height="14" fill="none" stroke="#3d2358" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M9 5l7 7-7 7"/></svg>
+      </a>
+
+      <a href="https://birthdb.com/birth_stars/" target="_blank" class="link-btn" style="margin-bottom:.625rem;">
+        <span class="icon-badge" style="background:rgba(107,138,181,.12);border:1px solid rgba(107,138,181,.2);">
+          <span style="font-size:.85rem;">🌟</span>
+        </span>
+        <span style="flex:1;">탄생좌 (별자리) 보기</span>
+        <svg width="14" height="14" fill="none" stroke="#3d2358" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M9 5l7 7-7 7"/></svg>
+      </a>
+
+      <a href="https://birthdb.com/birth_planets/" target="_blank" class="link-btn" style="margin-bottom:.625rem;">
+        <span class="icon-badge" style="background:rgba(107,138,181,.12);border:1px solid rgba(107,138,181,.2);">
+          <span style="font-size:.85rem;">🪐</span>
+        </span>
+        <span style="flex:1;">탄생성 보기</span>
+        <svg width="14" height="14" fill="none" stroke="#3d2358" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M9 5l7 7-7 7"/></svg>
+      </a>
+
+      <a href="https://birthdb.com/birth_gods/" target="_blank" class="link-btn" style="margin-bottom:.625rem;">
+        <span class="icon-badge" style="background:rgba(153,102,204,.1);border:1px solid rgba(153,102,204,.2);">
+          <span style="font-size:.85rem;">🧚</span>
+        </span>
+        <span style="flex:1;">탄생신 보기</span>
+        <svg width="14" height="14" fill="none" stroke="#3d2358" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M9 5l7 7-7 7"/></svg>
+      </a>
+
+      <a href="https://birthdb.com/birth_stones/" target="_blank" class="link-btn" style="margin-bottom:.625rem;">
+        <span class="icon-badge" style="background:rgba(153,102,204,.12);border:1px solid rgba(153,102,204,.2);">
+          <span style="font-size:.85rem;">💎</span>
+        </span>
+        <span style="flex:1;">탄생석 보기</span>
+        <svg width="14" height="14" fill="none" stroke="#3d2358" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M9 5l7 7-7 7"/></svg>
+      </a>
+
+      <a href="https://birthdb.com/birth_cocktails/" target="_blank" class="link-btn" style="margin-bottom:.625rem;">
+        <span class="icon-badge" style="background:rgba(216,170,183,.1);border:1px solid rgba(216,170,183,.15);">
+          <span style="font-size:.85rem;">🍸</span>
+        </span>
+        <span style="flex:1;">탄생주 보기</span>
+        <svg width="14" height="14" fill="none" stroke="#3d2358" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M9 5l7 7-7 7"/></svg>
+      </a>
+
+      <a href="https://birthdb.com/birth_numbers/" target="_blank" class="link-btn">
+        <span class="icon-badge" style="background:rgba(216,170,183,.1);border:1px solid rgba(216,170,183,.15);">
+          <span style="font-size:.85rem;">🔢</span>
+        </span>
+        <span style="flex:1;">탄생수 보기</span>
+        <svg width="14" height="14" fill="none" stroke="#3d2358" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M9 5l7 7-7 7"/></svg>
+      </a>
+    </section>
+
+    <hr class="birth-divider" style="margin-bottom:2rem;" />
+
+    <!-- ═══════════ FAQ ACCORDION ═══════════ -->
+    <section class="reveal" style="margin-bottom:2rem;">
+      <p style="color:#64546b;font-size:.7rem;letter-spacing:.18em;text-transform:uppercase;margin-bottom:.75rem;font-weight:500;">탄생 정보 요약</p>
+
+      <details class="birth-card" style="border-radius:.875rem;overflow:hidden;margin-bottom:.625rem;">
+        <summary style="display:flex;align-items:center;justify-content:space-between;padding:1rem;">
+          <span style="color:#e2e0e8;font-size:.875rem;font-weight:500;">🎨 탄생색이란?</span>
+          <span class="chev" style="color:#64546b;flex-shrink:0;">
+            <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7"/></svg>
+          </span>
+        </summary>
+        <div style="padding:0 1rem 1rem;">
+          <div class="birth-divider" style="margin-bottom:.75rem;"></div>
+          <p style="color:#94a3b8;font-size:.8rem;line-height:1.75;">2월 24일의 탄생색은 <strong style="color:#d8aab7;">핑크 넥타(Pink Nectar)</strong>와 <strong style="color:#b0b67e;">리드 그린(Reed Green)</strong>입니다. 핑크 넥타는 달콤한 위로와 치유하는 사랑의 손길을, 리드 그린은 유연한 생명력과 꺾이지 않는 회복력을 상징합니다. Colorstrology의 팬톤 컬러 기준입니다.</p>
+        </div>
+      </details>
+
+      <details class="birth-card" style="border-radius:.875rem;overflow:hidden;margin-bottom:.625rem;">
+        <summary style="display:flex;align-items:center;justify-content:space-between;padding:1rem;">
+          <span style="color:#e2e0e8;font-size:.875rem;font-weight:500;">🌸 빈카의 꽃말은?</span>
+          <span class="chev" style="color:#64546b;flex-shrink:0;">
+            <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7"/></svg>
+          </span>
+        </summary>
+        <div style="padding:0 1rem 1rem;">
+          <div class="birth-divider" style="margin-bottom:.75rem;"></div>
+          <p style="color:#94a3b8;font-size:.8rem;line-height:1.75;">2월 24일의 탄생화 <strong style="color:#d8aab7;">빈카(Vinca)</strong>의 꽃말은 <em style="color:#e2e0e8;">즐거운 추억</em>과 <em style="color:#e2e0e8;">친구의 정</em>입니다. 청초한 푸른 꽃잎이 시린 겨울 창가에서도 영원한 우정을 조용히 피워내는 꽃입니다.</p>
+        </div>
+      </details>
+
+      <details class="birth-card" style="border-radius:.875rem;overflow:hidden;margin-bottom:.625rem;">
+        <summary style="display:flex;align-items:center;justify-content:space-between;padding:1rem;">
+          <span style="color:#e2e0e8;font-size:.875rem;font-weight:500;">♓ 물고기자리Ⅰ: 영혼이란?</span>
+          <span class="chev" style="color:#64546b;flex-shrink:0;">
+            <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7"/></svg>
+          </span>
+        </summary>
+        <div style="padding:0 1rem 1rem;">
+          <div class="birth-divider" style="margin-bottom:.75rem;"></div>
+          <p style="color:#94a3b8;font-size:.8rem;line-height:1.75;">48주간 별자리 체계에서 2월 24일은 <strong style="color:#9966cc;">물고기자리Ⅰ: 영혼</strong>에 해당합니다. 탄생성은 <strong style="color:#6b8ab5;">해왕성(Neptune)</strong>이며, 탄생신은 바다의 신 <strong style="color:#6b8ab5;">포세이돈(Poseidon)</strong>입니다. 심해의 신비로운 메아리와 별들이 속삭이는 차가운 노래를 품고 있습니다.</p>
+        </div>
+      </details>
+
+      <details class="birth-card" style="border-radius:.875rem;overflow:hidden;">
+        <summary style="display:flex;align-items:center;justify-content:space-between;padding:1rem;">
+          <span style="color:#e2e0e8;font-size:.875rem;font-weight:500;">💎 애머시스트(자수정)의 의미는?</span>
+          <span class="chev" style="color:#64546b;flex-shrink:0;">
+            <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7"/></svg>
+          </span>
+        </summary>
+        <div style="padding:0 1rem 1rem;">
+          <div class="birth-divider" style="margin-bottom:.75rem;"></div>
+          <p style="color:#94a3b8;font-size:.8rem;line-height:1.75;">2월의 탄생석 <strong style="color:#9966cc;">애머시스트(Amethyst, 자수정)</strong>는 보랏빛 속에 깃든 영롱하고 평온한 마음을 상징합니다. 흔들림 없는 신비를 보석처럼 가슴 깊이 간직하는 의미를 담고 있습니다. 인생 여정 수와 탄생수는 모두 <strong style="color:#d8aab7;">9</strong>입니다.</p>
+        </div>
+      </details>
+    </section>
+
+    <hr class="birth-divider" style="margin-bottom:2rem;" />
+
+    <!-- ═══════════ FEATURED POEM IMAGE ═══════════ -->
+    <section class="reveal" style="margin-bottom:2rem;">
+      <div class="birth-card" style="border-radius:.875rem;overflow:hidden;">
+        <div style="position:relative;aspect-ratio:16/9;overflow:hidden;background:#0e0a14;">
+          <!-- Gradient background representing the birth colors -->
+          <div style="position:absolute;inset:0;background:linear-gradient(135deg,rgba(216,170,183,.15) 0%,rgba(153,102,204,.1) 40%,rgba(122,118,90,.08) 70%,rgba(14,10,20,1) 100%);"></div>
+          <!-- Crystal pattern -->
+          <div style="position:absolute;inset:0;opacity:.04;">
+            <svg width="100%" height="100%" viewBox="0 0 800 450" fill="none">
+              <circle cx="200" cy="225" r="150" stroke="#d8aab7" stroke-width=".5"/>
+              <circle cx="600" cy="225" r="120" stroke="#9966cc" stroke-width=".5"/>
+              <circle cx="400" cy="225" r="180" stroke="#7a765a" stroke-width=".3"/>
+              <line x1="0" y1="225" x2="800" y2="225" stroke="#d8aab7" stroke-width=".3"/>
+              <line x1="400" y1="0" x2="400" y2="450" stroke="#9966cc" stroke-width=".3"/>
+            </svg>
+          </div>
+          <div style="position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:1.5rem;">
+            <p style="font-size:.65rem;color:#d8aab7;letter-spacing:.3em;text-transform:uppercase;margin-bottom:.5rem;">2026 · 02 · 24</p>
+            <p class="shimmer-text" style="font-family:'Noto Serif KR',serif;font-size:1.6rem;font-weight:700;letter-spacing:.12em;margin-bottom:.3rem;">아름다운 추억을 품은 영혼</p>
+            <p style="color:#64546b;font-size:.72rem;letter-spacing:.2em;">당신의 모든 걸음이 소나무처럼 푸르고 고결하기를</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ═══════════ FOOTER ═══════════ -->
+    <footer class="reveal" style="text-align:center;">
+      <hr class="birth-divider" style="margin-bottom:1.5rem;" />
+      <div style="display:flex;justify-content:center;gap:.4rem;flex-wrap:wrap;margin-bottom:1rem;">
+        <span class="tag">🌸 빈카</span>
+        <span style="color:#2d1520;display:flex;align-items:center;font-size:.8rem;">·</span>
+        <span class="tag">💎 애머시스트</span>
+        <span style="color:#2d1520;display:flex;align-items:center;font-size:.8rem;">·</span>
+        <span class="tag">♓ 물고기자리</span>
+        <span style="color:#2d1520;display:flex;align-items:center;font-size:.8rem;">·</span>
+        <span class="tag">🪐 해왕성</span>
+      </div>
+
+      <!-- Color swatches -->
+      <div style="display:flex;justify-content:center;gap:.6rem;margin-bottom:1.2rem;">
+        <div style="width:24px;height:24px;border-radius:50%;background:#d8aab7;box-shadow:0 0 10px rgba(216,170,183,.3);border:1.5px solid rgba(216,170,183,.3);"></div>
+        <div style="width:24px;height:24px;border-radius:50%;background:#7a765a;box-shadow:0 0 10px rgba(122,118,90,.2);border:1.5px solid rgba(122,118,90,.2);"></div>
+        <div style="width:24px;height:24px;border-radius:50%;background:#9966cc;box-shadow:0 0 10px rgba(153,102,204,.3);border:1.5px solid rgba(153,102,204,.3);"></div>
+      </div>
+
+      <p style="font-family:'Noto Serif KR',serif;color:#64546b;font-size:.85rem;font-style:italic;margin-bottom:.25rem;">2월의 스물네 번째 날</p>
+      <p style="color:#2d1520;font-size:.75rem;margin-bottom:1rem;">— 바다와 대지가 차갑게 맞닿은 시간 —</p>
+      <a href="https://birthdb.com"
+         target="_blank"
+         style="color:#64546b;font-size:.75rem;letter-spacing:.2em;text-transform:uppercase;text-decoration:none;transition:color .2s;"
+         onmouseover="this.style.color='#94a3b8'" onmouseout="this.style.color='#64546b'">birthdb.com</a>
+      <p style="color:#2d1520;font-size:.7rem;margin-top:.75rem;">Made with Tailwind CSS 4 · BirthDB</p>
     </footer>
 
   </main>
+
+  <!-- ░░ JS ░░ -->
+  <script>
+    // ── Particles ──────────────────────────────────
+    (function() {
+      const c = document.getElementById('ptcl');
+
+      // Petal-like particles (rising)
+      for (let i = 0; i < 14; i++) {
+        const e = document.createElement('div');
+        const s = Math.random() * 5 + 2;
+        const colors = ['rgba(216,170,183,','rgba(153,102,204,','rgba(122,118,90,','rgba(107,138,181,'];
+        const col = colors[Math.floor(Math.random()*colors.length)];
+        e.style.cssText = `
+          position:absolute;
+          width:${s}px; height:${s}px;
+          border-radius:${Math.random() > .5 ? '50%' : '1px'};
+          background:${col}${Math.random()*.35+.1});
+          left:${Math.random()*100}%;
+          bottom:${Math.random()*20}%;
+          animation:petal-float ${Math.random()*5+4}s linear ${Math.random()*7}s infinite;
+          pointer-events:none;
+          box-shadow:0 0 ${s*2}px ${col}0.3);
+        `;
+        c.appendChild(e);
+      }
+
+      // Falling star particles
+      for (let i = 0; i < 18; i++) {
+        const e = document.createElement('div');
+        const s = Math.random() * 3 + 1;
+        const colors2 = ['rgba(216,170,183,','rgba(226,224,232,','rgba(153,102,204,'];
+        const col = colors2[Math.floor(Math.random()*colors2.length)];
+        e.style.cssText = `
+          position:absolute;
+          width:${s}px; height:${s}px;
+          border-radius:50%;
+          background:${col}${Math.random()*.3+.05});
+          left:${Math.random()*100}%;
+          top:${Math.random()*15}%;
+          animation:star-fall ${Math.random()*7+6}s linear ${Math.random()*9}s infinite;
+          pointer-events:none;
+        `;
+        c.appendChild(e);
+      }
+    })();
+
+    // ── Scroll reveal ──────────────────────────────
+    const io = new IntersectionObserver((entries) => {
+      entries.forEach((entry, i) => {
+        if (entry.isIntersecting) {
+          entry.target.style.animationDelay = (i * 0.07) + 's';
+          entry.target.classList.add('in');
+          io.unobserve(entry.target);
+        }
+      });
+    }, { threshold: 0.08 });
+    document.querySelectorAll('.reveal').forEach(el => io.observe(el));
+
+    // ── Carousel ───────────────────────────────────
+    let carIdx = 0;
+    const carTotal = 5;
+    const carTrack = document.getElementById('car-track');
+    const dotsEl   = document.getElementById('dots');
+
+    for (let i = 0; i < carTotal; i++) {
+      const d = document.createElement('button');
+      d.style.cssText = `height:6px;border-radius:9999px;border:none;cursor:pointer;transition:all .25s;padding:0;background:${i===0?'#d8aab7':'#2d1520'};width:${i===0?'16px':'6px'};`;
+      d.onclick = () => carGo(i);
+      dotsEl.appendChild(d);
+    }
+
+    function carGo(n) {
+      carIdx = ((n % carTotal) + carTotal) % carTotal;
+      carTrack.style.transform = `translateX(-${carIdx * 100}%)`;
+      Array.from(dotsEl.children).forEach((d, i) => {
+        d.style.background = i === carIdx ? '#d8aab7' : '#2d1520';
+        d.style.width = i === carIdx ? '16px' : '6px';
+      });
+    }
+
+    let carTimer = setInterval(() => carGo(carIdx + 1), 4500);
+    document.getElementById('car-wrap').addEventListener('mouseenter', () => clearInterval(carTimer));
+    document.getElementById('car-wrap').addEventListener('mouseleave', () => { carTimer = setInterval(() => carGo(carIdx + 1), 4500); });
+
+    let tx = 0;
+    document.getElementById('car-wrap').addEventListener('touchstart', e => { tx = e.touches[0].clientX; }, {passive:true});
+    document.getElementById('car-wrap').addEventListener('touchend', e => {
+      const d = tx - e.changedTouches[0].clientX;
+      if (Math.abs(d) > 38) carGo(carIdx + (d > 0 ? 1 : -1));
+    }, {passive:true});
+
+    document.addEventListener('keydown', e => {
+      if (e.key === 'ArrowLeft')  carGo(carIdx - 1);
+      if (e.key === 'ArrowRight') carGo(carIdx + 1);
+    });
+  </script>
 
 </body>
 </html>
