@@ -5,8 +5,8 @@
 /!*             /u/esfp/links/:splat            301
 
 ## BirthDB
-/@birthdb       /@BirthDB                       301
-/@birthdb/*     /@BirthDB/:splat                301
+/u/birthdb      /u/BirthDB                      301
+/u/birthdb/*    /u/BirthDB/:splat               301
 
 # Person
 /person/*       /p/:splat                       301
